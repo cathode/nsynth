@@ -1,0 +1,15 @@
+﻿<Window x:Class="NSynthGraphStudio.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:GS="clr-namespace:NSynthGraphStudio"
+        Title="NSynth Graph Studio" Width="1280" Height="720">
+    <DockPanel>
+        <Menu IsMainMenu="True" DockPanel.Dock="Top" Name="mainMenu">
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" Click="MenuItemFileExit_Click" />
+            </MenuItem>
+        </Menu>
+            <GS:FilterHost x:Name="host">
+            </GS:FilterHost>
+    </DockPanel>
+</Window>

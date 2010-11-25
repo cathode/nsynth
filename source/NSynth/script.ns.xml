@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<NSynthScript>
+  <Import assembly="NSynth.dll" />
+  <Root>
+    <ImageSource path="Test\Test{0:4}.bmp" Framerate="23.976" />
+  </Root>
+</NSynthScript>

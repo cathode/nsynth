@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7A03472E-02AF-4A19-9251-6E0F1C385E0A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NSynth</RootNamespace>
+    <AssemblyName>NSynth</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\NSynth.XML</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Audio\WAV\WAVInputFilter.cs" />
+    <Compile Include="BitDecoder.cs" />
+    <Compile Include="BitstreamInputFilter.cs" />
+    <Compile Include="EffectFilter.cs" />
+    <Compile Include="FilterInitializationEventArgs.cs" />
+    <Compile Include="FilterInput.cs" />
+    <Compile Include="Filters\Video\BlurAlgorithm.cs" />
+    <Compile Include="Filters\Video\PerlinNoiseSourceFilter.cs" />
+    <Compile Include="FrameInput.cs" />
+    <Compile Include="FrameRenderEventArgs.cs" />
+    <Compile Include="FrameRenderRequest.cs" />
+    <Compile Include="Imaging\TGA\TGADecodeContext.cs" />
+    <Compile Include="Imaging\TGA\TGADecodeStage.cs" />
+    <Compile Include="OutputFilter.cs" />
+    <Compile Include="SourceFilter.cs" />
+    <None Include="cathode.public.snk" />
+    <Compile Include="ByteOrder.cs" />
+    <None Include="Filters\Video\BrightnessFilter.cs" />
+    <Compile Include="Filters\Video\ContrastEffectFilter.cs" />
+    <None Include="Filters\Video\PixelScaleAlgorithm.cs" />
+    <None Include="Filters\Video\PixelScaleFilter.cs" />
+    <Compile Include="DecodingException.cs" />
+    <Compile Include="EX.cs" />
+    <Compile Include="FilterGraph.cs" />
+    <Compile Include="BitstreamIndex.cs" />
+    <Compile Include="Clip.cs" />
+    <Compile Include="ClipData.cs" />
+    <Compile Include="DataBuffer.cs" />
+    <Compile Include="Filter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="Filters\Design\FilterParameterAttribute.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Design\FilterParameterKind.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\CacheFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\DeleteFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\ImageSourceFilterBase.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\TrackMergeFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\TrimFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <Compile Include="Filters\Video\BlurFilter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="Filters\Video\CanvasFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\FlipDirection.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\FlipFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\GaussianBlurFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\InvertChannels.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\InvertFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\OverlayFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\PanFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\ResizeFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\ResizeMethod.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\ReverseFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\RotateAngle.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\RotateDirection.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\RotateFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\Video\ScaleFilter.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\ProcessFilterBase.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Filters\SourceFilterBase.cs">
+      <SubType>Code</SubType>
+    </None>
+    <Compile Include="FrameDimensions.cs" />
+    <Compile Include="Margins.cs" />
+    <Compile Include="Audio\AAC\AACCodec.cs" />
+    <Compile Include="Audio\AAC\AACDecoder.cs" />
+    <Compile Include="Audio\AAC\AACEncoder.cs" />
+    <Compile Include="Audio\AudioChannel.cs" />
+    <Compile Include="Audio\AudioChannelFlags.cs" />
+    <Compile Include="Audio\AudioCodec.cs" />
+    <Compile Include="Audio\AudioDecoder.cs" />
+    <Compile Include="Audio\AudioEncoder.cs" />
+    <Compile Include="Audio\ChannelMap.cs" />
+    <Compile Include="Audio\AudioTrack.cs" />
+    <Compile Include="Audio\DTS\DTSAudioChannelArrangement.cs" />
+    <Compile Include="Audio\DTS\DTSBitstreamHeader.cs" />
+    <Compile Include="Audio\DTS\DTSCodec.cs" />
+    <Compile Include="Audio\DTS\DTSContext.cs" />
+    <Compile Include="Audio\DTS\DTSCoreAudioSamplingFrequency.cs" />
+    <Compile Include="Audio\DTS\DTSDecoder.cs" />
+    <Compile Include="Audio\DTS\DTSEncoder.cs" />
+    <Compile Include="Audio\DTS\DTSExtensionAudioDescriptorFlag.cs" />
+    <Compile Include="Audio\DTS\DTSFrame.cs" />
+    <Compile Include="Audio\DTS\DTSFrameType.cs" />
+    <Compile Include="Audio\DTS\DTSLowFrequencyEffectsFlag.cs" />
+    <Compile Include="Audio\DTS\DTSSourcePCMResolution.cs" />
+    <Compile Include="Audio\DTS\DTSTransmissionBitRate.cs" />
+    <Compile Include="Audio\FLAC\FLACBlockType.cs" />
+    <Compile Include="Audio\FLAC\FLACCodec.cs" />
+    <Compile Include="Audio\FLAC\FLACDecoder.cs" />
+    <Compile Include="Audio\FLAC\FLACEncoder.cs" />
+    <Compile Include="Audio\FLAC\FLACMetadataBlock.cs" />
+    <Compile Include="Audio\FLAC\FLACMetadataBlockHeader.cs" />
+    <Compile Include="Audio\ISegment.cs" />
+    <Compile Include="Audio\LPCM\LPCMCodec.cs" />
+    <Compile Include="Audio\LPCM\LPCMDecoder.cs" />
+    <Compile Include="Audio\LPCM\LPCMEncoder.cs" />
+    <Compile Include="Audio\Sample16.cs" />
+    <Compile Include="Audio\Sample24.cs" />
+    <Compile Include="Audio\Sample32.cs" />
+    <Compile Include="Audio\Sample8.cs" />
+    <Compile Include="Audio\Segment16.cs" />
+    <Compile Include="Audio\Segment24.cs" />
+    <Compile Include="Audio\Segment32.cs" />
+    <Compile Include="Audio\Segment8.cs" />
+    <Compile Include="Audio\Slice.cs" />
+    <Compile Include="Audio\Slice16.cs" />
+    <Compile Include="Audio\Speaker.cs" />
+    <Compile Include="Audio\Vorbis\VorbisCodec.cs" />
+    <Compile Include="Audio\Vorbis\VorbisDecoder.cs" />
+    <None Include="Audio\Vorbis\VorbisEncoder.cs" />
+    <Compile Include="Audio\WAV\WAVAudioFormat.cs" />
+    <None Include="Audio\WAV\WAVBitstream.cs" />
+    <Compile Include="Audio\WAV\WAVBitstreamHeader.cs" />
+    <Compile Include="Audio\WAV\WAVCodec.cs" />
+    <Compile Include="Audio\WAV\WAVContext.cs" />
+    <Compile Include="Audio\WAV\WAVDecoder.cs" />
+    <Compile Include="Audio\WAV\WAVEncoder.cs" />
+    <Compile Include="FrameCoding.cs" />
+    <Compile Include="FrameData.cs" />
+    <Compile Include="Imaging\TGA\TGAPixelOrder.cs" />
+    <Compile Include="SubsamplingMode.cs" />
+    <Compile Include="Codecs.cs" />
+    <Compile Include="Containers\AVI\AVIContainer.cs" />
+    <Compile Include="Containers\AVI\AVIDecoder.cs" />
+    <Compile Include="Containers\ContainerCodec.cs" />
+    <Compile Include="Containers\ContainerDecoder.cs" />
+    <Compile Include="Containers\ContainerEncoder.cs" />
+    <Compile Include="Containers\MKV\MKVAttachment.cs" />
+    <Compile Include="Containers\MKV\MKVContainer.cs" />
+    <Compile Include="Containers\MKV\MKVHeader.cs" />
+    <Compile Include="Frame.cs" />
+    <Compile Include="Imaging\Bitmap.cs" />
+    <Compile Include="Imaging\BitmapEqualityMode.cs" />
+    <Compile Include="Imaging\BMP\BMPDecoder.cs" />
+    <None Include="Imaging\BMP\BMPEncoder.cs" />
+    <Compile Include="Imaging\ColorChannels.cs" />
+    <Compile Include="Imaging\ColorFormat.cs" />
+    <Compile Include="Imaging\GIF\GIFCodec.cs" />
+    <Compile Include="Imaging\GIF\GIFDecoder.cs" />
+    <Compile Include="Imaging\PNG\PNGDecoder.cs" />
+    <Compile Include="Imaging\PNG\PNGEncoder.cs" />
+    <Compile Include="Imaging\TGA\TGADecoderAsyncState.cs" />
+    <Compile Include="Imaging\TGA\TGAEncoder.cs" />
+    <Compile Include="Containers\MKV\MKVDecoder.cs" />
+    <Compile Include="Containers\MKV\MKVEncoder.cs" />
+    <Compile Include="Imaging\JPEG\JPEGDecoder.cs" />
+    <Compile Include="Imaging\JPEG\JPEGEncoder.cs" />
+    <Compile Include="Imaging\TIFF\TIFFDecoder.cs" />
+    <Compile Include="Imaging\TIFF\TIFFEncoder.cs" />
+    <Compile Include="MediaDecoder.cs" />
+    <Compile Include="MediaEncoder.cs" />
+    <None Include="Imaging\BitmapCMYK.cs" />
+    <None Include="Imaging\BitmapLAB.cs" />
+    <Compile Include="Imaging\BitmapRGB24.cs" />
+    <Compile Include="Imaging\BitmapRGB32.cs" />
+    <Compile Include="Imaging\BitmapRGB48.cs" />
+    <Compile Include="Imaging\BitmapRGB64.cs" />
+    <Compile Include="Imaging\BitmapRGB96.cs" />
+    <None Include="Imaging\BitmapYCC.cs" />
+    <Compile Include="Imaging\BMP\BMPCodec.cs" />
+    <Compile Include="Imaging\ColorCMYK.cs" />
+    <None Include="Imaging\ColorLAB.cs" />
+    <Compile Include="Imaging\ColorRGB.cs" />
+    <Compile Include="Imaging\ColorRGB24.cs" />
+    <Compile Include="Imaging\ColorRGB32.cs" />
+    <Compile Include="Imaging\ColorRGB48.cs" />
+    <Compile Include="Imaging\ColorRGB64.cs" />
+    <Compile Include="Imaging\ColorRGB96.cs" />
+    <Compile Include="Imaging\Colors.cs" />
+    <Compile Include="Imaging\ColorYCC.cs" />
+    <Compile Include="Imaging\IBitmap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Imaging\IColor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Imaging\Image.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Imaging\ImageCodec.cs" />
+    <Compile Include="Imaging\ImageSourceFilter.cs" />
+    <Compile Include="Imaging\ImageEncoder.cs" />
+    <Compile Include="Imaging\JPEG\JPEGCodec.cs" />
+    <Compile Include="Imaging\PixelFormat.cs" />
+    <Compile Include="Imaging\PNG\PNGCodec.cs" />
+    <Compile Include="Imaging\Point.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Imaging\Rectangle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Imaging\Size.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Kernel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Codec.cs" />
+    <Compile Include="Imaging\TGA\TGABitstreamHeader.cs" />
+    <Compile Include="Imaging\TGA\TGACodec.cs" />
+    <Compile Include="Imaging\TGA\TGAColorMapType.cs" />
+    <Compile Include="Imaging\TGA\TGASourceFilter.cs" />
+    <Compile Include="Imaging\TGA\TGAImage.cs" />
+    <Compile Include="Imaging\TGA\TGAImageDescriptor.cs" />
+    <Compile Include="Imaging\TGA\TGAImageType.cs" />
+    <Compile Include="Imaging\TIFF\TIFFBitstreamHeader.cs" />
+    <Compile Include="Imaging\TIFF\TIFFCodec.cs" />
+    <Compile Include="Imaging\TIFF\TIFFField.cs" />
+    <Compile Include="Imaging\TIFF\TIFFFieldType.cs" />
+    <Compile Include="Imaging\TIFF\TIFFImage.cs" />
+    <Compile Include="Imaging\TIFF\TIFFImageFileDirectory.cs" />
+    <Compile Include="Imaging\TIFF\TIFFOrientation.cs" />
+    <Compile Include="Imaging\TIFF\TIFFPhotometricInterpretation.cs" />
+    <Compile Include="Imaging\TIFF\TIFFSubfile.cs" />
+    <Compile Include="Imaging\TIFF\TIFFTag.cs" />
+    <Compile Include="PictureKind.cs" />
+    <Compile Include="TrackKind.cs" />
+    <Compile Include="TrackOptions.cs" />
+    <Compile Include="Video\Dirac\DiracColorMatrix.cs" />
+    <Compile Include="Video\Dirac\DiracColorPrimaries.cs" />
+    <Compile Include="Video\Dirac\DiracColorSpecification.cs" />
+    <Compile Include="Video\Dirac\DiracDecoder.cs" />
+    <Compile Include="Video\Dirac\DiracDecoderState.cs" />
+    <Compile Include="Video\Dirac\DiracEncoder.cs" />
+    <Compile Include="Video\Dirac\DiracSequenceHeader.cs" />
+    <Compile Include="Video\Dirac\DiracTransferFunction.cs" />
+    <Compile Include="Video\H262\H262Codec.cs" />
+    <Compile Include="Video\H262\H262SourceFilter.cs" />
+    <Compile Include="Video\H262\H262SourceFilterInitializationEventArgs.cs" />
+    <Compile Include="Video\H262\H262StartCode.cs" />
+    <Compile Include="Video\H264\H264Codec.cs" />
+    <Compile Include="Video\H264\H264EncodeOptions.cs" />
+    <Compile Include="Video\H264\H264SourceFilter.cs" />
+    <Compile Include="Video\H264\H264Encoder.cs" />
+    <Compile Include="Video\H264\H264SourceFilterInitializationEventArgs.cs" />
+    <Compile Include="Video\VC1\VC1Codec.cs" />
+    <Compile Include="Video\VC1\VC1Decoder.cs" />
+    <Compile Include="Video\VC1\VC1Encoder.cs" />
+    <Compile Include="Video\VideoDecoder.cs" />
+    <Compile Include="Video\VideoEncoder.cs" />
+    <Compile Include="Video\VP8\VP8Codec.cs" />
+    <Compile Include="Video\VP8\VP8Decoder.cs" />
+    <Compile Include="Video\VP8\VP8Encoder.cs" />
+    <Compile Include="SampleRate.cs" />
+    <Compile Include="Track.cs" />
+    <Compile Include="FrameRates.cs" />
+    <Compile Include="Video\Dirac\DiracBaseVideoFormat.cs" />
+    <Compile Include="Video\Dirac\DiracCodec.cs" />
+    <Compile Include="Video\Dirac\DiracDataUnitKind.cs" />
+    <Compile Include="Video\Dirac\DiracParseCode.cs" />
+    <Compile Include="Video\Dirac\DiracParseInfoHeader.cs" />
+    <Compile Include="Video\Dirac\DiracPredefinedVideoFormats.cs" />
+    <Compile Include="Video\Dirac\DiracSequence.cs" />
+    <Compile Include="Video\Dirac\DiracState.cs" />
+    <None Include="Video\VideoBitstream.cs" />
+    <Compile Include="Video\VideoCodec.cs" />
+    <Compile Include="Video\VideoTrack.cs" />
+    <None Include="Range.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Script.cs">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="ScriptTweak.cs">
+      <SubType>Code</SubType>
+    </None>
+    <Compile Include="FrameSelection.cs" />
+    <Compile Include="Imaging\BitmapRGB.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="script.ns.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

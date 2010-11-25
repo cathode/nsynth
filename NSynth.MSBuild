@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project DefaultTargets="FullBuild" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)/MSBuildCommunityTasks/MSBuild.Community.Tasks.Targets" />
+
+  <Target Name="CompileSource">
+    <MSBuild Projects="source/NSynth.sln" RebaseOutputs="true" Properties="Configuration=Release" Targets="Clean;Rebuild"/>
+  </Target>
+  
+  <Target Name="PackageBinaries" DependsOnTargets="CompileSource">
+    <!-- Delete any existing files -->
+    <RemoveDir Directories="$(MSBuildProjectDirectory)/artifact" ContinueOnError="false" />
+    <!-- Recreate directory -->
+    <MakeDir Directories="$(MSBuildProjectDirectory)/artifact" ContinueOnError="false" />
+    <ItemGroup>
+      <ProjectBinaries Include="$(MSBuildProjectDirectory)/source/NSynth/bin/Release/*" />
+      <ProjectBinaries Include="$(MSBuildProjectDirectory)/source/NSynthGraphStudio/bin/Release/*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ProjectBinaries)" DestinationFolder="$(MSBuildProjectDirectory)/artifact" ContinueOnError="false" />
+    <ItemGroup>
+      <FilesToZip Include="$(MSBuildProjectDirectory)/artifact/*" Exclude="*.zip" />
+    </ItemGroup>
+    <Zip Files="@(FilesToZip)" WorkingDirectory="$(MSBuildProjectDirectory)/artifact" ZipFileName="$(MSBuildProjectDirectory)/artifact/NSynth.zip" ZipLevel="9" />
+  </Target>
+  
+  <Target Name="FullBuild" DependsOnTargets="PackageBinaries" />
+</Project>
