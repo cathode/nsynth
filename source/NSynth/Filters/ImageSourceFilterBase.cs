@@ -1,6 +1,6 @@
 ﻿/******************************************************************************
  * NSynth - A Managed Multimedia API - http://nsynth.gearedstudios.com/       *
- * Copyright © 2009-2010 Will 'cathode' Shelley. All Rights Reserved.         *
+ * Copyright © 2009-2011 Will 'cathode' Shelley. All Rights Reserved.         *
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
@@ -59,17 +59,12 @@ namespace NSynth.Filters.Internal
         }
         #endregion
         #region Methods
-        public override Clip GetClip()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Overridden. Gets the <see cref="Frame"/> with the specified index.
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        protected override Frame RenderFrame(long frameIndex)
+        public override Frame Render(long frameIndex)
         {
             if (this.Path == null)
                 return null;

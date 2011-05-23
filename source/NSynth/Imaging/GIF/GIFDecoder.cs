@@ -1,6 +1,6 @@
 ﻿/******************************************************************************
  * NSynth - A Managed Multimedia API - http://nsynth.gearedstudios.com/       *
- * Copyright © 2009-2010 Will 'cathode' Shelley. All Rights Reserved.         *
+ * Copyright © 2009-2011 Will 'cathode' Shelley. All Rights Reserved.         *
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
@@ -10,7 +10,7 @@ using System.Text;
 
 namespace NSynth.Imaging.GIF
 {
-    public sealed class GIFDecoder : ImageSourceFilter
+    public sealed class GIFDecoder : ImageDecoder
     {
         public override Codec Codec
         {
@@ -18,6 +18,11 @@ namespace NSynth.Imaging.GIF
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public override Frame Decode()
+        {
+            throw new NotImplementedException();
         }
     }
 }

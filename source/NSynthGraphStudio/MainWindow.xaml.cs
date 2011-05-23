@@ -1,6 +1,6 @@
 ﻿/******************************************************************************
  * NSynth - A Managed Multimedia API - http://nsynth.gearedstudios.com/       *
- * Copyright © 2009-2010 Will 'cathode' Shelley. All Rights Reserved.         *
+ * Copyright © 2009-2011 Will 'cathode' Shelley. All Rights Reserved.         *
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
@@ -97,15 +97,10 @@ namespace NSynthGraphStudio
         private void ShowTGASample(object sender, EventArgs e)
         {
             var path = ((MenuItem)sender).Tag as string;
+
             var filter = new TGASourceFilter();
-            filter.Path = System.IO.Path.GetFullPath(path);
-            filter.Initialize();
 
-            var blur = new NSynth.Filters.Video.BlurFilter();
-            blur.InputFrames.Filter = filter;
-            blur.Initialize();
-
-            this.host.Filter = blur;
+            this.host.Filter = filter;
         }
         private void MenuItemFileExit_Click(object sender, RoutedEventArgs e)
         {

@@ -1,6 +1,6 @@
 ﻿/******************************************************************************
  * NSynth - A Managed Multimedia API - http://nsynth.gearedstudios.com/       *
- * Copyright © 2009-2010 Will 'cathode' Shelley. All Rights Reserved.         *
+ * Copyright © 2009-2011 Will 'cathode' Shelley. All Rights Reserved.         *
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
@@ -10,7 +10,7 @@ using System.IO;
 namespace NSynth
 {
     /// <summary>
-    /// Represents a multimedia bitstream decoder.
+    /// Provides a base type and shared functionality for classes that decode multimedia frames from a bitstream.
     /// </summary>
     public abstract class MediaDecoder : IDisposable
     {
@@ -21,7 +21,7 @@ namespace NSynth
         private Stream bitstream;
         
         /// <summary>
-        /// Backing field for the <see cref="MediaDecoder.IsOpen"/> property.
+        /// Backing field for the <see cref="MediaDecoder.IsInitialized"/> property.
         /// </summary>
         private bool isOpen;
 
@@ -79,7 +79,7 @@ namespace NSynth
         /// <summary>
         /// Gets a value indicating whether the current <see cref="MediaDecoder"/> is ready to decode frames.
         /// </summary>
-        public bool IsOpen
+        public bool IsInitialized
         {
             get
             {
@@ -133,16 +133,7 @@ namespace NSynth
         /// Performs any actions that are required before frames can be decoded, such as reading headers and footers, data or checksum verification, etc.
         /// </summary>
         /// <returns>true if no problems were encountered; otherwise, false.</returns>
-        public virtual bool Open()
-        {
-            return true;
-        }
-
-        /// <summary>
-        /// Performs any actions that are required after frames have been decoded
-        /// </summary>
-        /// <returns></returns>
-        public virtual bool Close()
+        public virtual bool Initialize()
         {
             return true;
         }
@@ -200,7 +191,7 @@ namespace NSynth
         /// <returns></returns>
         public virtual IAsyncResult BeginOpen(AsyncCallback callback, object state)
         {
-            OpenAsyncHelper action = this.Open;
+            OpenAsyncHelper action = this.Initialize;
             return action.BeginInvoke(callback, state);
         }
 
@@ -211,7 +202,7 @@ namespace NSynth
         /// <returns></returns>
         public virtual bool EndOpen(IAsyncResult result)
         {
-            OpenAsyncHelper action = this.Open;
+            OpenAsyncHelper action = this.Initialize;
             return action.EndInvoke(result);
         }
 

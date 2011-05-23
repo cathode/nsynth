@@ -1,6 +1,6 @@
 ﻿/******************************************************************************
  * NSynth - A Managed Multimedia API - http://nsynth.gearedstudios.com/       *
- * Copyright © 2009-2010 Will 'cathode' Shelley. All Rights Reserved.         *
+ * Copyright © 2009-2011 Will 'cathode' Shelley. All Rights Reserved.         *
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
@@ -43,7 +43,7 @@ namespace NSynth.Audio.WAV
         }
         #endregion
         #region Methods
-        public override bool Open()
+        public override bool Initialize()
         {
             if (this.Bitstream.Length < 44)
                 throw new NotImplementedException();

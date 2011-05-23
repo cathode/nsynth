@@ -6,28 +6,13 @@
  *****************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace NSynth.Video.VP8
+namespace NSynth.Imaging
 {
-    public sealed class VP8Decoder : VideoDecoder
+    public abstract class ImageDecoder : MediaDecoder
     {
-        public override bool Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Frame Decode()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Codec Codec
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        
     }
 }

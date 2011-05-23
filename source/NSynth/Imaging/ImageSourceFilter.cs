@@ -1,6 +1,6 @@
 ﻿/******************************************************************************
  * NSynth - A Managed Multimedia API - http://nsynth.gearedstudios.com/       *
- * Copyright © 2009-2010 Will 'cathode' Shelley. All Rights Reserved.         *
+ * Copyright © 2009-2011 Will 'cathode' Shelley. All Rights Reserved.         *
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
@@ -9,7 +9,7 @@ using System.IO;
 
 namespace NSynth.Imaging
 {
-    public abstract class ImageSourceFilter : BitstreamInputFilter
+    public abstract class ImageSourceFilter : Filter
     {
         #region Fields
         private string path;
@@ -21,6 +21,11 @@ namespace NSynth.Imaging
         /// </summary>
         protected ImageSourceFilter()
         {
+            this.Path = string.Empty;
+        }
+        protected ImageSourceFilter(string path)
+        {
+            this.Path = path;
         }
         #endregion
         #region Properties
@@ -35,7 +40,7 @@ namespace NSynth.Imaging
             }
             set
             {
-                this.path = value;
+                this.path = value ?? string.Empty;
             }
         }
 
@@ -53,6 +58,10 @@ namespace NSynth.Imaging
                 this.multiFrame = value;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the number of frames.
+        /// </summary>
         public int FrameCount
         {
             get;
@@ -60,15 +69,17 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Methods
+        public override Frame Render(long frameIndex)
+        {
+
+            throw new NotImplementedException();
+        }
         protected Stream OpenStreamForFrame(long frameIndex)
         {
             if (this.MultiFrame)
                 return File.Open(string.Format(this.Path, frameIndex), FileMode.Open, FileAccess.Read, FileShare.Read);
             else
-                if (this.Bitstream == null)
-                    return this.Bitstream = File.Open(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read);
-                else
-                    return this.Bitstream;
+                return File.Open(this.Path, FileMode.Open, FileAccess.Read, FileShare.Read);
         }
         #endregion
     }

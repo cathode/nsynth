@@ -1,6 +1,6 @@
 ﻿/******************************************************************************
  * NSynth - A Managed Multimedia API - http://nsynth.gearedstudios.com/       *
- * Copyright © 2009-2010 Will 'cathode' Shelley. All Rights Reserved.         *
+ * Copyright © 2009-2011 Will 'cathode' Shelley. All Rights Reserved.         *
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
@@ -49,6 +49,7 @@ namespace NSynth
         /// </summary>
         protected Filter()
         {
+            this.clip = new Clip();
         }
 
         /// <summary>
@@ -77,7 +78,7 @@ namespace NSynth
             }
             protected set
             {
-                this.clip = value;
+                this.clip = value ?? new Clip();
             }
         }
 
@@ -140,6 +141,10 @@ namespace NSynth
         #endregion
         #region Methods
         public virtual IAsyncResult BeginRender(long frameIndex, AsyncCallback callback, object state)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual IAsyncResult BeginRender(long frameIndex, long count, AsyncCallback callback, object state)
         {
             throw new NotImplementedException();
         }

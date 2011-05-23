@@ -55,7 +55,9 @@
     <Compile Include="FrameInput.cs" />
     <Compile Include="FrameRenderEventArgs.cs" />
     <Compile Include="FrameRenderRequest.cs" />
+    <Compile Include="Imaging\ImageDecoder.cs" />
     <Compile Include="Imaging\TGA\TGADecodeContext.cs" />
+    <Compile Include="Imaging\TGA\TGADecoder.cs" />
     <Compile Include="Imaging\TGA\TGADecodeStage.cs" />
     <Compile Include="OutputFilter.cs" />
     <Compile Include="SourceFilter.cs" />
@@ -87,9 +89,9 @@
     <None Include="Filters\DeleteFilter.cs">
       <SubType>Code</SubType>
     </None>
-    <None Include="Filters\ImageSourceFilterBase.cs">
+    <Compile Include="Filters\ImageSourceFilterBase.cs">
       <SubType>Code</SubType>
-    </None>
+    </Compile>
     <None Include="Filters\TrackMergeFilter.cs">
       <SubType>Code</SubType>
     </None>
@@ -147,9 +149,9 @@
     <None Include="Filters\ProcessFilterBase.cs">
       <SubType>Code</SubType>
     </None>
-    <None Include="Filters\SourceFilterBase.cs">
+    <Compile Include="Filters\SourceFilterBase.cs">
       <SubType>Code</SubType>
-    </None>
+    </Compile>
     <Compile Include="FrameDimensions.cs" />
     <Compile Include="Margins.cs" />
     <Compile Include="Audio\AAC\AACCodec.cs" />

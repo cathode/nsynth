@@ -101,9 +101,7 @@
       <Name>NSynth</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Samples\TGA\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Samples\Dirac\vts.default.drc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -112,6 +110,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Dirac\vts.lossless.drc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\TGA\Sample1.tga">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
