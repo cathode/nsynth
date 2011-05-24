@@ -351,7 +351,35 @@ namespace NSynth.Imaging.TGA
                     }
                     else if (dc.PixelOrder == TGAPixelOrder.BottomRight)
                     {
-                        throw new NotImplementedException();
+                        for (int y = h; y > 0; y--)
+                        {
+                            for (int x = w, e = 0; x >= 0; x--, e--, line.CopyTo(pixels, (y - 1) * w))
+                            {
+                                if (e == 0)
+                                {
+                                    // Read the "packet header"
+                                    p = data[n++];
+                                    // Highest bit of packet header indicates RLE (1) or RAW (0).
+                                    raw = (p & 0x80) != 0x80;
+                                    // Remaining 7 bits indicate RLE packet length.
+                                    e = 1 + (p & 0x7F);
+
+                                    // Read color
+                                    px.Blue = data[n++];
+                                    px.Green = data[n++];
+                                    px.Red = data[n++];
+                                }
+                                else if (raw)
+                                {
+                                    px.Blue = data[n++];
+                                    px.Green = data[n++];
+                                    px.Red = data[n++];
+                                }
+
+                                line[x] = px;
+                            }
+                            //line.CopyTo(pixels, (y - 1) * w);
+                        }
                     }
                     else if (dc.PixelOrder == TGAPixelOrder.TopLeft)
                     {

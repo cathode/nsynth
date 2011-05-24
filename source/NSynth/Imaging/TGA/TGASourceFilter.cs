@@ -65,14 +65,21 @@ namespace NSynth.Imaging.TGA
                     decoder.Bitstream = stream;
                     decoder.Initialize();
                     var frame = decoder.Decode();
-                    this.Clip = new Clip(
-                        new VideoTrack()
+                    if (frame.Video.Count > 0)
+                    {
+                        var bitmap = frame.Video[0];
+                        if (bitmap != null)
                         {
-                            SampleCount = this.FrameCount,
-                            Width = frame.Video[0].Width,
-                            Height = frame.Video[0].Height,
-                            Format = frame.Video[0].Format,
-                        });
+                            var track = new VideoTrack();
+                            track.SampleCount = this.FrameCount;
+                            track.Width = bitmap.Width;
+                            track.Height = bitmap.Height;
+                            track.Format = bitmap.Format;
+                            track.SamplesPerFrame = 1;
+                            
+                            this.Clip = new Clip(track);
+                        }
+                    }
                 }
             }
         }

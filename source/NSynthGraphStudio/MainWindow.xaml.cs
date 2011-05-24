@@ -88,9 +88,13 @@ namespace NSynthGraphStudio
         {
             var path = ((MenuItem)sender).Tag as string;
 
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
             var filter = new TGASourceFilter(path);
             filter.Initialize();
             this.host.Filter = filter;
+            sw.Stop();
+            this.Title = string.Format("NSynth Grap Studio -- Sample displayed in {0}ms", sw.ElapsedMilliseconds);
         }
         private void MenuItemFileExit_Click(object sender, RoutedEventArgs e)
         {
