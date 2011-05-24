@@ -234,8 +234,6 @@
     <Compile Include="Imaging\PNG\PNGEncoder.cs" />
     <Compile Include="Imaging\TGA\TGADecoderAsyncState.cs" />
     <Compile Include="Imaging\TGA\TGAEncoder.cs" />
-    <Compile Include="Containers\MKV\MKVDecoder.cs" />
-    <Compile Include="Containers\MKV\MKVEncoder.cs" />
     <Compile Include="Imaging\JPEG\JPEGDecoder.cs" />
     <Compile Include="Imaging\JPEG\JPEGEncoder.cs" />
     <Compile Include="Imaging\TIFF\TIFFDecoder.cs" />
@@ -345,7 +343,6 @@
     <Compile Include="Video\Dirac\DiracPredefinedVideoFormats.cs" />
     <Compile Include="Video\Dirac\DiracSequence.cs" />
     <Compile Include="Video\Dirac\DiracState.cs" />
-    <None Include="Video\VideoBitstream.cs" />
     <Compile Include="Video\VideoCodec.cs" />
     <Compile Include="Video\VideoTrack.cs" />
     <None Include="Range.cs" />
