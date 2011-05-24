@@ -47,7 +47,11 @@ namespace NSynth.Imaging.TGA
                     throw new NotImplementedException();
 
             this.DecodeBitmap();
-            return null;
+
+            var frame = new Frame();
+            frame.Video[0] = this.context.DecodedBitmap;
+
+            return frame;
         }
 
         /// <summary>
@@ -59,7 +63,9 @@ namespace NSynth.Imaging.TGA
             if (!base.Initialize())
                 throw new NotImplementedException();
 
-            return false;
+            this.InitContext();
+            this.DecodeHeader();
+            return true;
         }
 
         /// <summary>
@@ -296,7 +302,9 @@ namespace NSynth.Imaging.TGA
                 byte p;
 
                 if (header.BitsPerPixel == 16)
+                {
                     throw new NotImplementedException();
+                }
                 if (header.BitsPerPixel == 24)
                 {
                     // Create an array of all the pixels in the bitmap (width x height).
@@ -304,37 +312,54 @@ namespace NSynth.Imaging.TGA
                     // ...and assign it to the Bitmap that will eventually be returned.
                     dc.DecodedBitmap = new BitmapRGB24(w, h, pixels);
                     ColorRGB24 px = new ColorRGB24();
+
                     // Operate on a line-by-line basis; RLE packets will never wrap from one scanline to another.
                     var line = new ColorRGB24[w];
-                    for (int y = h; y > 0; y--)
+
+                    // Most common scanline direction first; TGA stores scanlines bottom-to-top by default.
+                    if (dc.PixelOrder == TGAPixelOrder.BottomLeft)
                     {
-                        for (int x = 0, e = 0; x < line.Length; x++, e--)
+                        for (int y = h; y > 0; y--)
                         {
-                            if (e == 0)
+                            for (int x = 0, e = 0; x < line.Length; x++, e--)
                             {
-                                // Read the "packet header"
-                                p = data[n++];
-                                // Highest bit of packet header indicates RLE (1) or RAW (0).
-                                raw = (p & 0x80) != 0x80;
-                                // Remaining 7 bits indicate RLE packet length.
-                                e = 1 + (p & 0x7F);
+                                if (e == 0)
+                                {
+                                    // Read the "packet header"
+                                    p = data[n++];
+                                    // Highest bit of packet header indicates RLE (1) or RAW (0).
+                                    raw = (p & 0x80) != 0x80;
+                                    // Remaining 7 bits indicate RLE packet length.
+                                    e = 1 + (p & 0x7F);
 
-                                // Read color
-                                px.Blue = data[n++];
-                                px.Green = data[n++];
-                                px.Red = data[n++];
-                            }
-                            else if (raw)
-                            {
-                                px.Blue = data[n++];
-                                px.Green = data[n++];
-                                px.Red = data[n++];
-                            }
+                                    // Read color
+                                    px.Blue = data[n++];
+                                    px.Green = data[n++];
+                                    px.Red = data[n++];
+                                }
+                                else if (raw)
+                                {
+                                    px.Blue = data[n++];
+                                    px.Green = data[n++];
+                                    px.Red = data[n++];
+                                }
 
-                            //line[(this.rightToLeft ? line.Length - x - 1 : x)] = px;
+                                line[x] = px;
+                            }
+                            line.CopyTo(pixels, (y - 1) * w);
                         }
-                        // Scanlines can be stored top-to-bottom or bottom-to-top.
-                        //line.CopyTo(pixels, (this.topToBottom ? h - y : y - 1) * w);
+                    }
+                    else if (dc.PixelOrder == TGAPixelOrder.BottomRight)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else if (dc.PixelOrder == TGAPixelOrder.TopLeft)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else if (dc.PixelOrder == TGAPixelOrder.TopRight)
+                    {
+                        throw new NotImplementedException();
                     }
                 }
                 else if (header.BitsPerPixel == 32) // Just like above, but with an alpha channel.
@@ -346,37 +371,51 @@ namespace NSynth.Imaging.TGA
                     ColorRGB32 px = new ColorRGB32();
                     // Operate on a line-by-line basis; RLE packets will never wrap from one scanline to another.
                     var line = new ColorRGB32[w];
-                    for (int y = h; y > 0; y--)
+                    if (dc.PixelOrder == TGAPixelOrder.BottomLeft)
                     {
-                        for (int x = 0, e = 0; x < line.Length; x++, e--)
+                        for (int y = h; y > 0; y--)
                         {
-                            if (e == 0)
+                            for (int x = 0, e = 0; x < line.Length; x++, e--)
                             {
-                                // Read the "packet header"
-                                p = data[n++];
-                                // Highest bit of packet header indicates RLE (1) or RAW (0).
-                                raw = (p & 0x80) != 0x80;
-                                // Remaining 7 bits indicate RLE packet length.
-                                e = 1 + (p & 0x7F);
+                                if (e == 0)
+                                {
+                                    // Read the "packet header"
+                                    p = data[n++];
+                                    // Highest bit of packet header indicates RLE (1) or RAW (0).
+                                    raw = (p & 0x80) != 0x80;
+                                    // Remaining 7 bits indicate RLE packet length.
+                                    e = 1 + (p & 0x7F);
 
-                                // Read color
-                                px.Blue = data[n++];
-                                px.Green = data[n++];
-                                px.Red = data[n++];
-                                px.Alpha = data[n++];
-                            }
-                            else if (raw)
-                            {
-                                px.Blue = data[n++];
-                                px.Green = data[n++];
-                                px.Red = data[n++];
-                                px.Alpha = data[n++];
-                            }
+                                    // Read color
+                                    px.Blue = data[n++];
+                                    px.Green = data[n++];
+                                    px.Red = data[n++];
+                                    px.Alpha = data[n++];
+                                }
+                                else if (raw)
+                                {
+                                    px.Blue = data[n++];
+                                    px.Green = data[n++];
+                                    px.Red = data[n++];
+                                    px.Alpha = data[n++];
+                                }
 
-                            //line[(this.rightToLeft ? line.Length - x - 1 : x)] = px;
+                                line[x] = px;
+                            }
+                            line.CopyTo(pixels, (y - 1) * w);
                         }
-                        // Scanlines can be stored top-to-bottom or bottom-to-top.
-                        //line.CopyTo(pixels, (this.topToBottom ? h - y : y - 1) * w);
+                    }
+                    else if (dc.PixelOrder == TGAPixelOrder.BottomRight)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else if (dc.PixelOrder == TGAPixelOrder.TopLeft)
+                    {
+                        throw new NotImplementedException();
+                    }
+                    else if (dc.PixelOrder == TGAPixelOrder.TopRight)
+                    {
+                        throw new NotImplementedException();
                     }
                 }
                 else

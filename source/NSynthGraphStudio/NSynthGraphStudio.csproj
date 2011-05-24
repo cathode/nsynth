@@ -112,7 +112,16 @@
     <Content Include="Samples\Dirac\vts.lossless.drc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\TGA\Sample1.tga">
+    <Content Include="Samples\TGA\Sample_512x512_24bit_RLE.tga">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\TGA\Sample_512x512_24bit_Uncompressed.tga">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\TGA\Sample_512x512_32bit_RLE.tga">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\TGA\Sample_512x512_32bit_Uncompressed.tga">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

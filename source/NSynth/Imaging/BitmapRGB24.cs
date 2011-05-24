@@ -53,11 +53,22 @@ namespace NSynth.Imaging
         {
         }
         #endregion
+        #region Properties
+        public override ColorFormat Format
+        {
+            get
+            {
+                return ColorFormat.RGB24;
+            }
+        }
+        #endregion
         #region Methods
         protected override ColorRGB24 GetTColor(IColor color)
         {
             return new ColorRGB24((byte)(color.Red * 255), (byte)(color.Green * 255), (byte)(color.Blue * 255));
         }
         #endregion
+
+       
     }
 }

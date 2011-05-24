@@ -54,10 +54,20 @@ namespace NSynth.Imaging
         {
         }
         #endregion
-
+        #region Properties
+        public override ColorFormat Format
+        {
+            get
+            {
+                return ColorFormat.RGB96;
+            }
+        }
+        #endregion
+        #region Methods
         protected override ColorRGB96 GetTColor(IColor color)
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }

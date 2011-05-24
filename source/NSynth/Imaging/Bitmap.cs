@@ -128,6 +128,10 @@ namespace NSynth.Imaging
                 return this.size;
             }
         }
+        public abstract ColorFormat Format
+        {
+            get;
+        }
         #endregion
         #region Indexers
         /// <summary>
@@ -147,6 +151,7 @@ namespace NSynth.Imaging
                 this.pixels[(row * this.Width) + col] = value;
             }
         }
+        
 
         /// <summary>
         /// Gets or sets the pixel at the specified row and column intersection.

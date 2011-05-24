@@ -62,10 +62,20 @@ namespace NSynth.Imaging
             //Contract.Requires<ArgumentException>(pixels.Length == width * height, EX.BitmapPixelArraySizeMismatch);
         }
         #endregion
-
+        #region Properties
+        public override ColorFormat Format
+        {
+            get
+            {
+                return ColorFormat.RGB32;
+            }
+        }
+        #endregion
+        #region Methods
         protected override ColorRGB32 GetTColor(IColor color)
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }

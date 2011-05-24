@@ -13,7 +13,7 @@ namespace NSynth.Imaging
     /// </summary>
     public sealed class BitmapRGB64 : Bitmap<ColorRGB64>
     {
-         #region Constructors
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="BitmapRGB64"/> class.
         /// </summary>
@@ -58,10 +58,20 @@ namespace NSynth.Imaging
             //Contract.Requires<ArgumentException>(pixels.Length == width * height, EX.BitmapPixelArraySizeMismatch);
         }
         #endregion
-
+        #region Properties
+        public override ColorFormat Format
+        {
+            get
+            {
+                return ColorFormat.RGB64;
+            }
+        }
+        #endregion
+        #region Methods
         protected override ColorRGB64 GetTColor(IColor color)
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }

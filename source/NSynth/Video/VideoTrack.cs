@@ -31,6 +31,7 @@ namespace NSynth.Video
         public VideoTrack()
         {
             this.dimensions = new Size(1920, 1080);
+            this.format = ColorFormat.Default;
         }
 
         /// <summary>
@@ -41,6 +42,17 @@ namespace NSynth.Video
         public VideoTrack(int width, int height)
         {
             this.dimensions = new Size(width, height);
+            this.format = ColorFormat.Default;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="bitmap"></param>
+        public VideoTrack(IBitmap bitmap)
+        {
+            this.dimensions = new Size(bitmap.Width, bitmap.Height);
+            this.Format = bitmap.Format;
         }
         #endregion
         #region Properties

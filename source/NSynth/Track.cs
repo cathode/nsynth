@@ -101,7 +101,10 @@ namespace NSynth
         {
             get
             {
-                return (long)Math.Ceiling(this.SampleCount / (decimal)this.SamplesPerFrame);
+                if (this.SampleCount == 0 || this.SamplesPerFrame == 0)
+                    return 0;
+                else
+                    return (long)Math.Ceiling(this.SampleCount / (decimal)this.SamplesPerFrame);
             }
         }
 

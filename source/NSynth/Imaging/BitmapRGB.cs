@@ -4,6 +4,7 @@
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
+using System;
 
 namespace NSynth.Imaging
 {
@@ -61,6 +62,15 @@ namespace NSynth.Imaging
             //Contract.Requires<ArgumentException>(pixels.Length == width * height, EX.BitmapPixelArraySizeMismatch);
         }
         #endregion
+        #region Properties
+        public override ColorFormat Format
+        {
+            get
+            {
+                return ColorFormat.RGB;
+            }
+        }
+        #endregion
         #region Methods
         protected override ColorRGB GetTColor(IColor color)
         {
@@ -69,5 +79,6 @@ namespace NSynth.Imaging
             return new ColorRGB(color);
         }
         #endregion
+      
     }
 }
