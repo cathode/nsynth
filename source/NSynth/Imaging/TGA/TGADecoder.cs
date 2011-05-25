@@ -232,11 +232,10 @@ namespace NSynth.Imaging.TGA
                     dc.DecodedBitmap = new BitmapRGB32(w, h, pixels);
 
                     int n = 0;
-
+                    var line = new ColorRGB32[w];
                     // Most common scanline direction first; TGA stores scanlines bottom-to-top by default.
                     if (dc.PixelOrder == TGAPixelOrder.BottomLeft)
                     {
-                        var line = new ColorRGB32[w];
                         // Bottom-to-top (BTT) + Left-to-right (LTR) pixel order.
                         for (int y = h; y > 0; y--)
                         {
@@ -252,7 +251,6 @@ namespace NSynth.Imaging.TGA
                     }
                     else if (dc.PixelOrder == TGAPixelOrder.BottomRight)
                     {
-                        var line = new ColorRGB32[w];
                         for (int y = h; y > 0; y--)
                         {
                             // Iterate over the pixels in the scanline from right-to-left.
@@ -279,8 +277,6 @@ namespace NSynth.Imaging.TGA
                     }
                     else if (dc.PixelOrder == TGAPixelOrder.TopRight)
                     {
-                        var line = new ColorRGB32[w];
-
                         for (int y = 0; y < h; y++)
                         {
                             for (int x = line.Length - 1; x >= 0; x--)
@@ -353,7 +349,7 @@ namespace NSynth.Imaging.TGA
                     {
                         for (int y = h; y > 0; y--)
                         {
-                            for (int x = w, e = 0; x >= 0; x--, e--, line.CopyTo(pixels, (y - 1) * w))
+                            for (int x = w, e = 0; x >= 0; x--, e--)
                             {
                                 if (e == 0)
                                 {
@@ -378,16 +374,69 @@ namespace NSynth.Imaging.TGA
 
                                 line[x] = px;
                             }
-                            //line.CopyTo(pixels, (y - 1) * w);
+                            line.CopyTo(pixels, (y - 1) * w);
                         }
                     }
                     else if (dc.PixelOrder == TGAPixelOrder.TopLeft)
                     {
-                        throw new NotImplementedException();
+                        for (int i = 0, e = 0; i < pixels.Length; i++)
+                        {
+                            if (e == 0)
+                            {
+                                // Read the "packet header"
+                                p = data[n++];
+                                // Highest bit of packet header indicates RLE (1) or RAW (0).
+                                raw = (p & 0x80) != 0x80;
+                                // Remaining 7 bits indicate RLE packet length.
+                                e = 1 + (p & 0x7F);
+
+                                // Read color
+                                px.Blue = data[n++];
+                                px.Green = data[n++];
+                                px.Red = data[n++];
+                            }
+                            else if (raw)
+                            {
+                                px.Blue = data[n++];
+                                px.Green = data[n++];
+                                px.Red = data[n++];
+                            }
+
+                            pixels[i] = px;
+                        }
                     }
                     else if (dc.PixelOrder == TGAPixelOrder.TopRight)
                     {
                         throw new NotImplementedException();
+                        /*
+                        for (int y = 0; y < h; y++)
+                        {
+                            for (int x = w - 1; x >= 0; x--)
+                            {
+                                if (e == 0)
+                                {
+                                    // Read the "packet header"
+                                    p = data[n++];
+                                    // Highest bit of packet header indicates RLE (1) or RAW (0).
+                                    raw = (p & 0x80) != 0x80;
+                                    // Remaining 7 bits indicate RLE packet length.
+                                    e = 1 + (p & 0x7F);
+
+                                    // Read color
+                                    px.Blue = data[n++];
+                                    px.Green = data[n++];
+                                    px.Red = data[n++];
+                                }
+                                else if (raw)
+                                {
+                                    px.Blue = data[n++];
+                                    px.Green = data[n++];
+                                    px.Red = data[n++];
+                                }
+
+                                line[x] = px;
+                            }
+                        }*/
                     }
                 }
                 else if (header.BitsPerPixel == 32) // Just like above, but with an alpha channel.
@@ -449,7 +498,6 @@ namespace NSynth.Imaging.TGA
                 else
                     throw new NotImplementedException();
             }
-            //return image;
 
             dc.Stage = TGADecodeStage.BitmapDecoded;
         }

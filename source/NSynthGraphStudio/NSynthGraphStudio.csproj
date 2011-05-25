@@ -101,7 +101,6 @@
       <Name>NSynth</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Samples\Dirac\vts.default.drc">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -122,6 +121,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\TGA\Sample_16x12_32bit_Uncompressed.tga">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\TGA\sample_1920x1080_24bit_RLE.tga">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\TGA\sample_1920x1080_24bit_Uncompressed.tga">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\TGA\sample_1920x1080_32bit_RLE.tga">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\TGA\sample_1920x1080_32bit_Uncompressed.tga">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\TGA\sample_1x1_24bit_RLE.tga">

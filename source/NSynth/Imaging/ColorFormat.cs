@@ -279,6 +279,11 @@ namespace NSynth.Imaging
             }
             #endregion
             #region Methods
+            /// <summary>
+            /// Gets the number of bits used by the specified <see cref="ColorChannels"/> configuration.
+            /// </summary>
+            /// <param name="channel">The channel or channels to query.</param>
+            /// <returns>The number of bits used by the <see cref="ColorChannels"/> specified.</returns>
             public override int BitsPerChannel(ColorChannels channel)
             {
                 return (channel & ColorChannels.Red) == ColorChannels.Red ? 8 : 0
@@ -286,16 +291,31 @@ namespace NSynth.Imaging
                      + (channel & ColorChannels.Blue) == ColorChannels.Blue ? 8 : 0;
             }
 
+            /// <summary>
+            /// Creates a bitmap with the specified dimensions.
+            /// </summary>
+            /// <param name="size">The dimensions (in pixels) of the new bitmap.</param>
+            /// <returns>A new <see cref="IBitmap"/> with the specified dimensions.</returns>
             public override IBitmap CreateBitmap(Size size)
             {
                 return new BitmapRGB24(size);
             }
 
+            /// <summary>
+            /// Creates a new color instance in the current format.
+            /// </summary>
+            /// <param name="original">An <see cref="IColor"/> instance representing the color to convert from.</param>
+            /// <returns>A new color instance that is the conversion of the original color to the current format.</returns>
             public override IColor CreateColor(IColor original)
             {
                 return new ColorRGB24((byte)(original.Red * original.Alpha * 255), (byte)(original.Green * original.Alpha * 255), (byte)(original.Blue * original.Alpha * 255));
             }
 
+            /// <summary>
+            /// Gets a bit mask that indicates which portions of a pixel are occupied by the specified color channels.
+            /// </summary>
+            /// <param name="channels">The color channel(s) to get the mask for.</param>
+            /// <returns>A new byte array that is the same number of bytes as required to represent a single pixel.</returns>
             public override byte[] GetBitMask(ColorChannels channels)
             {
                 var result = new byte[3];
@@ -352,6 +372,10 @@ namespace NSynth.Imaging
                     return ColorChannels.RGB;
                 }
             }
+
+            /// <summary>
+            /// Gets a value indicating whether all the color channels are represented using an equal number of bits.
+            /// </summary>
             public override bool IsHomogenous
             {
                 get
@@ -359,6 +383,10 @@ namespace NSynth.Imaging
                     return true;
                 }
             }
+
+            /// <summary>
+            /// Gets a value indicating whether transparency is supported via the Alpha channel.
+            /// </summary>
             public override bool SupportsTransparency
             {
                 get
@@ -368,6 +396,11 @@ namespace NSynth.Imaging
             }
             #endregion
             #region Methods
+            /// <summary>
+            /// Gets the number of bits used by the specified <see cref="ColorChannels"/> configuration.
+            /// </summary>
+            /// <param name="channel">The channel or channels to query.</param>
+            /// <returns>The number of bits used by the <see cref="ColorChannels"/> specified.</returns>
             public override int BitsPerChannel(ColorChannels channel)
             {
                 return (channel & ColorChannels.Red) == ColorChannels.Red ? 16 : 0
@@ -375,11 +408,21 @@ namespace NSynth.Imaging
                      + (channel & ColorChannels.Blue) == ColorChannels.Blue ? 16 : 0;
             }
 
+            /// <summary>
+            /// Creates a bitmap with the specified dimensions.
+            /// </summary>
+            /// <param name="size">The dimensions (in pixels) of the new bitmap.</param>
+            /// <returns>A new <see cref="IBitmap"/> with the specified dimensions.</returns>
             public override IBitmap CreateBitmap(Size size)
             {
                 return new BitmapRGB48(size);
             }
 
+            /// <summary>
+            /// Creates a new color instance in the current format.
+            /// </summary>
+            /// <param name="original">An <see cref="IColor"/> instance representing the color to convert from.</param>
+            /// <returns>A new color instance that is the conversion of the original color to the current format.</returns>
             public override IColor CreateColor(IColor original)
             {
                 return new ColorRGB48(
@@ -388,6 +431,11 @@ namespace NSynth.Imaging
                     (ushort)(original.Blue * original.Alpha * ushort.MaxValue));
             }
 
+            /// <summary>
+            /// Gets a bit mask that indicates which portions of a pixel are occupied by the specified color channels.
+            /// </summary>
+            /// <param name="channels">The color channel(s) to get the mask for.</param>
+            /// <returns>A new byte array that is the same number of bytes as required to represent a single pixel.</returns>
             public override byte[] GetBitMask(ColorChannels channels)
             {
                 var result = new byte[6];
@@ -444,6 +492,10 @@ namespace NSynth.Imaging
                     throw new NotImplementedException();
                 }
             }
+
+            /// <summary>
+            /// Gets a value indicating whether all the color channels are represented using an equal number of bits.
+            /// </summary>
             public override bool IsHomogenous
             {
                 get
@@ -451,6 +503,10 @@ namespace NSynth.Imaging
                     return true;
                 }
             }
+
+            /// <summary>
+            /// Gets a value indicating whether transparency is supported via the Alpha channel.
+            /// </summary>
             public override bool SupportsTransparency
             {
                 get
@@ -460,6 +516,11 @@ namespace NSynth.Imaging
             }
             #endregion
             #region Methods
+            /// <summary>
+            /// Gets the number of bits used by the specified <see cref="ColorChannels"/> configuration.
+            /// </summary>
+            /// <param name="channel">The channel or channels to query.</param>
+            /// <returns>The number of bits used by the <see cref="ColorChannels"/> specified.</returns>
             public override int BitsPerChannel(ColorChannels channel)
             {
                 return (channel & ColorChannels.Red) == ColorChannels.Red ? 32 : 0
@@ -467,16 +528,31 @@ namespace NSynth.Imaging
                      + (channel & ColorChannels.Blue) == ColorChannels.Blue ? 32 : 0;
             }
 
+            /// <summary>
+            /// Creates a bitmap with the specified dimensions.
+            /// </summary>
+            /// <param name="size">The dimensions (in pixels) of the new bitmap.</param>
+            /// <returns>A new <see cref="IBitmap"/> with the specified dimensions.</returns>
             public override IBitmap CreateBitmap(Size size)
             {
                 return new BitmapRGB96(size);
             }
 
+            /// <summary>
+            /// Creates a new color instance in the current format.
+            /// </summary>
+            /// <param name="original">An <see cref="IColor"/> instance representing the color to convert from.</param>
+            /// <returns>A new color instance that is the conversion of the original color to the current format.</returns>
             public override IColor CreateColor(IColor original)
             {
                 return new ColorRGB96(original.Red * original.Alpha, original.Green * original.Alpha, original.Blue * original.Alpha);
             }
 
+            /// <summary>
+            /// Gets a bit mask that indicates which portions of a pixel are occupied by the specified color channels.
+            /// </summary>
+            /// <param name="channels">The color channel(s) to get the mask for.</param>
+            /// <returns>A new byte array that is the same number of bytes as required to represent a single pixel.</returns>
             public override byte[] GetBitMask(ColorChannels channels)
             {
                 var result = new byte[6];
@@ -536,6 +612,11 @@ namespace NSynth.Imaging
             }
             #endregion
             #region Methods
+            /// <summary>
+            /// Gets the number of bits used by the specified <see cref="ColorChannels"/> configuration.
+            /// </summary>
+            /// <param name="channel">The channel or channels to query.</param>
+            /// <returns>The number of bits used by the <see cref="ColorChannels"/> specified.</returns>
             public override int BitsPerChannel(ColorChannels channel)
             {
                 return (channel & ColorChannels.Red) == ColorChannels.Red ? 8 : 0
@@ -544,16 +625,31 @@ namespace NSynth.Imaging
                      + (channel & ColorChannels.Alpha) == ColorChannels.Alpha ? 8 : 0;
             }
 
+            /// <summary>
+            /// Creates a bitmap with the specified dimensions.
+            /// </summary>
+            /// <param name="size">The dimensions (in pixels) of the new bitmap.</param>
+            /// <returns>A new <see cref="IBitmap"/> with the specified dimensions.</returns>
             public override IBitmap CreateBitmap(Size size)
             {
                 return new BitmapRGB32(size);
             }
 
+            /// <summary>
+            /// Creates a new color instance in the current format.
+            /// </summary>
+            /// <param name="original">An <see cref="IColor"/> instance representing the color to convert from.</param>
+            /// <returns>A new color instance that is the conversion of the original color to the current format.</returns>
             public override IColor CreateColor(IColor original)
             {
                 throw new NotImplementedException();
             }
 
+            /// <summary>
+            /// Gets a bit mask that indicates which portions of a pixel are occupied by the specified color channels.
+            /// </summary>
+            /// <param name="channels">The color channel(s) to get the mask for.</param>
+            /// <returns>A new byte array that is the same number of bytes as required to represent a single pixel.</returns>
             public override byte[] GetBitMask(ColorChannels channels)
             {
                 var result = new byte[4];
@@ -614,6 +710,11 @@ namespace NSynth.Imaging
             }
             #endregion
             #region Methods
+            /// <summary>
+            /// Gets the number of bits used by the specified <see cref="ColorChannels"/> configuration.
+            /// </summary>
+            /// <param name="channel">The channel or channels to query.</param>
+            /// <returns>The number of bits used by the <see cref="ColorChannels"/> specified.</returns>
             public override int BitsPerChannel(ColorChannels channel)
             {
                 return (channel & ColorChannels.Red) == ColorChannels.Red ? 16 : 0
@@ -622,16 +723,31 @@ namespace NSynth.Imaging
                      + (channel & ColorChannels.Alpha) == ColorChannels.Alpha ? 16 : 0;
             }
 
+            /// <summary>
+            /// Creates a bitmap with the specified dimensions.
+            /// </summary>
+            /// <param name="size">The dimensions (in pixels) of the new bitmap.</param>
+            /// <returns>A new <see cref="IBitmap"/> with the specified dimensions.</returns>
             public override IBitmap CreateBitmap(Size size)
             {
                 return new BitmapRGB64(size);
             }
 
+            /// <summary>
+            /// Creates a new color instance in the current format.
+            /// </summary>
+            /// <param name="original">An <see cref="IColor"/> instance representing the color to convert from.</param>
+            /// <returns>A new color instance that is the conversion of the original color to the current format.</returns>
             public override IColor CreateColor(IColor original)
             {
                 throw new NotImplementedException();
             }
 
+            /// <summary>
+            /// Gets a bit mask that indicates which portions of a pixel are occupied by the specified color channels.
+            /// </summary>
+            /// <param name="channels">The color channel(s) to get the mask for.</param>
+            /// <returns>A new byte array that is the same number of bytes as required to represent a single pixel.</returns>
             public override byte[] GetBitMask(ColorChannels channels)
             {
                 var result = new byte[6];
@@ -692,6 +808,11 @@ namespace NSynth.Imaging
             }
             #endregion
             #region Methods
+            /// <summary>
+            /// Gets the number of bits used by the specified <see cref="ColorChannels"/> configuration.
+            /// </summary>
+            /// <param name="channel">The channel or channels to query.</param>
+            /// <returns>The number of bits used by the <see cref="ColorChannels"/> specified.</returns>
             public override int BitsPerChannel(ColorChannels channel)
             {
                 return (channel & ColorChannels.Red) == ColorChannels.Red ? 32 : 0
@@ -699,14 +820,32 @@ namespace NSynth.Imaging
                      + (channel & ColorChannels.Blue) == ColorChannels.Blue ? 32 : 0
                      + (channel & ColorChannels.Alpha) == ColorChannels.Alpha ? 32 : 0;
             }
+
+            /// <summary>
+            /// Creates a bitmap with the specified dimensions.
+            /// </summary>
+            /// <param name="size">The dimensions (in pixels) of the new bitmap.</param>
+            /// <returns>A new <see cref="IBitmap"/> with the specified dimensions.</returns>
             public override IBitmap CreateBitmap(Size size)
             {
                 return new BitmapRGB(size);
             }
+
+            /// <summary>
+            /// Creates a new color instance in the current format.
+            /// </summary>
+            /// <param name="original">An <see cref="IColor"/> instance representing the color to convert from.</param>
+            /// <returns>A new color instance that is the conversion of the original color to the current format.</returns>
             public override IColor CreateColor(IColor original)
             {
                 throw new NotImplementedException();
             }
+
+            /// <summary>
+            /// Gets a bit mask that indicates which portions of a pixel are occupied by the specified color channels.
+            /// </summary>
+            /// <param name="channels">The color channel(s) to get the mask for.</param>
+            /// <returns>A new byte array that is the same number of bytes as required to represent a single pixel.</returns>
             public override byte[] GetBitMask(ColorChannels channels)
             {
                 var result = new byte[16];

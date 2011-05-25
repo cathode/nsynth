@@ -45,7 +45,6 @@ namespace NSynth.Imaging.TGA
         /// <returns></returns>
         public override bool Open()
         {
-
             // Assemble buffer
             var buffer = new byte[18];
 
@@ -82,6 +81,7 @@ namespace NSynth.Imaging.TGA
 
             this.Bitstream.Seek(0, System.IO.SeekOrigin.Begin);
             this.Bitstream.Write(buffer, 0, 18);
+            this.Bitstream.Flush();
 
             return true;
         }

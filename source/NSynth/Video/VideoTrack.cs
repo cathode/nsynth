@@ -56,6 +56,9 @@ namespace NSynth.Video
         }
         #endregion
         #region Properties
+        /// <summary>
+        /// Gets or sets the size of video frames in the track.
+        /// </summary>
         public Size Dimensions
         {
             get
@@ -67,6 +70,7 @@ namespace NSynth.Video
                 this.dimensions = value;
             }
         }
+
         /// <summary>
         /// Gets or sets the width (in pixels) of video frames in the current track.
         /// </summary>
@@ -124,7 +128,5 @@ namespace NSynth.Video
             }
         }
         #endregion
-
-        
     }
 }
