@@ -8,7 +8,7 @@ using System.Text;
 using NSynth;
 using NSynth.Imaging;
 
-namespace NSynth.Filters.Internal.Video
+namespace NSynth.Filters.Video
 {
     /// <summary>
     /// Provides an effect filter to invert one or more color channels of the input clip.
@@ -16,14 +16,9 @@ namespace NSynth.Filters.Internal.Video
     public class InvertFilter : ProcessFilterBase
     {
         #region Methods
-        public override Clip GetClip()
+        public override Frame Render(long frameIndex)
         {
-            return this.Input.GetClip();
-        }
-
-        protected override Frame RenderFrame(long frameIndex)
-        {
-            var frame = this.Input.GetFrame(frameIndex);
+            var frame = this.Input.Render(frameIndex);
 
             foreach (var bitmap in frame.Video)
             {
@@ -37,11 +32,11 @@ namespace NSynth.Filters.Internal.Video
             for (int y = 0; y < bitmap.Height; y++)
                 for (int x = 0; x < bitmap.Width; x++)
                 {
-                    var px = bitmap[x, y];
+                    var px = bitmap[y, x];
                     px.Red = 1.0f - px.Red;
                     px.Green = 1.0f - px.Green;
                     px.Blue = 1.0f - px.Blue;
-                    bitmap[x, y] = px;
+                    bitmap[y, x] = px;
                 }
         }
         #endregion

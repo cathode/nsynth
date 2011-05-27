@@ -119,7 +119,5 @@ namespace NSynth.Video.Dirac
             return new DiracDecoder(input);
         }
         #endregion
-
-       
     }
 }

@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using NSynth.Imaging.TGA;
+using NSynth.Filters.Video;
 
 namespace NSynthGraphStudio
 {
@@ -92,7 +93,10 @@ namespace NSynthGraphStudio
             sw.Start();
             var filter = new TGASourceFilter(path);
             filter.Initialize();
-            this.host.Filter = filter;
+            var invert = new InvertFilter();
+            invert.Input = filter;
+            invert.Initialize();
+            this.host.Filter = invert;
             sw.Stop();
             this.Title = string.Format("NSynth Grap Studio -- Sample displayed in {0}ms", sw.ElapsedMilliseconds);
         }

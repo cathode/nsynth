@@ -30,7 +30,7 @@ namespace NSynth.Filters
         /// Gets or sets the <see cref="Filter"/> which provides frames
         /// as the input for the current <see cref="ProcessFilterBase"/>.
         /// </summary>
-        [FilterParameter("Input")]
+        //[FilterParameter("Input")]
         public Filter Input
         {
             get
@@ -40,13 +40,8 @@ namespace NSynth.Filters
             set
             {
                 this.input = value;
+                this.Clip = this.input.Clip;
             }
-        }
-        #endregion
-        #region Methods
-        public override Media.Clip GetClip()
-        {
-            return this.Input.GetClip();
         }
         #endregion
     }

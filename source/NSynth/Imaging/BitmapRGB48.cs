@@ -55,6 +55,9 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Properties
+        /// <summary>
+        /// Gets a <see cref="ColorFormat"/> that describes how color information is stored in the bitmap.
+        /// </summary>
         public override ColorFormat Format
         {
             get

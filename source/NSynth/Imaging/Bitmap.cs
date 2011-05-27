@@ -82,7 +82,7 @@ namespace NSynth.Imaging
             if (pixels == null)
                 throw EX.Create(EXCode.ArgumentNull, "pixels");
             if (pixels.Length != width * height)
-                throw EX.Create(EXCode.BitmapPixelArraySizeMismatch, size.Elements, pixels.Length);
+                throw EX.Create(EXCode.BitmapPixelArraySizeMismatch, this.size.Elements, pixels.Length);
 
             this.size = new Size(width, height);
             this.pixels = pixels;
@@ -128,6 +128,9 @@ namespace NSynth.Imaging
                 return this.size;
             }
         }
+        /// <summary>
+        /// Gets a <see cref="ColorFormat"/> that describes how color information is stored in the bitmap.
+        /// </summary>
         public abstract ColorFormat Format
         {
             get;

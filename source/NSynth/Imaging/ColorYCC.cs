@@ -124,7 +124,6 @@ namespace NSynth.Imaging
                 this.cr = value;
             }
         }
-        #endregion
 
         float IColor.Red
         {
@@ -161,5 +160,6 @@ namespace NSynth.Imaging
                 throw new NotImplementedException();
             }
         }
+        #endregion
     }
 }

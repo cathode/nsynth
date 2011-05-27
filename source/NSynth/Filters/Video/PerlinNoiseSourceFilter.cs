@@ -12,12 +12,15 @@ using NSynth.Imaging;
 
 namespace NSynth.Filters.Video
 {
+    /// <summary>
+    /// Provides a frame source filter that generates video frames containing a perlin noise pattern.
+    /// </summary>
     public class PerlinNoiseSourceFilter : SourceFilter
     {
-        #region Fields
-
-        #endregion
         #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PerlinNoiseSourceFilter"/> class.
+        /// </summary>
         public PerlinNoiseSourceFilter()
         {
             this.Seed = 0;
@@ -26,11 +29,15 @@ namespace NSynth.Filters.Video
         }
         #endregion
         #region Properties
+        /// <summary>
+        /// Gets or sets the seed used for the random generation of the noise pattern.
+        /// </summary>
         public int Seed
         {
             get;
             set;
         }
+
         public ColorRGB ColorA
         {
             get;

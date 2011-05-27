@@ -31,8 +31,6 @@ namespace NSynth.Imaging
         public BitmapRGB(Size size, ColorRGB[] pixels)
             : base(size, pixels)
         {
-            //Contract.Requires<ArgumentNullException>(pixels != null, "pixels");
-            //Contract.Requires<ArgumentException>(pixels.Length == size.Elements, EX.BitmapPixelArraySizeMismatch);
         }
 
         /// <summary>
@@ -43,8 +41,6 @@ namespace NSynth.Imaging
         public BitmapRGB(int width, int height)
             : base(width, height)
         {
-            //Contract.Requires<ArgumentOutOfRangeException>(width >= 0, EX.BitmapWidthTooSmall);
-            //Contract.Requires<ArgumentOutOfRangeException>(height >= 0, EX.BitmapHeightTooSmall);
         }
 
         /// <summary>
@@ -56,13 +52,12 @@ namespace NSynth.Imaging
         public BitmapRGB(int width, int height, ColorRGB[] pixels)
             : base(width, height, pixels)
         {
-            //Contract.Requires<ArgumentOutOfRangeException>(width >= 0, EX.BitmapWidthTooSmall);
-            //Contract.Requires<ArgumentOutOfRangeException>(height >= 0, EX.BitmapHeightTooSmall);
-            //Contract.Requires<ArgumentNullException>(pixels != null, "pixels");
-            //Contract.Requires<ArgumentException>(pixels.Length == width * height, EX.BitmapPixelArraySizeMismatch);
         }
         #endregion
         #region Properties
+        /// <summary>
+        /// Gets the <see cref="ColorFormat"/> of the bitmap.
+        /// </summary>
         public override ColorFormat Format
         {
             get
@@ -72,13 +67,12 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Methods
+
         protected override ColorRGB GetTColor(IColor color)
         {
-            //Contract.Requires(color != null);
-
             return new ColorRGB(color);
         }
         #endregion
-      
+
     }
 }

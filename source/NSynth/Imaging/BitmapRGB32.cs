@@ -63,6 +63,9 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Properties
+        /// <summary>
+        /// Gets a <see cref="ColorFormat"/> that describes how color information is stored in the bitmap.
+        /// </summary>
         public override ColorFormat Format
         {
             get
@@ -74,7 +77,7 @@ namespace NSynth.Imaging
         #region Methods
         protected override ColorRGB32 GetTColor(IColor color)
         {
-            throw new NotImplementedException();
+            return new ColorRGB32(color.Red, color.Green, color.Blue, color.Alpha);
         }
         #endregion
     }

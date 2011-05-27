@@ -15,8 +15,8 @@ namespace NSynth
     /// </summary>
     /// <remarks>
     /// In traditional video context, "chroma subsampling" is generally attributed to the YCbCr color spaces.
+    /// See: http://en.wikipedia.org/wiki/Chroma_subsampling
     /// </remarks>
-    /// <seealso cref="http://en.wikipedia.org/wiki/Chroma_subsampling"/>
     public enum SubsamplingMode
     {
         J420,

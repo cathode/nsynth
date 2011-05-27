@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CONTRACTS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -117,9 +117,9 @@
     <None Include="Filters\Video\InvertChannels.cs">
       <SubType>Code</SubType>
     </None>
-    <None Include="Filters\Video\InvertFilter.cs">
+    <Compile Include="Filters\Video\InvertFilter.cs">
       <SubType>Code</SubType>
-    </None>
+    </Compile>
     <None Include="Filters\Video\OverlayFilter.cs">
       <SubType>Code</SubType>
     </None>
@@ -147,9 +147,9 @@
     <None Include="Filters\Video\ScaleFilter.cs">
       <SubType>Code</SubType>
     </None>
-    <None Include="Filters\ProcessFilterBase.cs">
+    <Compile Include="Filters\ProcessFilterBase.cs">
       <SubType>Code</SubType>
-    </None>
+    </Compile>
     <Compile Include="Filters\SourceFilterBase.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -15,7 +15,7 @@ namespace NSynth.Audio
     {
         #region Fields
         /// <summary>
-        /// Backing field for the <see cref="Segment[int]"/> indexer.
+        /// Backing field for the <see cref="Segment(int)"/> indexer.
         /// </summary>
         private readonly Sample32[] samples;
         #endregion

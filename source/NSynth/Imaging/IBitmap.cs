@@ -32,7 +32,7 @@ namespace NSynth.Imaging
         }
 
         /// <summary>
-        /// Gets the <see cref="ColorFormat"/> that describes the format of color information used by the bitmap.
+        /// Gets a <see cref="ColorFormat"/> that describes how color information is stored in the bitmap.
         /// </summary>
         ColorFormat Format
         {
