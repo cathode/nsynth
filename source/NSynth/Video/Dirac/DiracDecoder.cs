@@ -25,16 +25,20 @@ namespace NSynth.Video.Dirac
         public DiracDecoder()
         {
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DiracDecoder"/> class.
         /// </summary>
-        /// <param name="source"></param>
-        public DiracDecoder(Stream source)
+        /// <param name="bitstream"></param>
+        public DiracDecoder(Stream bitstream)
         {
-            this.Bitstream = source;
+            this.Bitstream = bitstream;
         }
         #endregion
         #region Properties
+        /// <summary>
+        /// Gets the <see cref="Codec"/> of the current <see cref="MediaDecoder"/>.
+        /// </summary>
         public override Codec Codec
         {
             get
@@ -44,6 +48,10 @@ namespace NSynth.Video.Dirac
         }
         #endregion
         #region Methods
+        /// <summary>
+        /// Initializes the current <see cref="DiracDecoder"/>.
+        /// </summary>
+        /// <returns>true if the initialization was successful; otherwise false.</returns>
         public override bool Initialize()
         {
             if (this.Bitstream == null)
@@ -59,11 +67,13 @@ namespace NSynth.Video.Dirac
                 sequenceOffset = this.Synchronize();
             }
 
-
             return true;
         }
 
-
+        /// <summary>
+        /// Decodes the next frame from the bitstream.
+        /// </summary>
+        /// <returns>The <see cref="Frame"/> that was decoded.</returns>
         public override Frame Decode()
         {
             this.Synchronize();
@@ -71,6 +81,10 @@ namespace NSynth.Video.Dirac
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Reads the next sequence from the bitstream.
+        /// </summary>
+        /// <returns>The <see cref="DiracSequence"/> that was decoded.</returns>
         private DiracSequence ReadSequence()
         {
             DiracSequence sequence = new DiracSequence();
@@ -78,6 +92,10 @@ namespace NSynth.Video.Dirac
             return sequence;
         }
 
+        /// <summary>
+        /// Reads the next parse info header from the bitstream.
+        /// </summary>
+        /// <returns>The <see cref="DiracParseInfoHeader"/> that was decoded.</returns>
         private DiracParseInfoHeader ReadParseInfoHeader()
         {
             byte[] buffer = new byte[13];
@@ -95,6 +113,11 @@ namespace NSynth.Video.Dirac
                 PreviousOffset = (uint)(buffer[n++] << 24 | buffer[n++] << 16 | buffer[n++] << 8 | buffer[n++]),
             };
         }
+
+        /// <summary>
+        /// Reads the next sequence header from the bitstream.
+        /// </summary>
+        /// <returns>The <see cref="DiracSequenceHeader"/> that was decoded.</returns>
         private DiracSequenceHeader ReadSequenceHeader()
         {
             return new DiracSequenceHeader();

@@ -11,33 +11,21 @@ using NSynth.Imaging;
 
 namespace NSynth.Video.Dirac
 {
+    /// <summary>
+    /// Represents base video formats for the Dirac video codec. This class is immutable.
+    /// </summary>
     public sealed class DiracBaseVideoFormat
     {
         #region Fields
+        /// <summary>
+        /// Holds instances of supported base video formats.
+        /// </summary>
         private static readonly DiracBaseVideoFormat[] predefined;
-        private string name;
-        private FrameDimensions dimensions;
-        private SubsamplingMode chromaSamplingFormat;
-        private bool sourceSampling;
-        private bool topFieldFirst;
-        private SampleRate frameRate;
-        private int frameRateIndex;
-        private int frameRateNumerator;
-        private int frameRateDenominator;
-        private int pixelAspectRatioIndex;
-        private int pixelAspectRatioNumerator;
-        private int pixelAspectRatioDenominator;
-        private int signalRangeIndex;
-        private int lumaOffset;
-        private int lumaExcursion;
-        private int chromaOffset;
-        private int chromaExcursion;
-        private DiracColorSpecification colorSpecificationIndex;
-        private DiracColorPrimaries colorPrimariesIndex;
-        private DiracColorMatrix colorMatrixIndex;
-        private DiracTransferFunction transferFunctionIndex;
         #endregion
         #region Constructors
+        /// <summary>
+        /// Initializes static members of the <see cref="DiracBaseVideoFormat"/> class.
+        /// </summary>
         static DiracBaseVideoFormat()
         {
             var formats = new DiracBaseVideoFormat[20];
@@ -596,247 +584,120 @@ namespace NSynth.Video.Dirac
             DiracBaseVideoFormat.predefined = formats;
         }
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="DiracBaseVideoFormat"/> class from being created.
+        /// </summary>
         private DiracBaseVideoFormat()
         {
         }
         #endregion
         #region Properties
+        /// <summary>
+        /// Gets the name of the video format.
+        /// </summary>
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
+            get;
+            private set;
         }
+
+        /// <summary>
+        /// Gets the <see cref="FrameDimensions"/> of the video format.
+        /// </summary>
         public FrameDimensions Dimensions
         {
-            get
-            {
-                return this.dimensions;
-            }
-            set
-            {
-                this.dimensions = value;
-            }
+            get;
+            private set;
         }
+        
+        /// <summary>
+        /// Gets the <see cref="SubsamplingMode"/> of chroma data.
+        /// </summary>
         public SubsamplingMode ChromaSamplingFormat
         {
-            get
-            {
-                return this.chromaSamplingFormat;
-            }
-            set
-            {
-                this.chromaSamplingFormat = value;
-            }
+            get;
+            private set;
         }
+
         public bool SourceSampling
         {
-            get
-            {
-                return this.sourceSampling;
-            }
-            set
-            {
-                this.sourceSampling = value;
-            }
+            get;
+            private set;
         }
         public bool TopFieldFirst
         {
-            get
-            {
-                return this.topFieldFirst;
-            }
-            set
-            {
-                this.topFieldFirst = value;
-            }
+            get;
+            private set;
         }
         public int FrameRateIndex
         {
-            get
-            {
-                return this.frameRateIndex;
-            }
-            set
-            {
-                this.frameRateIndex = value;
-            }
+            get;
+            private set;
         }
         public SampleRate FrameRate
         {
-            get
-            {
-                return this.frameRate;
-            }
-            set
-            {
-                this.frameRate = value;
-            }
+            get;
+            private set;
         }
         public int PixelAspectRatioIndex
         {
-            get
-            {
-                return this.pixelAspectRatioIndex;
-            }
-            set
-            {
-                this.pixelAspectRatioIndex = value;
-            }
+            get;
+            private set;
         }
         public int PixelAspectRatioNumerator
         {
-            get
-            {
-                return this.pixelAspectRatioNumerator;
-            }
-            set
-            {
-                this.pixelAspectRatioNumerator = value;
-            }
+            get;
+            private set;
         }
         public int PixelAspectRatioDenominator
         {
-            get
-            {
-                return this.pixelAspectRatioDenominator;
-            }
-            set
-            {
-                this.pixelAspectRatioDenominator = value;
-            }
+            get;
+            private set;
         }
         public int SignalRangeIndex
         {
-            get
-            {
-                return this.signalRangeIndex;
-            }
-            set
-            {
-                this.signalRangeIndex = value;
-            }
+            get;
+            private set;
         }
         public int LumaOffset
         {
-            get
-            {
-                return this.lumaOffset;
-            }
-            set
-            {
-                this.lumaOffset = value;
-            }
+            get;
+            private set;
         }
         public int LumaExcursion
         {
-            get
-            {
-                return this.lumaExcursion;
-            }
-            set
-            {
-                this.lumaExcursion = value;
-            }
+            get;
+            private set;
         }
         public int ChromaOffset
         {
-            get
-            {
-                return this.chromaOffset;
-            }
-            set
-            {
-                this.chromaOffset = value;
-            }
+            get;
+            private set;
         }
         public int ChromaExcursion
         {
-            get
-            {
-                return this.chromaExcursion;
-            }
-            set
-            {
-                this.chromaExcursion = value;
-            }
+            get;
+            private set;
         }
         public DiracColorSpecification ColorSpecificationIndex
         {
-            get
-            {
-                return this.colorSpecificationIndex;
-            }
-            set
-            {
-                this.colorSpecificationIndex = value;
-            }
+            get;
+            private set;
         }
         public DiracColorPrimaries ColorPrimariesIndex
         {
-            get
-            {
-                return this.colorPrimariesIndex;
-            }
-            set
-            {
-                this.colorPrimariesIndex = value;
-            }
+            get;
+            private set;
         }
         public DiracColorMatrix ColorMatrixIndex
         {
-            get
-            {
-                return this.colorMatrixIndex;
-            }
-            set
-            {
-                this.colorMatrixIndex = value;
-            }
+            get;
+            private set;
         }
         public DiracTransferFunction TransferFunctionIndex
         {
-            get
-            {
-                return this.transferFunctionIndex;
-            }
-            set
-            {
-                this.transferFunctionIndex = value;
-            }
-        }
-        #endregion
-        #region Methods
-        public DiracBaseVideoFormat Clone()
-        {
-            var clone = new DiracBaseVideoFormat();
-            clone.chromaExcursion = this.chromaExcursion;
-            clone.chromaOffset = this.chromaOffset;
-            clone.chromaSamplingFormat = this.chromaSamplingFormat;
-            clone.colorMatrixIndex = this.colorMatrixIndex;
-            clone.colorPrimariesIndex = this.colorPrimariesIndex;
-            clone.colorSpecificationIndex = this.colorSpecificationIndex;
-            clone.dimensions = this.dimensions;
-            clone.frameRateDenominator = this.frameRateDenominator;
-            clone.frameRateIndex = this.frameRateIndex;
-            clone.frameRateNumerator = this.frameRateNumerator;
-            clone.lumaExcursion = this.lumaExcursion;
-            clone.lumaOffset = this.lumaOffset;
-            clone.name = this.name;
-            clone.pixelAspectRatioDenominator = this.pixelAspectRatioDenominator;
-            clone.pixelAspectRatioIndex = this.pixelAspectRatioIndex;
-            clone.pixelAspectRatioNumerator = this.pixelAspectRatioNumerator;
-            clone.signalRangeIndex = this.signalRangeIndex;
-            clone.sourceSampling = this.sourceSampling;
-            clone.topFieldFirst = this.topFieldFirst;
-            clone.transferFunctionIndex = this.transferFunctionIndex;
-
-            return clone;
+            get;
+            private set;
         }
         #endregion
     }

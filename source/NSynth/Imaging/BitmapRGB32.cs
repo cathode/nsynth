@@ -5,6 +5,7 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
@@ -31,8 +32,8 @@ namespace NSynth.Imaging
         public BitmapRGB32(Size size, ColorRGB32[] pixels)
             : base(size, pixels)
         {
-            //Contract.Requires<ArgumentNullException>(pixels != null, "pixels");
-            //Contract.Requires<ArgumentException>(pixels.Length == size.Elements, EX.BitmapPixelArraySizeMismatch);
+            Contract.Requires(pixels != null);
+            Contract.Requires(pixels.Length == size.Elements);
         }
 
         /// <summary>
@@ -43,8 +44,8 @@ namespace NSynth.Imaging
         public BitmapRGB32(int width, int height)
             : base(width, height)
         {
-            //Contract.Requires<ArgumentOutOfRangeException>(width >= 0, EX.BitmapWidthTooSmall);
-            //Contract.Requires<ArgumentOutOfRangeException>(height >= 0, EX.BitmapHeightTooSmall);
+            Contract.Requires(width >= 0);
+            Contract.Requires(height >= 0);
         }
 
         /// <summary>
@@ -56,10 +57,16 @@ namespace NSynth.Imaging
         public BitmapRGB32(int width, int height, ColorRGB32[] pixels)
             : base(width, height, pixels)
         {
-            //Contract.Requires<ArgumentOutOfRangeException>(width >= 0, EX.BitmapWidthTooSmall);
-            //Contract.Requires<ArgumentOutOfRangeException>(height >= 0, EX.BitmapHeightTooSmall);
-            //Contract.Requires<ArgumentNullException>(pixels != null, "pixels");
-            //Contract.Requires<ArgumentException>(pixels.Length == width * height, EX.BitmapPixelArraySizeMismatch);
+            Contract.Requires(width >= 0);
+            Contract.Requires(height >= 0);
+            Contract.Requires(pixels != null);
+            Contract.Requires(pixels.Length == width * height);
+        }
+
+        public BitmapRGB32(IBitmap source)
+            : base(source)
+        {
+            Contract.Requires(source != null);
         }
         #endregion
         #region Properties

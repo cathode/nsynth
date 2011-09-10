@@ -68,16 +68,16 @@ namespace NSynth.Imaging.TGA
             buffer[0x0B] = 0;
 
             // Image width/height. Reserved for Close.
-            buffer[0x0C] = 255;
-            buffer[0x0D] = 255;
-            buffer[0x0E] = 255;
-            buffer[0x0F] = 255;
+            buffer[0x0C] = 0;
+            buffer[0x0D] = 0;
+            buffer[0x0E] = 0;
+            buffer[0x0F] = 0;
 
             // Pixel depth (bits per pixel). Reserved for close.
-            buffer[0x10] = 255;
+            buffer[0x10] = 0;
 
             // Image descriptor. Reserved for close.
-            buffer[0x11] = 255;
+            buffer[0x11] = 0;
 
             this.Bitstream.Seek(0, System.IO.SeekOrigin.Begin);
             this.Bitstream.Write(buffer, 0, 18);
@@ -105,7 +105,10 @@ namespace NSynth.Imaging.TGA
             {
                 throw new NotImplementedException();
             }
-
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
         #endregion
 

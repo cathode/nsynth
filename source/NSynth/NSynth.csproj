@@ -56,10 +56,12 @@
     <Compile Include="FrameInput.cs" />
     <Compile Include="FrameRenderEventArgs.cs" />
     <Compile Include="FrameRenderRequest.cs" />
+    <Compile Include="Imaging\BlendMode.cs" />
     <Compile Include="Imaging\ImageDecoder.cs" />
     <Compile Include="Imaging\TGA\TGADecodeContext.cs" />
     <Compile Include="Imaging\TGA\TGADecoder.cs" />
     <Compile Include="Imaging\TGA\TGADecodeStage.cs" />
+    <Compile Include="Imaging\TGA\TGAEncodeContext.cs" />
     <Compile Include="OutputFilter.cs" />
     <Compile Include="SourceFilter.cs" />
     <None Include="cathode.public.snk" />

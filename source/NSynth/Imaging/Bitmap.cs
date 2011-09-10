@@ -4,6 +4,7 @@
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
@@ -86,6 +87,18 @@ namespace NSynth.Imaging
 
             this.size = new Size(width, height);
             this.pixels = pixels;
+        }
+
+        public Bitmap(IBitmap source)
+        {
+            System.Diagnostics.Contracts.Contract.Requires(source != null);
+
+            this.size = new Size(source.Width, source.Height);
+            this.pixels = new TColor[this.size.Elements];
+            int i = 0;
+            for (int y = 0; y < source.Height; y++)
+                for (int x = 0; x < source.Width; x++)
+                    this.pixels[i++] = this.GetTColor(source[y, x]);
         }
         #endregion
         #region Properties
@@ -193,6 +206,30 @@ namespace NSynth.Imaging
         public void Fill(IColor color)
         {
             this.Fill(this.GetTColor(color));
+        }
+
+        /// <summary>
+        /// Blends the specified bitmap with the current bitmap.
+        /// </summary>
+        /// <param name="bitmap"></param>
+        public void Blend(Bitmap<TColor> bitmap)
+        {
+            this.Blend(bitmap, new Point(0, 0), bitmap.Size, BlendMode.Normal, null);
+        }
+
+        /// <summary>
+        /// Blends the specified bitmap with the current bitmap.
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <param name="location"></param>
+        public void Blend(Bitmap<TColor> bitmap, Point location)
+        {
+            this.Blend(bitmap, location, bitmap.Size, BlendMode.Normal, null);
+        }
+
+        public virtual void Blend(Bitmap<TColor> bitmap, Point location, Size size, BlendMode mode, Bitmap<TColor> mask)
+        {
+
         }
 
         protected abstract TColor GetTColor(IColor color);

@@ -4,6 +4,7 @@
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
+using System;
 
 namespace NSynth.Imaging
 {
@@ -66,12 +67,31 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Methods
+        public override void Blend(Bitmap<ColorRGB24> bitmap, Point location, Size size, BlendMode mode, Bitmap<ColorRGB24> mask)
+        {
+            int xMax = Math.Min(size.Width, this.Width);
+            int yMax = Math.Min(size.Height, this.Height);
+            int xStart = Math.Min(Math.Min(location.X, this.Width), 0);
+            int yStart = Math.Max(Math.Min(location.Y, this.Height), 0);
+
+            var pix = this.Pixels;
+            
+            // Assume blend mode normal w/ mask
+            for (int y = yStart, v=0; y < yMax; y++, v++)
+            {
+                for (int x = xStart, u=0; x < xMax; x++, u++)
+                {
+                    this[y, x] = this[y, x].LinearInterpolate(bitmap[v, u], mask[v, u].Red / 255.0, mask[v, u].Green / 255.0, mask[v, u].Blue / 255.0);
+                }
+            }
+
+        }
         protected override ColorRGB24 GetTColor(IColor color)
         {
             return new ColorRGB24((byte)(color.Red * 255), (byte)(color.Green * 255), (byte)(color.Blue * 255));
         }
         #endregion
 
-       
+
     }
 }

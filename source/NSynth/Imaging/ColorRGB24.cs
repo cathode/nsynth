@@ -180,6 +180,24 @@ namespace NSynth.Imaging
         {
             throw new NotImplementedException();
         }
+
+        public ColorRGB24 LinearInterpolate(ColorRGB24 other, double n)
+        {
+            return this.LinearInterpolate(other, n, n, n);
+        }
+        /// <summary>
+        /// Calculates the linear interpolation between the current color and the specified color.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <param name="rn"></param>
+        /// <returns></returns>
+        public ColorRGB24 LinearInterpolate(ColorRGB24 other, double rn, double gn, double bn)
+        {
+            return new ColorRGB24(
+                (byte)((this.red * rn) + (other.red * (1.0 - rn))),
+                (byte)((this.green * gn) + (other.green * (1.0 - gn))),
+                (byte)((this.blue * bn) + (other.blue * (1.0 - bn))));
+        }
         #endregion
         #region Operators
         /// <summary>

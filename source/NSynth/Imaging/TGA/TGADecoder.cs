@@ -23,6 +23,15 @@ namespace NSynth.Imaging.TGA
         /// </summary>
         private TGADecodeContext context;
         #endregion
+        #region Constructors
+        public TGADecoder()
+        {
+        }
+        public TGADecoder(Stream bitstream)
+        {
+            this.Bitstream = bitstream;
+        }
+        #endregion
         #region Properties
         /// <summary>
         /// Overridden. Gets the <see cref="Codec"/> of the current <see cref="MediaDecoder"/>.
