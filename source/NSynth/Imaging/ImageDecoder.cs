@@ -20,11 +20,11 @@ namespace NSynth.Imaging
             ImageDecoder decoder = null;
             switch (ext)
             {
-                case "tga":
+                case ".tga":
                     decoder = new TGA.TGADecoder();
                     break;
 
-                case "png":
+                case ".png":
                     decoder = new PNG.PNGDecoder();
                     break;
 

@@ -105,6 +105,13 @@ namespace NSynth
                 this.position = value;
             }
         }
+        public int Length
+        {
+            get
+            {
+                return this.data.Length;
+            }
+        }
         #endregion
         #region Methods
         /// <summary>
@@ -125,8 +132,10 @@ namespace NSynth
         /// <returns>A new byte[] containing the bytes read from the buffer.</returns>
         public byte[] ReadBytes(int count)
         {
-            //int read = this.contents.Length - (
-            throw new NotImplementedException();
+            int n = Math.Min(count, this.Length - this.Position);
+            byte[] read = new byte[n];
+            this.ReadBytes(read, 0, read.Length);
+            return read;
         }
 
         /// <summary>
@@ -138,7 +147,10 @@ namespace NSynth
         /// <returns>The number of bytes read.</returns>
         public int ReadBytes(byte[] buffer, int startIndex, int count)
         {
-            throw new NotImplementedException();
+            int n = Math.Min(count, this.Length - this.Position);
+            Array.Copy(this.data, this.position, buffer, startIndex, n);
+            this.position += n;
+            return n;
         }
         /// <summary>
         /// Decodes the next two bytes from the buffer as a 16-bit signed integer value,

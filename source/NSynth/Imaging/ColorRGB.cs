@@ -6,6 +6,7 @@
  *****************************************************************************/
 using System;
 using System.Runtime.InteropServices;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
@@ -175,6 +176,8 @@ namespace NSynth.Imaging
         /// <param name="color">An <see cref="IColor"/> instance from which the red, green, blue, and alpha values are used.</param>
         public ColorRGB(IColor color)
         {
+            Contract.Requires(color != null);
+
             this.red = color.Red;
             this.green = color.Green;
             this.blue = color.Blue;

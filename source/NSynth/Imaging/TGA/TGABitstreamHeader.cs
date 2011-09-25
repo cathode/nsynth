@@ -9,34 +9,22 @@ using System.Runtime.InteropServices;
 
 namespace NSynth.Imaging.TGA
 {
-    [StructLayout(LayoutKind.Explicit, Pack = 1, Size = 18)]
     public struct TGABitstreamHeader
     {
         #region Fields
-        [FieldOffset(0)]
         public byte IdLength;
-        [FieldOffset(1)]
         public TGAColorMapType ColorMapType;
-        [FieldOffset(2)]
         public TGAImageType ImageType;
-        [FieldOffset(3)]
         public ushort ColorMapOrigin;
-        [FieldOffset(5)]
         public ushort ColorMapLength;
-        [FieldOffset(7)]
         public byte ColorMapDepth;
-        [FieldOffset(8)]
         public ushort XOrigin;
-        [FieldOffset(10)]
         public ushort YOrigin;
-        [FieldOffset(12)]
         public ushort Width;
-        [FieldOffset(14)]
         public ushort Height;
-        [FieldOffset(16)]
         public byte BitsPerPixel;
-        [FieldOffset(17)]
         public TGAImageDescriptor ImageDescriptor;
+        public byte AttributeBits;
         #endregion
         #region Methods
         public bool Validate()

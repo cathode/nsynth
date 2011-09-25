@@ -82,6 +82,59 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Methods
+
+        public override void Combine(Bitmap<ColorRGB32> bitmap, Point location, Size size, CombineMode mode, Bitmap<ColorRGB32> mask)
+        {
+            int xMax = Math.Min(Math.Min(size.Width + location.X, this.Width), (mask == null) ? bitmap.Width + location.X : Math.Min(bitmap.Width + location.X, mask.Width + location.X));
+            int yMax = Math.Min(Math.Min(size.Height + location.Y, this.Height), (mask == null) ? bitmap.Height + location.Y : Math.Min(bitmap.Height + location.Y, mask.Height + location.Y));
+            int xStart = Math.Max(Math.Min(location.X, this.Width), 0);
+            int yStart = Math.Max(Math.Min(location.Y, this.Height), 0);
+
+            var pix = this.Pixels;
+
+            if (mask != null)
+            {
+                for (int y = yStart, v = 0; y < yMax; y++, v++)
+                {
+                    for (int x = xStart, u = 0; x < xMax; x++, u++)
+                    {
+                        var mx = (v < mask.Height || u < mask.Width) ? mask[v, u] : new ColorRGB32(0, 0, 0, 255);
+                        var f = ((mx.Red + mx.Blue + mx.Green) / 3 / 255f) * (mx.Alpha / 255f);
+                        var tx = this[y, x];
+                        var bx = bitmap[v,u];
+                        this[y, x] = (bx * f) + (tx * (1.0 - f));
+                    }
+                }
+            }
+            else
+            {
+                for (int y = yStart, v = 0; y < yMax; y++, v++)
+                {
+                    for (int x = xStart, u = 0; x < xMax; x++, u++)
+                    {
+                        var bx = bitmap[v, u];
+                        var t = (bx.Alpha / 255f);
+                        this[y, x] = (bx * t) + (this[y, x] * (1f - t));
+                    }
+                }
+            }
+        }
+
+        public void Fill(ColorRGB32 color, Bitmap<ColorRGB32> mask)
+        {
+            Contract.Requires(mask != null);
+            Contract.Requires(this.Size == mask.Size);
+
+            for (int y = 0; y < this.Height; y++)
+                for (int x = 0; x < this.Width; x++)
+                {
+                    var px = this[y, x];
+                    var mx = mask[y, x];
+                    var a = (((mx.Red + mx.Blue + mx.Green) / 3) * (mx.Alpha / 255f)) / 255f;
+                    this[y, x] = (color * a) + (px * (1.0 - a));
+                }
+        }
+
         protected override ColorRGB32 GetTColor(IColor color)
         {
             return new ColorRGB32(color.Red, color.Green, color.Blue, color.Alpha);

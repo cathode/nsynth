@@ -221,6 +221,19 @@ namespace NSynth.Imaging
         {
             return new ColorRGB(this.Red, this.Green, this.Blue, this.Alpha);
         }
+
+        public ColorRGB32 LinearInterpolate(ColorRGB32 other, float n)
+        {
+            return this.LinearInterpolate(other, n, n, n, n);
+        }
+        public ColorRGB32 LinearInterpolate(ColorRGB32 other, float rn, float gn, float bn, float an)
+        {
+            return new ColorRGB32(
+                (byte)((this.red * rn) + (other.red * (1.0f - rn))),
+                (byte)((this.green * gn) + (other.green * (1.0f - gn))),
+                (byte)((this.blue * bn) + (other.blue * (1.0f - bn))),
+                (byte)((this.alpha * an) + (other.alpha * (1.0f - an))));
+        }
         #endregion
         #region Operators
         /// <summary>
@@ -287,7 +300,11 @@ namespace NSynth.Imaging
         /// <returns>A new <see cref="ColorRGB32"/> that is the result of the addition operation.</returns>
         public static ColorRGB32 operator +(ColorRGB32 left, ColorRGB32 right)
         {
-            throw new NotImplementedException();
+            return new ColorRGB32(
+                (byte)(left.red + right.red),
+                (byte)(left.green + right.green),
+                (byte)(left.blue + right.blue),
+                (byte)(left.alpha + right.alpha));
         }
 
         /// <summary>
@@ -309,7 +326,11 @@ namespace NSynth.Imaging
         /// <returns>A new <see cref="ColorRGB32"/> that is the result of the multiplication operation.</returns>
         public static ColorRGB32 operator *(ColorRGB32 left, double right)
         {
-            throw new NotImplementedException();
+            return new ColorRGB32(
+                (byte)(left.red * right),
+                (byte)(left.green * right),
+                (byte)(left.blue * right),
+                (byte)(left.alpha * right));
         }
 
         /// <summary>

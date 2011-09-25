@@ -181,7 +181,7 @@ namespace NSynth.Imaging
             throw new NotImplementedException();
         }
 
-        public ColorRGB24 LinearInterpolate(ColorRGB24 other, double n)
+        public ColorRGB24 LinearInterpolate(ColorRGB24 other, float n)
         {
             return this.LinearInterpolate(other, n, n, n);
         }
@@ -191,12 +191,12 @@ namespace NSynth.Imaging
         /// <param name="other"></param>
         /// <param name="rn"></param>
         /// <returns></returns>
-        public ColorRGB24 LinearInterpolate(ColorRGB24 other, double rn, double gn, double bn)
+        public ColorRGB24 LinearInterpolate(ColorRGB24 other, float rn, float gn, float bn)
         {
             return new ColorRGB24(
-                (byte)((this.red * rn) + (other.red * (1.0 - rn))),
-                (byte)((this.green * gn) + (other.green * (1.0 - gn))),
-                (byte)((this.blue * bn) + (other.blue * (1.0 - bn))));
+                (byte)((this.red * rn) + (other.red * (1.0f - rn))),
+                (byte)((this.green * gn) + (other.green * (1.0f - gn))),
+                (byte)((this.blue * bn) + (other.blue * (1.0f - bn))));
         }
         #endregion
         #region Operators

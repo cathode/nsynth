@@ -5,6 +5,7 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System.Diagnostics.Contracts;
+using System;
 
 namespace NSynth.Imaging
 {
@@ -43,10 +44,8 @@ namespace NSynth.Imaging
         /// <param name="pixels">The pixel data to initialize the new bitmap with.</param>
         protected Bitmap(Size size, TColor[] pixels)
         {
-            if (pixels == null)
-                throw EX.Create(EXCode.ArgumentNull, "pixels");
-            if (pixels.Length != size.Elements)
-                throw EX.Create(EXCode.BitmapPixelArraySizeMismatch, size.Elements, pixels.Length);
+            Contract.Requires(pixels != null);
+            Contract.Requires(pixels.Length == size.Elements);
 
             this.size = size;
             this.pixels = pixels;
@@ -59,10 +58,8 @@ namespace NSynth.Imaging
         /// <param name="height">The height (in pixels) of the new bitmap.</param>
         protected Bitmap(int width, int height)
         {
-            if (width < 0)
-                throw EX.Create(EXCode.BitmapWidthTooSmall, "width >= 0", width);
-            if (height < 0)
-                throw EX.Create(EXCode.BitmapHeightTooSmall, "height >= 0", height);
+            Contract.Requires(width > 0);
+            Contract.Requires(height > 0);
 
             this.size = new Size(width, height);
             this.pixels = new TColor[this.size.Elements];
@@ -76,14 +73,10 @@ namespace NSynth.Imaging
         /// <param name="pixels">An array of T values representing the pixel data for the bitmap.</param>
         protected Bitmap(int width, int height, TColor[] pixels)
         {
-            if (width < 0)
-                throw EX.Create(EXCode.BitmapWidthTooSmall, "width >= 0", width);
-            if (height < 0)
-                throw EX.Create(EXCode.BitmapHeightTooSmall, "height >= 0", height);
-            if (pixels == null)
-                throw EX.Create(EXCode.ArgumentNull, "pixels");
-            if (pixels.Length != width * height)
-                throw EX.Create(EXCode.BitmapPixelArraySizeMismatch, this.size.Elements, pixels.Length);
+            Contract.Requires(width > 0);
+            Contract.Requires(height > 0);
+            Contract.Requires(pixels != null);
+            Contract.Requires(pixels.Length == width * height);
 
             this.size = new Size(width, height);
             this.pixels = pixels;
@@ -98,7 +91,7 @@ namespace NSynth.Imaging
             int i = 0;
             for (int y = 0; y < source.Height; y++)
                 for (int x = 0; x < source.Width; x++)
-                    this.pixels[i++] = this.GetTColor(source[y, x]);
+                    this.pixels[i++] = this.GetTColor(source[x, y]);
         }
         #endregion
         #region Properties
@@ -156,14 +149,22 @@ namespace NSynth.Imaging
         /// <param name="row">The row of the pixel to get or set.</param>
         /// <param name="col">The column of the pixel to get or set.</param>
         /// <returns>The pixel at the specified coordinates.</returns>
+        [ContractRuntimeIgnored]
         public TColor this[int row, int col]
         {
             get
             {
+                Contract.Requires(row >= 0);
+                Contract.Requires(col >= 0);
+                Contract.Requires(row < this.Height);
+                Contract.Requires(col < this.Width);
+
                 return this.pixels[(row * this.Width) + col];
             }
             set
             {
+                Contract.Requires(row >= 0);
+                Contract.Requires(col >= 0);
                 this.pixels[(row * this.Width) + col] = value;
             }
         }
@@ -175,7 +176,7 @@ namespace NSynth.Imaging
         /// <param name="row">The row of the pixel to get or set.</param>
         /// <param name="col">The column of the pixel to get or set.</param>
         /// <returns>The pixel at the specified coordinates.</returns>
-        IColor IBitmap.this[int row, int col]
+        IColor IBitmap.this[int col, int row]
         {
             get
             {
@@ -212,9 +213,11 @@ namespace NSynth.Imaging
         /// Blends the specified bitmap with the current bitmap.
         /// </summary>
         /// <param name="bitmap"></param>
-        public void Blend(Bitmap<TColor> bitmap)
+        public void Combine(Bitmap<TColor> bitmap)
         {
-            this.Blend(bitmap, new Point(0, 0), bitmap.Size, BlendMode.Normal, null);
+            Contract.Requires(bitmap != null);
+
+            this.Combine(bitmap, new Point(0, 0), bitmap.Size, CombineMode.Normal, null);
         }
 
         /// <summary>
@@ -222,17 +225,45 @@ namespace NSynth.Imaging
         /// </summary>
         /// <param name="bitmap"></param>
         /// <param name="location"></param>
-        public void Blend(Bitmap<TColor> bitmap, Point location)
+        public void Combine(Bitmap<TColor> bitmap, Point location)
         {
-            this.Blend(bitmap, location, bitmap.Size, BlendMode.Normal, null);
+            Contract.Requires(bitmap != null);
+
+            this.Combine(bitmap, location, bitmap.Size, CombineMode.Normal, null);
         }
 
-        public virtual void Blend(Bitmap<TColor> bitmap, Point location, Size size, BlendMode mode, Bitmap<TColor> mask)
+        public void Combine(Bitmap<TColor> bitmap, Point location, Bitmap<TColor> mask)
         {
+            Contract.Requires(bitmap != null);
 
+            this.Combine(bitmap, location, bitmap.Size, CombineMode.Normal, mask);
+        }
+
+        public void Combine(Bitmap<TColor> bitmap, Bitmap<TColor> mask)
+        {
+            Contract.Requires(bitmap != null);
+
+            this.Combine(bitmap, new Point(0, 0), bitmap.size, CombineMode.Normal, mask);
+        }
+
+        public virtual void Combine(Bitmap<TColor> bitmap, Point location, Size size, CombineMode mode, Bitmap<TColor> mask)
+        {
+            Contract.Requires(bitmap != null);
+
+            throw new NotImplementedException();
         }
 
         protected abstract TColor GetTColor(IColor color);
+
+        [ContractInvariantMethod]
+        private void __ContractInvariants()
+        {
+            Contract.Invariant(this.Pixels.Length == this.Size.Elements);
+            Contract.Invariant(this.Width * this.Height == this.Size.Elements);
+            Contract.Invariant(this.Width == this.Size.Width);
+            Contract.Invariant(this.Height == this.Size.Height);
+        }
         #endregion
+        
     }
 }

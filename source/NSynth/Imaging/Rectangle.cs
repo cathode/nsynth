@@ -5,31 +5,31 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System.Runtime.InteropServices;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace NSynth.Imaging
 {
     /// <summary>
     /// Represents a rectangular area.
     /// </summary>
-    [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 16)]
-    public struct Rectangle
+    public class Rectangle : IEnumerable<Point>
     {
         #region Fields
         /// <summary>
         /// Holds a <see cref="Rectangle"/> that represents an empty area.
         /// </summary>
-        public static readonly Rectangle Empty = new Rectangle();
+        public static readonly Rectangle Empty = new Rectangle(0, 0, 0, 0);
 
         /// <summary>
         /// Backing field for the <see cref="Location"/> property.
         /// </summary>
-        [FieldOffset(0x00)]
         private readonly Point location;
 
         /// <summary>
         /// Backing field for the <see cref="Size"/> property.
         /// </summary>
-        [FieldOffset(0x08)]
         private readonly Size size;
         #endregion
         #region Constructors
@@ -187,6 +187,20 @@ namespace NSynth.Imaging
                 return result;
             }
         }
+        public bool Contains(Point p)
+        {
+            return (p.X >= this.Left) && (p.X <= this.Right) && (p.Y >= this.Top) && (p.Y <= this.Bottom);
+        }
+        public IEnumerator<Point> GetEnumerator()
+        {
+            int x1 = this.Left;
+            int x2 = this.Right;
+            int y1 = this.Top;
+            int y2 = this.Bottom;
+            for (int y = y1; y <= y2; y++)
+                for (int x = x1; x <= x2; x++)
+                    yield return new Point(x, y);
+        }
         #endregion
         #region Operators
         public static bool operator ==(Rectangle rectangle1, Rectangle rectangle2)
@@ -198,5 +212,12 @@ namespace NSynth.Imaging
             return !Rectangle.Equals(rectangle1, rectangle2);
         }
         #endregion
+
+
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
     }
 }

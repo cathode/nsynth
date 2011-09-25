@@ -10,6 +10,9 @@ namespace NSynth.Imaging.PNG
 {
     public sealed class PNGCodec : ImageCodec
     {
+        #region Fields
+        public const long BitstreamSignature = 137 << 56 | 80 << 48 | 78 << 40 | 71 << 32 | 13 << 24 | 10 << 16 | 26 << 8 | 10;
+        #endregion
         public override bool CanDecode
         {
             get

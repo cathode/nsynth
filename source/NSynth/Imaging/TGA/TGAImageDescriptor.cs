@@ -11,13 +11,9 @@ namespace NSynth.Imaging.TGA
 {
     public enum TGAImageDescriptor : byte
     {
-        BottomLeft8BitsAttribute = 7,
-        BottomLeft16BitsAttribute = 15,
-        BottomRight8BitsAttribute = 7 | 1 << 4,
-        BottomRight16BitsAttribute = 15 | 1 << 4,
-        TopLeft8BitsAttribute = 7 | 1 << 5,
-        TopLeft16BitsAttribute = 15 | 1 << 5,
-        TopRight8BitsAttribute = 7 | 1 << 4 | 1 << 5,
-        TopRight16BitsAttribute = 15 | 1 << 4 | 1 << 5,
+        BottomLeft = 0,
+        BottomRight = 1 << 4,
+        TopLeft = 1 << 5,
+        TopRight = 1 << 5 | 1 << 4,
     }
 }

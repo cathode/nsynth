@@ -58,7 +58,7 @@ namespace NSynth.Filters.Video
                     {
                         for (int kx = -radius; kx <= radius; kx++)
                         {
-                            var p = source[Math.Max(Math.Min(y + ky, source.Height - 1), 0), Math.Max(Math.Min(x + kx, source.Width - 1), 0)];
+                            var p = source[Math.Max(Math.Min(x + kx, source.Width - 1), 0), Math.Max(Math.Min(y + ky, source.Height - 1), 0)];
                             total.Red += p.Red;
                             total.Green += p.Green;
                             total.Blue += p.Blue;

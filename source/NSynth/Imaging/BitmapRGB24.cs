@@ -5,6 +5,7 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
@@ -31,6 +32,8 @@ namespace NSynth.Imaging
         public BitmapRGB24(Size size, ColorRGB24[] pixels)
             : base(size, pixels)
         {
+            Contract.Requires(pixels != null);
+            Contract.Requires(pixels.Length == size.Elements);
         }
 
         /// <summary>
@@ -41,6 +44,8 @@ namespace NSynth.Imaging
         public BitmapRGB24(int width, int height)
             : base(width, height)
         {
+            Contract.Requires(width > 0);
+            Contract.Requires(height > 0);
         }
 
         /// <summary>
@@ -52,6 +57,10 @@ namespace NSynth.Imaging
         public BitmapRGB24(int width, int height, ColorRGB24[] pixels)
             : base(width, height, pixels)
         {
+            Contract.Requires(pixels != null);
+            Contract.Requires(width > 0);
+            Contract.Requires(height > 0);
+            Contract.Requires(pixels.Length == width * height);
         }
         #endregion
         #region Properties
@@ -67,7 +76,7 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Methods
-        public override void Blend(Bitmap<ColorRGB24> bitmap, Point location, Size size, BlendMode mode, Bitmap<ColorRGB24> mask)
+        public override void Combine(Bitmap<ColorRGB24> bitmap, Point location, Size size, CombineMode mode, Bitmap<ColorRGB24> mask)
         {
             int xMax = Math.Min(size.Width, this.Width);
             int yMax = Math.Min(size.Height, this.Height);
@@ -81,7 +90,7 @@ namespace NSynth.Imaging
             {
                 for (int x = xStart, u=0; x < xMax; x++, u++)
                 {
-                    this[y, x] = this[y, x].LinearInterpolate(bitmap[v, u], mask[v, u].Red / 255.0, mask[v, u].Green / 255.0, mask[v, u].Blue / 255.0);
+                    this[y, x] = this[y, x].LinearInterpolate(bitmap[v, u], mask[v, u].Red / 255.0f, mask[v, u].Green / 255.0f, mask[v, u].Blue / 255.0f);
                 }
             }
 
@@ -91,7 +100,5 @@ namespace NSynth.Imaging
             return new ColorRGB24((byte)(color.Red * 255), (byte)(color.Green * 255), (byte)(color.Blue * 255));
         }
         #endregion
-
-
     }
 }

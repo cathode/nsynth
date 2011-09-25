@@ -21,7 +21,7 @@ namespace NSynth.Imaging.PNG
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
             }
         }
 

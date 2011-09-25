@@ -27,6 +27,31 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeContractsEnableRuntimeChecking>False</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>True</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsBaseLineFile>..\..\baseline.xml</CodeContractsBaseLineFile>
+    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>2</CodeContractsAnalysisWarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -48,6 +73,7 @@
     <Compile Include="Audio\WAV\WAVInputFilter.cs" />
     <Compile Include="BitDecoder.cs" />
     <Compile Include="BitstreamInputFilter.cs" />
+    <Compile Include="Imaging\ColorG8.cs" />
     <Compile Include="EffectFilter.cs" />
     <Compile Include="FilterInitializationEventArgs.cs" />
     <Compile Include="FilterInput.cs" />
@@ -56,14 +82,28 @@
     <Compile Include="FrameInput.cs" />
     <Compile Include="FrameRenderEventArgs.cs" />
     <Compile Include="FrameRenderRequest.cs" />
-    <Compile Include="Imaging\BlendMode.cs" />
+    <Compile Include="Imaging\CombineMode.cs" />
+    <Compile Include="Imaging\VectorDrawing\BCurve.cs" />
+    <Compile Include="Imaging\VectorDrawing\BPoint.cs" />
+    <Compile Include="Imaging\VectorDrawing\CompoundShape.cs" />
     <Compile Include="Imaging\ImageDecoder.cs" />
+    <Compile Include="Imaging\PNG\PNGChunk.cs" />
+    <Compile Include="Imaging\PNG\PNGChunkType.cs" />
+    <Compile Include="Imaging\PNG\PNGColorType.cs" />
+    <Compile Include="Imaging\PNG\PNGFilterMethod.cs" />
+    <Compile Include="Imaging\PNG\PNGSourceFilter.cs" />
+    <Compile Include="Imaging\VectorDrawing\ControlVertex.cs" />
+    <Compile Include="Imaging\VectorDrawing\ILine.cs" />
+    <Compile Include="Imaging\VectorDrawing\Line.cs" />
+    <Compile Include="Imaging\VectorDrawing\Pointf.cs" />
+    <Compile Include="Imaging\VectorDrawing\Shape.cs" />
     <Compile Include="Imaging\TGA\TGADecodeContext.cs" />
     <Compile Include="Imaging\TGA\TGADecoder.cs" />
     <Compile Include="Imaging\TGA\TGADecodeStage.cs" />
     <Compile Include="Imaging\TGA\TGAEncodeContext.cs" />
     <Compile Include="OutputFilter.cs" />
     <Compile Include="SourceFilter.cs" />
+    <Compile Include="ZlibStream.cs" />
     <None Include="cathode.public.snk" />
     <Compile Include="ByteOrder.cs" />
     <None Include="Filters\Video\BrightnessFilter.cs" />
@@ -364,6 +404,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\references\zlib.net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -110,16 +110,19 @@ namespace NSynth.Imaging.TGA
             header.Width = buffer.ReadUInt16();
             header.Height = buffer.ReadUInt16();
             header.BitsPerPixel = buffer.ReadByte();
-            header.ImageDescriptor = (TGAImageDescriptor)buffer.ReadByte();
-
+            byte descriptor = buffer.ReadByte();
+            byte attributeBits = (byte)(descriptor & 0x0F);
+            byte imgdesc = (byte)(descriptor & 0x30);
+            header.ImageDescriptor = (TGAImageDescriptor)imgdesc;
+            header.AttributeBits = attributeBits;
             if (header.Validate())
                 this.context.Header = header;
             else
                 throw new NotImplementedException();
 
             this.context.PixelDataLength = this.context.Bitstream.Length - 18;
-            this.context.PixelDataOffset = 18;
-
+            this.context.PixelDataOffset = 18 + header.IdLength + header.ColorMapLength;
+            this.context.PixelOrder = (TGAPixelOrder)header.ImageDescriptor;
             this.context.Stage = TGADecodeStage.HeaderDecoded;
         }
 

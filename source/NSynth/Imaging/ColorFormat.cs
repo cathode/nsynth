@@ -5,6 +5,7 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
@@ -168,6 +169,9 @@ namespace NSynth.Imaging
         /// <returns>A new <see cref="IBitmap"/> with the specified dimensions.</returns>
         public IBitmap CreateBitmap(int width, int height)
         {
+            Contract.Requires(width > 0);
+            Contract.Requires(height > 0);
+
             return this.CreateBitmap(new Size(width, height));
         }
 
@@ -177,6 +181,29 @@ namespace NSynth.Imaging
         /// <param name="size">The dimensions (in pixels) of the new bitmap.</param>
         /// <returns>A new <see cref="IBitmap"/> with the specified dimensions.</returns>
         public abstract IBitmap CreateBitmap(Size size);
+
+        /// <summary>
+        /// Creates a bitmap with the specified dimensions and pixel data.
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="rawPixels"></param>
+        /// <returns></returns>
+        public virtual IBitmap CreateBitmap(Size size, byte[] rawPixels)
+        {
+            Contract.Requires(rawPixels != null);
+            Contract.Requires(rawPixels.Length == size.Elements);
+
+            // Non-homogenous or non-octet-aligned data is difficult to process.
+            // TODO: Implement support for processing non-homogenous and non-octet-aligned pixel data from a bytestream
+            if (!this.IsHomogenous || !this.IsOctetAligned)
+                throw new NotImplementedException();
+
+            var stride = (this.BitsPerPixel / 8) * size.Width;
+
+            var bitmap = this.CreateBitmap(size);
+
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Creates a new color instance in the current format.
@@ -210,6 +237,9 @@ namespace NSynth.Imaging
         /// <returns>The number of bytes that would be required to fully represent a bitmap with the specified width and height.</returns>
         public int GetByteCount(int width, int height)
         {
+            Contract.Requires(width > 0);
+            Contract.Requires(height > 0);
+
             return this.GetByteCount(new Size(width, height));
         }
 
@@ -229,6 +259,8 @@ namespace NSynth.Imaging
         /// </remarks>
         public virtual bool IsLossyConversionTo(ColorFormat target)
         {
+            Contract.Requires(target != null);
+
             if (target.BitsPerPixel < this.BitsPerPixel)
                 return true;
 

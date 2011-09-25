@@ -47,11 +47,11 @@ namespace NSynth.Filters.Video
                 for (int row = 0; row < bitmap.Height; row++)
                     for (int col = 0; col < bitmap.Width; col++)
                     {
-                        var px = bitmap[row, col];
+                        var px = bitmap[col, row];
                         px.Red = (px.Red - 0.5f) * this.contrast;
                         px.Green = (px.Green - 0.5f) * this.contrast;
                         px.Blue = (px.Blue - 0.5f) * this.contrast;
-                        bitmap[row, col] = px;
+                        bitmap[col, row] = px;
                     }
 
             return frame;

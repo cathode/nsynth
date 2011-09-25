@@ -32,11 +32,11 @@ namespace NSynth.Filters.Video
             for (int y = 0; y < bitmap.Height; y++)
                 for (int x = 0; x < bitmap.Width; x++)
                 {
-                    var px = bitmap[y, x];
+                    var px = bitmap[x, y];
                     px.Red = 1.0f - px.Red;
                     px.Green = 1.0f - px.Green;
                     px.Blue = 1.0f - px.Blue;
-                    bitmap[y, x] = px;
+                    bitmap[x, y] = px;
                 }
         }
         #endregion

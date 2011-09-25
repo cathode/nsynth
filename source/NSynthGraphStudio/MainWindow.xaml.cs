@@ -10,6 +10,9 @@ using System.Windows;
 using System.Windows.Controls;
 using NSynth.Imaging.TGA;
 using NSynth.Filters.Video;
+using NSynth.Imaging.VectorDrawing;
+using NSynth;
+using NSynth.Imaging;
 
 namespace NSynthGraphStudio
 {
@@ -48,6 +51,26 @@ namespace NSynthGraphStudio
                     }
                     if (tgaMenu.Items.Count > 0)
                         sampleMenu.Items.Add(tgaMenu);
+                }
+                if (Directory.Exists("./Samples/PNG"))
+                {
+                    var pngMenu = new MenuItem()
+                    {
+                        Header = "PNG"
+                    };
+                    foreach (string file in Directory.GetFiles("./Samples/PNG"))
+                    {
+                        string fullPath = System.IO.Path.GetFullPath(file);
+                        var pngItem = new MenuItem()
+                        {
+                            Header = System.IO.Path.GetFileName(fullPath),
+                            Tag = fullPath
+                        };
+                        pngItem.Click += new RoutedEventHandler(this.ShowPNGSample);
+                        pngMenu.Items.Add(pngItem);
+                    }
+                    if (pngMenu.Items.Count > 0)
+                        sampleMenu.Items.Add(pngMenu);
                 }
                 if (Directory.Exists("./Samples/Dirac"))
                 {
@@ -93,10 +116,22 @@ namespace NSynthGraphStudio
             sw.Start();
             var filter = new TGASourceFilter(path);
             filter.Initialize();
-            var invert = new InvertFilter();
-            invert.Input = filter;
-            invert.Initialize();
-            this.host.Filter = invert;
+            this.host.Filter = filter;
+            sw.Stop();
+            this.Title = string.Format("NSynth Graph Studio -- Sample displayed in {0}ms", sw.ElapsedMilliseconds);
+        }
+
+        private void ShowPNGSample(object sender, EventArgs e)
+        {
+            var path = ((MenuItem)sender).Tag as string;
+
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
+            var filter = new NSynth.Imaging.PNG.PNGSourceFilter(path);
+            filter.Initialize();
+            this.host.Filter = filter;
+
             sw.Stop();
             this.Title = string.Format("NSynth Grap Studio -- Sample displayed in {0}ms", sw.ElapsedMilliseconds);
         }
@@ -105,5 +140,46 @@ namespace NSynthGraphStudio
             App.Current.Shutdown();
         }
         #endregion
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.host.Filter = new SplineTestFilter();
+        }
+
+        internal sealed class SplineTestFilter : Filter
+        {
+            internal SplineTestFilter()
+            {
+                this.Clip = new Clip(new NSynth.Video.VideoTrack(512, 512)
+                {
+                    Format = NSynth.Imaging.ColorFormat.RGB24
+                });
+            }
+            public override NSynth.Frame Render(long frameIndex)
+            {
+                var frame = this.Clip.NewFrame();
+                var spline = new BCurve(new Pointf(0f, 0f),
+                    new Pointf(0f, 0.8f),
+                    new Pointf(1f, 0.3f),
+                    new Pointf(1f, 0.4f),
+                    new Pointf(.7f, 1f),
+                    new Pointf(.4f, 0f),
+                    new Pointf(.9f, .9f));
+                var pix = new BitmapRGB24(512, 512);
+
+                pix.Fill(new ColorRGB24(0, 0, 0));
+
+                for (int i = 0; i < 2048; i++)
+                {
+                    var p = spline.Sample(i / 2047f);
+                    pix[(int)(p.Y * 511), (int)(p.X * 511)] = new ColorRGB24(255, 255, 255);
+
+                }
+
+                frame.Video[0] = pix;
+
+                return frame;
+            }
+        }
     }
 }

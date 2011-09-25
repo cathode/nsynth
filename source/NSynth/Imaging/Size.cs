@@ -5,6 +5,7 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System.Runtime.InteropServices;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
@@ -35,6 +36,9 @@ namespace NSynth.Imaging
         /// <param name="height">The height value.</param>
         public Size(int width, int height)
         {
+            Contract.Requires(width > 0);
+            Contract.Requires(height > 0);
+                
             this.height = height;
             this.width = width;
         }
@@ -62,12 +66,35 @@ namespace NSynth.Imaging
             }
         }
 
+        /// <summary>
+        /// Gets the number of elements that would be represented if a two dimensional grid was created using the current <see cref="Size"/>.
+        /// </summary>
         public int Elements
         {
             get
             {
+                Contract.Ensures(this.Elements == width * height);
                 return this.width * this.height;
             }
+        }
+        #endregion
+        #region Methods
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.Height > 0);
+            Contract.Invariant(this.width > 0);
+            Contract.Invariant(this.Elements == this.Width * this.Height);
+        }
+        #endregion
+        #region Operators
+        public static bool operator ==(Size left, Size right)
+        {
+            return left.Width == right.Width && left.Height == right.Height;
+        }
+        public static bool operator !=(Size left, Size right)
+        {
+            return left.Width != right.Width || left.Height != right.Height;
         }
         #endregion
     }
