@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
@@ -16,30 +17,33 @@ namespace NSynth.Imaging
     {
         public static IBitmap DecodeBitmap(string path)
         {
-            var ext = Path.GetExtension(path).ToLower();
-            ImageDecoder decoder = null;
-            switch (ext)
+            Contract.Requires(!string.IsNullOrWhiteSpace(path));
+
+            using (ImageDecoder decoder = ImageDecoder.CreateByFileExtension(path))
+            {
+                decoder.Bitstream = File.OpenRead(path);
+                decoder.Initialize();
+
+                var frame = decoder.Decode();
+                if (frame != null)
+                    return frame.Video[0];
+                else
+                    return null;
+            }
+        }
+        public static ImageDecoder CreateByFileExtension(string path)
+        {
+            switch (Path.GetExtension(path).ToLower())
             {
                 case ".tga":
-                    decoder = new TGA.TGADecoder();
-                    break;
+                    return new TGA.TGADecoder();
 
                 case ".png":
-                    decoder = new PNG.PNGDecoder();
-                    break;
+                    return new PNG.PNGDecoder();
 
                 default:
                     return null;
             }
-
-            decoder.Bitstream = File.OpenRead(path);
-            decoder.Initialize();
-
-            var frame = decoder.Decode();
-            if (frame != null)
-                return frame.Video[0];
-            else
-                return null;
         }
     }
 }

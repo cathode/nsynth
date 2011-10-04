@@ -149,7 +149,7 @@ namespace NSynth.Imaging
         /// <returns>true if both instances represent the same color value; otherwise false.</returns>
         public bool Equals(ColorRGB48 other)
         {
-            throw new NotImplementedException();
+            return this == other;
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace NSynth.Imaging
         /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return base.GetHashCode();
         }
 
         /// <summary>

@@ -38,8 +38,12 @@ namespace NSynth.Imaging.PNG
             // TODO: Verify signature
 
             // Pull the PNG into a data buffer.
-            var buf = new DataBuffer((int)this.Bitstream.Length, ByteOrder.BigEndian);
-            this.Bitstream.Read(buf.Contents, 0, buf.Contents.Length);
+            if (this.Bitstream == null || this.Bitstream.Length < 1)
+                return null;
+
+            var bytes = new byte[this.Bitstream.Length];
+            this.Bitstream.Read(bytes, 0, bytes.Length);
+            var buf = new DataBuffer(bytes, ByteOrder.BigEndian);
 
             var signature = buf.ReadInt64();
             if (signature != PNGCodec.BitstreamSignature)
@@ -48,112 +52,114 @@ namespace NSynth.Imaging.PNG
 
             bool ihdrDone = false;
             //bool iendDone = false;
-            var pixelStream = new MemoryStream();
-            var zout = new ZOutputStream(pixelStream);
-
-            // Start reading chunks.
-            while (buf.Position < buf.Contents.Length)
+            using (var pixelStream = new MemoryStream())
             {
-                int length = buf.ReadInt32();
-                string chunk = string.Concat((char)buf.ReadByte(), (char)buf.ReadByte(), (char)buf.ReadByte(), (char)buf.ReadByte());
+                var zout = new ZOutputStream(pixelStream);
 
-                switch (chunk)
+                // Start reading chunks.
+                while (buf.Available > 0)
                 {
-                    case "IHDR":
-                        if (ihdrDone)
-                            throw new NotImplementedException();
-                        else
-                            ihdrDone = true;
+                    int length = buf.ReadInt32();
+                    string chunk = string.Concat((char)buf.ReadByte(), (char)buf.ReadByte(), (char)buf.ReadByte(), (char)buf.ReadByte());
 
-                        if (length != 13)
-                            throw new NotImplementedException();
-
-                        width = buf.ReadInt32();
-                        height = buf.ReadInt32();
-                        depth = buf.ReadByte();
-                        colorType = (PNGColorType)buf.ReadByte();
-                        byte xmethod = buf.ReadByte();
-                        PNGFilterMethod filterMethod = (PNGFilterMethod)buf.ReadByte();
-                        byte interlaceMethod = buf.ReadByte();
-
-                        break;
-
-                    case "IDAT":
-                        var data = buf.ReadBytes(length);
-                        zout.Write(data, 0, data.Length);
-                        break;
-
-                    default:
-                        Console.WriteLine("Skipping unknown chunk \"{0}\" in PNG bitstream at offset {1}", chunk, (buf.Position - 8).ToString("X"));
-                        buf.Position += length;
-                        break;
-                }
-                int crc32 = buf.ReadInt32();
-            }
-
-            if (depth == 8)
-            {
-                if (colorType == PNGColorType.TruecolorWithAlpha)
-                {
-                    //var pd = new byte[width * height * 4];
-                    var pd = new byte[pixelStream.Length];
-                    pixelStream.Position = 0;
-                    pixelStream.Read(pd, 0, pd.Length);
-
-                    ColorRGB32[] pix = new ColorRGB32[width * height];
-                    ColorRGB32 p = new ColorRGB32();
-
-                    File.WriteAllBytes("dump.bin", pd);
-
-                    for (int i = 0, n = 0; i < pix.Length; i++)
+                    switch (chunk)
                     {
-                        if (i % width == 0)
-                            n++;
+                        case "IHDR":
+                            if (ihdrDone)
+                                throw new NotImplementedException();
+                            else
+                                ihdrDone = true;
 
-                        p.Red = pd[n++];
-                        p.Green = pd[n++];
-                        p.Blue = pd[n++];
-                        p.Alpha = pd[n++];
-                        pix[i] = p;
+                            if (length != 13)
+                                throw new NotImplementedException();
+
+                            width = buf.ReadInt32();
+                            height = buf.ReadInt32();
+                            depth = buf.ReadByte();
+                            colorType = (PNGColorType)buf.ReadByte();
+                            byte xmethod = buf.ReadByte();
+                            PNGFilterMethod filterMethod = (PNGFilterMethod)buf.ReadByte();
+                            byte interlaceMethod = buf.ReadByte();
+
+                            break;
+
+                        case "IDAT":
+                            var data = buf.ReadBytes(length);
+                            zout.Write(data, 0, data.Length);
+                            break;
+
+                        default:
+                            //Console.WriteLine("Skipping unknown chunk \"{0}\" in PNG bitstream at offset {1}", chunk, (buf.Position - 8).ToString("X"));
+                            buf.Position += (length > buf.Available) ? buf.Available : length;
+                            break;
                     }
-
-                    result.Video[0] = new BitmapRGB32(width, height, pix);
+                    int crc32 = buf.ReadInt32();
                 }
-                else if (colorType == PNGColorType.Truecolor)
+
+                if (depth == 8)
                 {
-                    //var pd = new byte[width * height * 3];
-                    var pd = new byte[pixelStream.Length];
-                    pixelStream.Position = 0;
-                    pixelStream.Read(pd, 0, pd.Length);
-                    ColorRGB24[] pix = new ColorRGB24[width * height];
-                    ColorRGB24 p = new ColorRGB24();
-
-                    File.WriteAllBytes("dump.bin", pd);
-
-                    for (int i = 0, n = 0; i < pix.Length; i++)
+                    if (colorType == PNGColorType.TruecolorWithAlpha)
                     {
-                        if (i % width == 0)
-                            n++;
+                        //var pd = new byte[width * height * 4];
+                        var pd = new byte[pixelStream.Length];
+                        pixelStream.Position = 0;
+                        pixelStream.Read(pd, 0, pd.Length);
 
-                        p.Red = pd[n++];
-                        p.Green = pd[n++];
-                        p.Blue = pd[n++];
-                        pix[i] = p;
+                        ColorRGB32[] pix = new ColorRGB32[width * height];
+                        ColorRGB32 p = new ColorRGB32();
+
+                        File.WriteAllBytes("dump.bin", pd);
+
+                        for (int i = 0, n = 0; i < pix.Length; i++)
+                        {
+                            if (i % width == 0)
+                                n++;
+
+                            p.Red = pd[n++];
+                            p.Green = pd[n++];
+                            p.Blue = pd[n++];
+                            p.Alpha = pd[n++];
+                            pix[i] = p;
+                        }
+
+                        result.Video[0] = new BitmapRGB32(width, height, pix);
                     }
+                    else if (colorType == PNGColorType.Truecolor)
+                    {
+                        //var pd = new byte[width * height * 3];
+                        var pd = new byte[pixelStream.Length];
+                        pixelStream.Position = 0;
+                        pixelStream.Read(pd, 0, pd.Length);
+                        ColorRGB24[] pix = new ColorRGB24[width * height];
+                        ColorRGB24 p = new ColorRGB24();
 
-                    result.Video[0] = new BitmapRGB24(width, height, pix);
+                        File.WriteAllBytes("dump.bin", pd);
+
+                        for (int i = 0, n = 0; i < pix.Length; i++)
+                        {
+                            if (i % width == 0)
+                                n++;
+
+                            p.Red = pd[n++];
+                            p.Green = pd[n++];
+                            p.Blue = pd[n++];
+                            pix[i] = p;
+                        }
+
+                        result.Video[0] = new BitmapRGB24(width, height, pix);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
                 else
                 {
                     throw new NotImplementedException();
                 }
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
 
-            return result;
+                return result;
+            }
         }
     }
 }

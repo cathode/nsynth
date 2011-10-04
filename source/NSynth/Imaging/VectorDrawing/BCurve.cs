@@ -28,6 +28,7 @@ namespace NSynth.Imaging.VectorDrawing
         /// <param name="points"></param>
         public BCurve(params Pointf[] points)
         {
+            Contract.Requires(points != null);
             this.points = new LinkedList<Pointf>(points);
         }
         #endregion
@@ -46,9 +47,6 @@ namespace NSynth.Imaging.VectorDrawing
         #region Methods
         public Pointf Sample(float t)
         {
-            Contract.Requires(t >= 0f);
-            Contract.Requires(t <= 1f);
-
             // Linear interpolation between points P0 and P1
             if (this.Order == 2)
             {
@@ -95,7 +93,7 @@ namespace NSynth.Imaging.VectorDrawing
             return default(Pointf);
         }
         [ContractInvariantMethod]
-        internal void ObjectInvariant()
+        private void ObjectInvariant()
         {
             Contract.Invariant(this.Order > 0);
         }

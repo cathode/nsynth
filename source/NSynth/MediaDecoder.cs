@@ -6,6 +6,8 @@
  *****************************************************************************/
 using System;
 using System.IO;
+using System.Diagnostics.Contracts;
+using System.Collections.Generic;
 
 namespace NSynth
 {
@@ -19,7 +21,7 @@ namespace NSynth
         /// Backing field for the <see cref="MediaDecoder.BaseStream"/> property.
         /// </summary>
         private Stream bitstream;
-        
+
         /// <summary>
         /// Backing field for the <see cref="MediaDecoder.IsInitialized"/> property.
         /// </summary>
@@ -146,16 +148,19 @@ namespace NSynth
 
         public Frame[] Decode(int count)
         {
-            throw new NotImplementedException();
+            List<Frame> frames = new List<Frame>();
+            for (int i = 0; i < count; i++)
+            {
+                frames.Add(this.Decode());
+            }
+            return frames.ToArray();
         }
 
         public void Dispose()
         {
-            if (!this.IsDisposed)
-            {
-                this.Dispose(true);
-                GC.SuppressFinalize(this);
-            }
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+
             this.isDisposed = true;
         }
 
@@ -216,6 +221,11 @@ namespace NSynth
         public virtual Clip GetClip()
         {
             throw new NotImplementedException();
+        }
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.FramePosition >= 0);
         }
         #endregion
         #region Types

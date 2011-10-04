@@ -50,9 +50,9 @@ namespace NSynth
             foreach (var t in tracks)
             {
                 if (t is AudioTrack)
-                    this.audioTracks.Add(t as AudioTrack);
+                    this.audioTracks.Add((AudioTrack)t);
                 else if (t is VideoTrack)
-                    this.videoTracks.Add(t as VideoTrack);
+                    this.videoTracks.Add((VideoTrack)t);
             }
         }
         #endregion

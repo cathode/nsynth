@@ -58,8 +58,8 @@ namespace NSynth.Imaging
         /// <param name="height">The height (in pixels) of the new bitmap.</param>
         protected Bitmap(int width, int height)
         {
-            Contract.Requires(width > 0);
-            Contract.Requires(height > 0);
+            Contract.Requires(width >= 0);
+            Contract.Requires(height >= 0);
 
             this.size = new Size(width, height);
             this.pixels = new TColor[this.size.Elements];
@@ -73,15 +73,15 @@ namespace NSynth.Imaging
         /// <param name="pixels">An array of T values representing the pixel data for the bitmap.</param>
         protected Bitmap(int width, int height, TColor[] pixels)
         {
-            Contract.Requires(width > 0);
-            Contract.Requires(height > 0);
+            Contract.Requires(width >= 0);
+            Contract.Requires(height >= 0);
             Contract.Requires(pixels != null);
             Contract.Requires(pixels.Length == width * height);
 
             this.size = new Size(width, height);
             this.pixels = pixels;
         }
-
+        /*
         public Bitmap(IBitmap source)
         {
             System.Diagnostics.Contracts.Contract.Requires(source != null);
@@ -93,6 +93,7 @@ namespace NSynth.Imaging
                 for (int x = 0; x < source.Width; x++)
                     this.pixels[i++] = this.GetTColor(source[x, y]);
         }
+        */
         #endregion
         #region Properties
         /// <summary>
@@ -127,6 +128,10 @@ namespace NSynth.Imaging
                 return this.size.Width;
             }
         }
+
+        /// <summary>
+        /// Gets the size of the bitmap in pixels.
+        /// </summary>
         public Size Size
         {
             get
@@ -134,6 +139,7 @@ namespace NSynth.Imaging
                 return this.size;
             }
         }
+
         /// <summary>
         /// Gets a <see cref="ColorFormat"/> that describes how color information is stored in the bitmap.
         /// </summary>
@@ -144,28 +150,27 @@ namespace NSynth.Imaging
         #endregion
         #region Indexers
         /// <summary>
-        /// Gets or sets the pixel at the specified row and column intersection.
+        /// Gets or sets the pixel at the specified coordinates.
         /// </summary>
-        /// <param name="row">The row of the pixel to get or set.</param>
-        /// <param name="col">The column of the pixel to get or set.</param>
+        /// <param name="x">The X-coordinate (column) of the pixel to get or set.</param>
+        /// <param name="y">The Y-coordinate (row) of the pixel to get or set.</param>
         /// <returns>The pixel at the specified coordinates.</returns>
-        [ContractRuntimeIgnored]
-        public TColor this[int row, int col]
+        public TColor this[int x, int y]
         {
             get
             {
-                Contract.Requires(row >= 0);
-                Contract.Requires(col >= 0);
-                Contract.Requires(row < this.Height);
-                Contract.Requires(col < this.Width);
+                Contract.Requires(y >= 0);
+                Contract.Requires(x >= 0);
+                Contract.Requires(y < this.Height);
+                Contract.Requires(x < this.Width);
 
-                return this.pixels[(row * this.Width) + col];
+                return this.pixels[(y * this.Width) + x];
             }
             set
             {
-                Contract.Requires(row >= 0);
-                Contract.Requires(col >= 0);
-                this.pixels[(row * this.Width) + col] = value;
+                Contract.Requires(y >= 0);
+                Contract.Requires(x >= 0);
+                this.pixels[(y * this.Width) + x] = value;
             }
         }
         
@@ -256,12 +261,9 @@ namespace NSynth.Imaging
         protected abstract TColor GetTColor(IColor color);
 
         [ContractInvariantMethod]
-        private void __ContractInvariants()
+        private void ObjectInvariant()
         {
-            Contract.Invariant(this.Pixels.Length == this.Size.Elements);
-            Contract.Invariant(this.Width * this.Height == this.Size.Elements);
-            Contract.Invariant(this.Width == this.Size.Width);
-            Contract.Invariant(this.Height == this.Size.Height);
+            
         }
         #endregion
         

@@ -10,23 +10,19 @@ using System.Diagnostics.Contracts;
 namespace NSynth.Imaging
 {
     /// <summary>
-    /// Represents dimensions as width and height. This type is immutable.
+    /// Represents dimensions as width and height.
     /// </summary>
-    [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 8)]
     public struct Size
     {
         #region Fields
         /// <summary>
-        /// Backing field for the <see cref="Size.Height"/> property.
-        /// </summary>
-        [FieldOffset(0x04)]
-        private readonly int height;
-
-        /// <summary>
         /// Backing field for the <see cref="Size.Width"/> property.
         /// </summary>
-        [FieldOffset(0x00)]
-        private readonly int width;
+        private int width;
+        /// <summary>
+        /// Backing field for the <see cref="Size.Height"/> property.
+        /// </summary>
+        private int height;
         #endregion
         #region Constructors
         /// <summary>
@@ -36,8 +32,8 @@ namespace NSynth.Imaging
         /// <param name="height">The height value.</param>
         public Size(int width, int height)
         {
-            Contract.Requires(width > 0);
-            Contract.Requires(height > 0);
+            Contract.Requires(width >= 0);
+            Contract.Requires(height >= 0);
                 
             this.height = height;
             this.width = width;
@@ -53,6 +49,12 @@ namespace NSynth.Imaging
             {
                 return this.height;
             }
+            set
+            {
+                Contract.Requires(value >= 0);
+
+                this.height = value;
+            }
         }
 
         /// <summary>
@@ -64,6 +66,12 @@ namespace NSynth.Imaging
             {
                 return this.width;
             }
+            set
+            {
+                Contract.Requires(value >= 0);
+
+                this.width = value;
+            }
         }
 
         /// <summary>
@@ -73,28 +81,35 @@ namespace NSynth.Imaging
         {
             get
             {
-                Contract.Ensures(this.Elements == width * height);
                 return this.width * this.height;
             }
         }
         #endregion
         #region Methods
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.Height > 0);
-            Contract.Invariant(this.width > 0);
-            Contract.Invariant(this.Elements == this.Width * this.Height);
+            Contract.Invariant(this.height >= 0);
+            Contract.Invariant(this.width >= 0);
+            Contract.Invariant(this.Elements == this.width * this.height);
         }
         #endregion
         #region Operators
         public static bool operator ==(Size left, Size right)
         {
-            return left.Width == right.Width && left.Height == right.Height;
+            return (left.Width == right.Width) && (left.Height == right.Height);
         }
         public static bool operator !=(Size left, Size right)
         {
-            return left.Width != right.Width || left.Height != right.Height;
+            return (left.Width != right.Width) || (left.Height != right.Height);
         }
         #endregion
     }

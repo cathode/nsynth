@@ -12,15 +12,12 @@ using System.Text;
 namespace NSynth.Imaging
 {
     /// <summary>
-    /// Specifies modes of combining a foreground image with a background image.
+    /// Represents an layer of visual data described by a rectangular grid of pixel values.
     /// </summary>
-    public enum CombineMode
+    public class RasterLayer : Layer
     {
-        Normal,
-        Add,
-        Subtract,
-        Darken,
-        Lighten,
-       
+        #region Fields
+        private IBitmap content;
+        #endregion
     }
 }

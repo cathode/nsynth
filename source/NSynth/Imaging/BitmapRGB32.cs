@@ -62,12 +62,12 @@ namespace NSynth.Imaging
             Contract.Requires(pixels != null);
             Contract.Requires(pixels.Length == width * height);
         }
-
+        /*
         public BitmapRGB32(IBitmap source)
             : base(source)
         {
             Contract.Requires(source != null);
-        }
+        }*/
         #endregion
         #region Properties
         /// <summary>
@@ -83,6 +83,7 @@ namespace NSynth.Imaging
         #endregion
         #region Methods
 
+        [ContractVerification(false)]
         public override void Combine(Bitmap<ColorRGB32> bitmap, Point location, Size size, CombineMode mode, Bitmap<ColorRGB32> mask)
         {
             int xMax = Math.Min(Math.Min(size.Width + location.X, this.Width), (mask == null) ? bitmap.Width + location.X : Math.Min(bitmap.Width + location.X, mask.Width + location.X));
@@ -98,11 +99,11 @@ namespace NSynth.Imaging
                 {
                     for (int x = xStart, u = 0; x < xMax; x++, u++)
                     {
-                        var mx = (v < mask.Height || u < mask.Width) ? mask[v, u] : new ColorRGB32(0, 0, 0, 255);
+                        var mx = (v < mask.Height || u < mask.Width) ? mask[u, v] : new ColorRGB32(0, 0, 0, 255);
                         var f = ((mx.Red + mx.Blue + mx.Green) / 3 / 255f) * (mx.Alpha / 255f);
-                        var tx = this[y, x];
-                        var bx = bitmap[v,u];
-                        this[y, x] = (bx * f) + (tx * (1.0 - f));
+                        var tx = this[x, y];
+                        var bx = bitmap[u, v];
+                        this[x, y] = (bx * f) + (tx * (1.0 - f));
                     }
                 }
             }
@@ -112,9 +113,9 @@ namespace NSynth.Imaging
                 {
                     for (int x = xStart, u = 0; x < xMax; x++, u++)
                     {
-                        var bx = bitmap[v, u];
+                        var bx = bitmap[u, v];
                         var t = (bx.Alpha / 255f);
-                        this[y, x] = (bx * t) + (this[y, x] * (1f - t));
+                        this[x, y] = (bx * t) + (this[x, y] * (1f - t));
                     }
                 }
             }
@@ -128,10 +129,10 @@ namespace NSynth.Imaging
             for (int y = 0; y < this.Height; y++)
                 for (int x = 0; x < this.Width; x++)
                 {
-                    var px = this[y, x];
-                    var mx = mask[y, x];
+                    var px = this[x, y];
+                    var mx = mask[x, y];
                     var a = (((mx.Red + mx.Blue + mx.Green) / 3) * (mx.Alpha / 255f)) / 255f;
-                    this[y, x] = (color * a) + (px * (1.0 - a));
+                    this[x, y] = (color * a) + (px * (1.0 - a));
                 }
         }
 

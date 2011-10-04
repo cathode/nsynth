@@ -13,7 +13,7 @@ namespace NSynth.Imaging
     /// <summary>
     /// Defines the members that bitmap types must implement.
     /// </summary>
-    [ContractClass(typeof(ContractsForIBitmap))]
+    [ContractClass(typeof(_IBitmapContracts))]
     public interface IBitmap
     {
         #region Properties
@@ -43,28 +43,20 @@ namespace NSynth.Imaging
         #endregion
         #region Indexers
         /// <summary>
-        /// Gets or sets the color value of the pixel at the specified coordinates.
+        /// Gets or sets the pixel at the specified coordinates.
         /// </summary>
-        /// <param name="y">The row of the pixel to get or set.</param>
-        /// <param name="x">The column of the pixel to get or set.</param>
-        /// <returns>The color value of the pixel at the specified coordinates.</returns>
+        /// <param name="x">The X-coordinate (column) of the pixel to get or set.</param>
+        /// <param name="y">The Y-coordinate (row) of the pixel to get or set.</param>
+        /// <returns>The pixel at the specified coordinates.</returns>
         IColor this[int x, int y]
         {
             get;
             set;
         }
         #endregion
-        #region Methods
-        /// <summary>
-        /// Fills the bitmap with the specified color.
-        /// </summary>
-        /// <param name="color">The color to fill with.</param>
-        void Fill(IColor color);
-        #endregion
     }
-
     [ContractClassFor(typeof(IBitmap))]
-    internal abstract class ContractsForIBitmap : IBitmap
+    internal abstract class _IBitmapContracts : IBitmap
     {
         public int Height
         {
@@ -113,9 +105,11 @@ namespace NSynth.Imaging
             }
         }
 
-        void IBitmap.Fill(IColor color)
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
         {
-            Contract.Requires(color != null);
+            Contract.Invariant(this.Width >= 0);
+            Contract.Invariant(this.Height >= 0);
         }
     }
 }

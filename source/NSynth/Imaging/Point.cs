@@ -49,6 +49,10 @@ namespace NSynth.Imaging
             {
                 return this.x;
             }
+            set
+            {
+                this.x = value;
+            }
         }
 
         /// <summary>
@@ -59,6 +63,10 @@ namespace NSynth.Imaging
             get
             {
                 return this.y;
+            }
+            set
+            {
+                this.y = value;
             }
         }
         #endregion

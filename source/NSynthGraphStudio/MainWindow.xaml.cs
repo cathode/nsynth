@@ -172,7 +172,7 @@ namespace NSynthGraphStudio
                 for (int i = 0; i < 2048; i++)
                 {
                     var p = spline.Sample(i / 2047f);
-                    pix[(int)(p.Y * 511), (int)(p.X * 511)] = new ColorRGB24(255, 255, 255);
+                    pix[(int)(p.X * 511), (int)(p.Y * 511)] = new ColorRGB24(255, 255, 255);
 
                 }
 

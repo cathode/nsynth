@@ -6,19 +6,21 @@
  *****************************************************************************/
 using System;
 using System.Text;
+using System.Diagnostics.Contracts;
 
 namespace NSynth
 {
     /// <summary>
     /// Represents a buffer that primitive types can be decoded from/encoded to.
     /// </summary>
+    [ContractVerification(false)]
     public sealed class DataBuffer
     {
         #region Fields
         /// <summary>
         /// Holds the underlying byte array.
         /// </summary>
-        private byte[] data;
+        private readonly byte[] data;
         private int position;
         private ByteOrder mode;
         #endregion
@@ -26,9 +28,12 @@ namespace NSynth
         /// <summary>
         /// Initializes a new instance of the <see cref="DataBuffer"/> class.
         /// </summary>
-        /// <param name="capacity">The fixed capacity of the buffer.</param>
+        /// <param name="capacity">The capacity of the new instance.</param>
         public DataBuffer(int capacity)
         {
+            Contract.Requires(capacity > 0);
+            Contract.Ensures(this.Position == 0);
+
             this.data = new byte[capacity];
             this.Mode = ByteOrder.System;
         }
@@ -36,10 +41,13 @@ namespace NSynth
         /// <summary>
         /// Initializes a new instance of the <see cref="DataBuffer"/> class.
         /// </summary>
-        /// <param name="capacity">The fixed capacity of the buffer.</param>
+        /// <param name="capacity">The capacity of the new instance.</param>
         /// <param name="mode">The endianness mode of the new instance.</param>
         public DataBuffer(int capacity, ByteOrder mode)
         {
+            Contract.Requires(capacity > 0);
+            Contract.Ensures(this.Position == 0);
+
             this.data = new byte[capacity];
             this.Mode = mode;
         }
@@ -47,32 +55,56 @@ namespace NSynth
         /// <summary>
         /// Initializes a new current of the <see cref="DataBuffer"/> class.
         /// </summary>
-        /// <param name="contents"></param>
+        /// <param name="contents">The byte array to initialize the new instance with.</param>
         public DataBuffer(byte[] contents)
         {
-            this.data = contents;
+            Contract.Requires(contents != null);
+            Contract.Requires(contents.Length > 0);
+            Contract.Ensures(this.Position == 0);
+
+            this.data = new byte[contents.Length];
             this.Mode = ByteOrder.System;
+            contents.CopyTo(this.data, 0);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataBuffer"/> class.
+        /// </summary>
+        /// <param name="contents">The byte array to initialize the new instance with.</param>
+        /// <param name="mode">The endianness mode of the new instance.</param>
         public DataBuffer(byte[] contents, ByteOrder mode)
         {
-            this.data = contents;
+            Contract.Requires(contents != null);
+            Contract.Requires(contents.Length > 0);
+            Contract.Ensures(this.Position == 0);
+
+            this.data = new byte[contents.Length];
             this.Mode = mode;
+            contents.CopyTo(this.data, 0);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataBuffer"/> class.
+        /// </summary>
+        /// <param name="contents">The byte array to initialize the new instance with.</param>
+        /// <param name="capacity">The capacity of the new instance.</param>
+        public DataBuffer(byte[] contents, int capacity)
+        {
+            Contract.Requires(contents != null);
+            Contract.Requires(capacity > 0);
+            Contract.Ensures(this.Position == 0);
+
+            this.data = new byte[capacity];
+            this.Mode = ByteOrder.System;
+            contents.CopyTo(this.data, 0);
         }
         #endregion
         #region Properties
-        /// <summary>
-        /// Gets or sets the underlying byte array of the current data buffer.
-        /// </summary>
-        public byte[] Contents
+        public int Available
         {
             get
             {
-                return this.data;
-            }
-            set
-            {
-                this.data = value ?? new byte[0];
+                return this.Capacity - this.Position;
             }
         }
 
@@ -98,14 +130,20 @@ namespace NSynth
         {
             get
             {
+                Contract.Ensures(Contract.Result<int>() <= this.data.Length);
                 return this.position;
             }
             set
             {
+                Contract.Requires(value <= this.Capacity);
                 this.position = value;
             }
         }
-        public int Length
+
+        /// <summary>
+        /// Gets the capacity of the current <see cref="DataBuffer"/>.
+        /// </summary>
+        public int Capacity
         {
             get
             {
@@ -114,6 +152,11 @@ namespace NSynth
         }
         #endregion
         #region Methods
+
+        public byte[] GetUnderlyingByteArray()
+        {
+            return this.data;
+        }
         /// <summary>
         /// Reads the next byte from the buffer and advances the position by 1.
         /// </summary>
@@ -132,7 +175,9 @@ namespace NSynth
         /// <returns>A new byte[] containing the bytes read from the buffer.</returns>
         public byte[] ReadBytes(int count)
         {
-            int n = Math.Min(count, this.Length - this.Position);
+            Contract.Ensures(Contract.Result<byte[]>() != null);
+
+            int n = Math.Min(count, this.Capacity - this.Position);
             byte[] read = new byte[n];
             this.ReadBytes(read, 0, read.Length);
             return read;
@@ -147,10 +192,18 @@ namespace NSynth
         /// <returns>The number of bytes read.</returns>
         public int ReadBytes(byte[] buffer, int startIndex, int count)
         {
-            int n = Math.Min(count, this.Length - this.Position);
-            Array.Copy(this.data, this.position, buffer, startIndex, n);
-            this.position += n;
-            return n;
+            Contract.Requires(buffer != null);
+            Contract.Requires(startIndex >= 0);
+
+            if (count > 0)
+            {
+                int n = Math.Min(count, this.Capacity - this.Position);
+                Array.Copy(this.data, this.position, buffer, startIndex, n);
+                this.position += n;
+                return n;
+            }
+            else
+                return 0;
         }
         /// <summary>
         /// Decodes the next two bytes from the buffer as a 16-bit signed integer value,
@@ -237,6 +290,7 @@ namespace NSynth
         /// <returns>The decoded 16-bit unsigned integer value.</returns>
         public ushort ReadUInt16()
         {
+            Contract.Ensures(this.Position == this.Position + 2);
             // No bitshift operators for ushort, have to use int and cast when returning.
             int result;
 
@@ -321,8 +375,10 @@ namespace NSynth
 
         public void WriteByte(byte value)
         {
+            Contract.Requires(this.Capacity - this.Position >= 1);
+            Contract.Ensures(this.Position == Contract.OldValue<int>(this.Position) + 1);
             this.data[this.position] = value;
-            this.position += 1;
+            this.Position += 1;
         }
         /// <summary>
         /// Writes the specified 16-bit signed integer to the buffer and advances
@@ -331,6 +387,9 @@ namespace NSynth
         /// <param name="value">A 16-bit signed integer value to write to the buffer.</param>
         public void WriteInt16(short value)
         {
+            Contract.Requires(this.Capacity - this.Position >= 2);
+            Contract.Ensures(this.Position == Contract.OldValue<int>(this.Position) + 2);
+
             if (this.Mode == ByteOrder.BigEndian)
             {
                 this.data[this.position + 0] = (byte)(value >> 8);
@@ -342,7 +401,7 @@ namespace NSynth
                 this.data[this.position + 1] = (byte)(value >> 8);
             }
 
-            this.position += 2;
+            this.Position += 2;
         }
 
         /// <summary>
@@ -352,6 +411,9 @@ namespace NSynth
         /// <param name="value">A 32-bit signed integer value to write to the buffer.</param>
         public void WriteInt32(int value)
         {
+            Contract.Requires(this.Available >= 4);
+            Contract.Ensures(this.Position == Contract.OldValue<int>(this.Position) + 4);
+
             if (this.Mode == ByteOrder.BigEndian)
             {
                 this.data[this.position + 0] = (byte)(value >> 24);
@@ -367,7 +429,7 @@ namespace NSynth
                 this.data[this.position + 3] = (byte)(value >> 24);
             }
 
-            this.position += 4;
+            this.Position += 4;
         }
 
         /// <summary>
@@ -377,6 +439,9 @@ namespace NSynth
         /// <param name="value">A 64-bit signed integer value to write to the buffer.</param>
         public void WriteInt64(long value)
         {
+            Contract.Requires(this.Capacity - this.Position >= 8);
+            Contract.Ensures(this.Position == Contract.OldValue<int>(this.Position) + 8);
+
             if (this.Mode == ByteOrder.BigEndian)
             {
                 this.data[this.position + 0] = (byte)(value >> 56);
@@ -400,7 +465,7 @@ namespace NSynth
                 this.data[this.position + 7] = (byte)(value >> 56);
             }
 
-            this.position += 8;
+            this.Position += 8;
         }
 
         /// <summary>
@@ -410,6 +475,9 @@ namespace NSynth
         /// <param name="value">A 16-bit unsigned integer value to write to the buffer.</param>
         public void WriteUInt16(ushort value)
         {
+            Contract.Requires(this.Capacity - this.Position >= 2);
+            Contract.Ensures(this.Position == Contract.OldValue<int>(this.Position) + 2);
+
             if (this.Mode == ByteOrder.BigEndian)
             {
                 this.data[this.position + 0] = (byte)(value >> 8);
@@ -421,7 +489,7 @@ namespace NSynth
                 this.data[this.position + 1] = (byte)(value >> 8);
             }
 
-            this.position += 2;
+            this.Position += 2;
         }
 
         /// <summary>
@@ -431,6 +499,9 @@ namespace NSynth
         /// <param name="value">A 32-bit unsigned integer value to write to the buffer.</param>
         public void WriteUInt32(uint value)
         {
+            Contract.Requires(this.Capacity - this.Position >= 4);
+            Contract.Ensures(this.Position == Contract.OldValue<int>(this.Position) + 4);
+
             if (this.Mode == ByteOrder.BigEndian)
             {
                 this.data[this.position + 0] = (byte)(value >> 24);
@@ -446,7 +517,7 @@ namespace NSynth
                 this.data[this.position + 3] = (byte)(value >> 24);
             }
 
-            this.position += 4;
+            this.Position += 4;
         }
 
         /// <summary>
@@ -489,13 +560,16 @@ namespace NSynth
 
         public int WriteStringUtf8(string value)
         {
+            if (string.IsNullOrWhiteSpace(value))
+                return 0;
+
             var bytes = Encoding.UTF8.GetBytes(value);
 
             if (this.position + this.data.Length > this.data.Length)
                 throw new NotImplementedException();
 
-            this.data.CopyTo(this.data, this.position);
-            this.position += this.data.Length;
+            bytes.CopyTo(this.data, this.position);
+            this.position += bytes.Length;
             return this.data.Length;
         }
 
@@ -521,6 +595,7 @@ namespace NSynth
 
         public int WriteGuid(Guid id)
         {
+            Contract.Ensures(this.Position == Contract.OldValue<int>(this.Position) + 16);
             // Create a sub-buffer to decode the platform-specific result of Guid.ToByteArray()
             DataBuffer db = new DataBuffer(id.ToByteArray(), ByteOrder.System);
 
@@ -540,6 +615,14 @@ namespace NSynth
             this.WriteInt32(version.Revision);
 
             return 16;
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.Capacity > 0);
+            Contract.Invariant(this.Position >= 0);
+            Contract.Invariant(this.Position <= this.Capacity);
         }
         #endregion
     }

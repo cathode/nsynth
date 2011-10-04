@@ -5,6 +5,7 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using NSynth.Imaging;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Video
 {
@@ -41,6 +42,9 @@ namespace NSynth.Video
         /// <param name="height">The height, in pixels, of video frames in the new <see cref="VideoTrack"/>.</param>
         public VideoTrack(int width, int height)
         {
+            Contract.Requires(width >= 0);
+            Contract.Requires(height >= 0);
+
             this.dimensions = new Size(width, height);
             this.format = ColorFormat.Default;
         }
@@ -52,7 +56,7 @@ namespace NSynth.Video
         public VideoTrack(IBitmap bitmap)
         {
             this.dimensions = new Size(bitmap.Width, bitmap.Height);
-            this.Format = bitmap.Format;
+            this.format = bitmap.Format;
         }
         #endregion
         #region Properties
@@ -82,6 +86,8 @@ namespace NSynth.Video
             }
             set
             {
+                Contract.Requires(value >= 0);
+
                 this.dimensions = new Size(value, this.dimensions.Height);
             }
         }
@@ -97,6 +103,8 @@ namespace NSynth.Video
             }
             set
             {
+                Contract.Requires(value >= 0);
+
                 this.dimensions = new Size(this.dimensions.Width, value);
             }
         }
@@ -126,6 +134,12 @@ namespace NSynth.Video
             {
                 return TrackKind.Video;
             }
+        }
+        #endregion
+        #region Methods
+        [ContractInvariantMethod]
+        private void _Invariants()
+        {
         }
         #endregion
     }

@@ -219,10 +219,23 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Operators
+        /// <summary>
+        /// Determines if two <see cref="ColorRGB96"/> instances represent the same value.
+        /// </summary>
+        /// <param name="left">The operand to the left of the operator.</param>
+        /// <param name="right">The operand to the right of the operator.</param>
+        /// <returns>true if both instances represent the same value; otherwise, false.</returns>
         public static bool operator ==(ColorRGB96 left, ColorRGB96 right)
         {
             return left.Red == right.Red && left.Green == right.Green && left.Blue == right.Blue;
         }
+
+        /// <summary>
+        /// Determines
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator !=(ColorRGB96 left, ColorRGB96 right)
         {
             return left.Red != right.Red || left.Green != right.Green || left.Blue != right.Blue;

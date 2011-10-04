@@ -5,6 +5,7 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
@@ -31,6 +32,8 @@ namespace NSynth.Imaging
         public BitmapRGB96(Size size, ColorRGB96[] pixels)
             : base(size, pixels)
         {
+            Contract.Requires(pixels != null);
+            Contract.Requires(pixels.Length == size.Elements);
         }
 
         /// <summary>
@@ -41,6 +44,8 @@ namespace NSynth.Imaging
         public BitmapRGB96(int width, int height)
             : base(width, height)
         {
+            Contract.Requires(width >= 0);
+            Contract.Requires(height >= 0);
         }
 
         /// <summary>
@@ -52,6 +57,10 @@ namespace NSynth.Imaging
         public BitmapRGB96(int width, int height, ColorRGB96[] pixels)
             : base(width, height, pixels)
         {
+            Contract.Requires(width >= 0);
+            Contract.Requires(height >= 0);
+            Contract.Requires(pixels != null);
+            Contract.Requires(pixels.Length == width * height);
         }
         #endregion
         #region Properties
@@ -69,7 +78,7 @@ namespace NSynth.Imaging
         #region Methods
         protected override ColorRGB96 GetTColor(IColor color)
         {
-            throw new NotImplementedException();
+            return new ColorRGB96(color.Red, color.Green, color.Blue);
         }
         #endregion
     }

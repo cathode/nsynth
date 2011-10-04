@@ -6,6 +6,7 @@
  *****************************************************************************/
 using System;
 using System.Runtime.InteropServices;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
@@ -165,38 +166,48 @@ namespace NSynth.Imaging
             return this == other;
         }
 
-        public static ColorRGB24 Create(double red, double green, double blue)
-        {
-            return new ColorRGB24((byte)(byte.MaxValue * Math.Max(Math.Min(red, 1.0), 0.0)),
-                (byte)(byte.MaxValue * Math.Max(Math.Min(green, 1.0), 0.0)),
-                (byte)(byte.MaxValue * Math.Max(Math.Min(blue, 1.0), 0.0)));
-        }
-
         /// <summary>
         /// Returns the hash code for this instance.
         /// </summary>
         /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return base.GetHashCode();
         }
 
-        public ColorRGB24 LinearInterpolate(ColorRGB24 other, float n)
+        /// <summary>
+        /// Calculates the linear interpolation between the current color and the specified color.
+        /// </summary>
+        /// <param name="other">The other <see cref="ColorRGB24"/> to interpolate against.</param>
+        /// <param name="t">The interpolation factor, 0.0 to 1.0.</param>
+        /// <returns>A new <see cref="ColorRGB24"/> that is the result of the interpolation.</returns>
+        public ColorRGB24 LinearInterpolate(ColorRGB24 other, float t)
         {
-            return this.LinearInterpolate(other, n, n, n);
+            Contract.Requires(t <= 1.0f);
+            Contract.Requires(0.0f <= t);
+            return this.LinearInterpolate(other, t, t, t);
         }
         /// <summary>
         /// Calculates the linear interpolation between the current color and the specified color.
         /// </summary>
-        /// <param name="other"></param>
-        /// <param name="rn"></param>
-        /// <returns></returns>
-        public ColorRGB24 LinearInterpolate(ColorRGB24 other, float rn, float gn, float bn)
+        /// <param name="other">The <see cref="ColorRGB24"/> to interpolate against.</param>
+        /// <param name="tr">The interpolation factor for the red channel, 0.0 to 1.0.</param>
+        /// <param name="tg">The interpolation factor for the green channel, 0.0 to 1.0.</param>
+        /// <param name="tb">The interpolation factor for the blue channel, 0.0 to 1.0.</param>
+        /// <returns>A new <see cref="ColorRGB24"/> that is the result of the interpolation.</returns>
+        public ColorRGB24 LinearInterpolate(ColorRGB24 other, float tr, float tg, float tb)
         {
+            Contract.Requires(tr <= 1.0f);
+            Contract.Requires(0.0f <= tr);
+            Contract.Requires(tg <= 1.0f);
+            Contract.Requires(0.0f <= tg);
+            Contract.Requires(tb <= 1.0f);
+            Contract.Requires(0.0f <= tb);
+
             return new ColorRGB24(
-                (byte)((this.red * rn) + (other.red * (1.0f - rn))),
-                (byte)((this.green * gn) + (other.green * (1.0f - gn))),
-                (byte)((this.blue * bn) + (other.blue * (1.0f - bn))));
+                (byte)((this.red * tr) + (other.red * (1.0f - tr))),
+                (byte)((this.green * tg) + (other.green * (1.0f - tg))),
+                (byte)((this.blue * tb) + (other.blue * (1.0f - tb))));
         }
         #endregion
         #region Operators
@@ -205,7 +216,7 @@ namespace NSynth.Imaging
         /// </summary>
         /// <param name="left">The left-hand operand.</param>
         /// <param name="right">The right-hand operand.</param>
-        /// <returns>true if <paramref name="left"/> represents the same color value as <see cref="right"/>; otherwise false.</returns>
+        /// <returns>true if <paramref name="left"/> represents the same color value as <paramref name="right"/>; otherwise false.</returns>
         public static bool operator ==(ColorRGB24 left, ColorRGB24 right)
         {
             return left.Red == right.Red && left.Green == right.Green && left.Blue == right.Blue;
@@ -220,34 +231,6 @@ namespace NSynth.Imaging
         public static bool operator !=(ColorRGB24 left, ColorRGB24 right)
         {
             return left.Red != right.Red || left.Green != right.Green || left.Blue != right.Blue;
-        }
-
-        /// <summary>
-        /// Determines if one <see cref="ColorRGB24"/> instance represents a darker color value than the other <see cref="ColorRGB24"/> instance.
-        /// </summary>
-        /// <remarks>
-        /// The term "darker" refers to a color that is closer to black.
-        /// </remarks>
-        /// <param name="left">The <see cref="ColorRGB24"/> instance to compare which appears on the left side of the operator.</param>
-        /// <param name="right">The <see cref="ColorRGB24"/> instance to compare which appears on the right side of the operator.</param>
-        /// <returns>true if <paramref name="left"/> is darker than <paramref name="right"/>; otherwise false.</returns>
-        public static bool operator <(ColorRGB24 left, ColorRGB24 right)
-        {
-            return (left.Red / 255f) + (left.Green / 255f) + (left.Blue / 255f) < (right.Red / 255f) + (right.Green / 255f) + (right.Blue / 255f);
-        }
-
-        /// <summary>
-        /// Determines if one <see cref="ColorRGB24"/> instance represents a lighter color value than the other <see cref="ColorRGB24"/> instance.
-        /// </summary>
-        /// <remarks>
-        /// The term "lighter" refers to a color that is closer to white.
-        /// </remarks>
-        /// <param name="left">The <see cref="ColorRGB24"/> instance to compare which appears on the left side of the operator.</param>
-        /// <param name="right">The <see cref="ColorRGB24"/> instance to compare which appears on the right side of the operator.</param>
-        /// <returns>true if <paramref name="left"/> is lighter than <paramref name="right"/>; otherwise false.</returns>
-        public static bool operator >(ColorRGB24 left, ColorRGB24 right)
-        {
-            return (left.Red / 255f) + (left.Green / 255f) + (left.Blue / 255f) < (right.Red / 255f) + (right.Green / 255f) + (right.Blue / 255f);
         }
 
         /// <summary>
@@ -272,7 +255,10 @@ namespace NSynth.Imaging
         /// <returns>A new <see cref="ColorRGB24"/> instance that is the result of the subtraction.</returns>
         public static ColorRGB24 operator -(ColorRGB24 left, ColorRGB24 right)
         {
-            throw new NotImplementedException();
+            return new ColorRGB24(
+                (byte)(left.Red - right.Red),
+                (byte)(left.Green - right.Green),
+                (byte)(left.Blue - right.Blue));
         }
 
         /// <summary>
@@ -283,7 +269,10 @@ namespace NSynth.Imaging
         /// <returns>A new <see cref="ColorRGB24"/> instance that contains the result of the multiplication.</returns>
         public static ColorRGB24 operator *(ColorRGB24 color, double scalar)
         {
-            return new ColorRGB24((byte)(color.Red * scalar), (byte)(color.Green * scalar), (byte)(color.Blue * scalar));
+            return new ColorRGB24(
+                (byte)(color.Red * scalar),
+                (byte)(color.Green * scalar),
+                (byte)(color.Blue * scalar));
         }
         #endregion
     }

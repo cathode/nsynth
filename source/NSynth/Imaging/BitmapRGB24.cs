@@ -76,6 +76,7 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Methods
+        [ContractVerification(false)]
         public override void Combine(Bitmap<ColorRGB24> bitmap, Point location, Size size, CombineMode mode, Bitmap<ColorRGB24> mask)
         {
             int xMax = Math.Min(size.Width, this.Width);
@@ -83,14 +84,14 @@ namespace NSynth.Imaging
             int xStart = Math.Min(Math.Min(location.X, this.Width), 0);
             int yStart = Math.Max(Math.Min(location.Y, this.Height), 0);
 
-            var pix = this.Pixels;
+            //var pix = this.Pixels;
             
             // Assume blend mode normal w/ mask
             for (int y = yStart, v=0; y < yMax; y++, v++)
             {
                 for (int x = xStart, u=0; x < xMax; x++, u++)
                 {
-                    this[y, x] = this[y, x].LinearInterpolate(bitmap[v, u], mask[v, u].Red / 255.0f, mask[v, u].Green / 255.0f, mask[v, u].Blue / 255.0f);
+                    this[x, y] = this[x, y].LinearInterpolate(bitmap[u, v], mask[u, v].Red / 255.0f, mask[u, v].Green / 255.0f, mask[u, v].Blue / 255.0f);
                 }
             }
 

@@ -94,9 +94,10 @@ namespace NSynth.Imaging.TGA
             if (this.context.Stage < TGADecodeStage.Initialized)
                 this.InitContext();
 
-            DataBuffer buffer = new DataBuffer(18, ByteOrder.LittleEndian);
+            var bytes = new byte[18];
             this.context.Bitstream.Seek(0, SeekOrigin.Begin);
-            this.context.Bitstream.Read(buffer.Contents, 0, 18);
+            this.context.Bitstream.Read(bytes, 0, bytes.Length);
+            DataBuffer buffer = new DataBuffer(bytes, ByteOrder.LittleEndian);
 
             TGABitstreamHeader header;
             header.IdLength = buffer.ReadByte();

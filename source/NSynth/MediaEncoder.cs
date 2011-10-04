@@ -108,11 +108,10 @@ namespace NSynth
         /// </summary>
         public void Dispose()
         {
-            if (!this.IsDisposed)
-            {
-                this.Dispose(true);
-                GC.SuppressFinalize(this);
-            }
+
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+
             this.isDisposed = true;
         }
 

@@ -188,13 +188,13 @@ namespace NSynth.Imaging
         /// <returns>A 32-bit signed integer that is the hash code for this instance.</returns>
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return base.GetHashCode();
         }
 
         /// <summary>
         /// Pre-multiplies the Red, Green, and Blue color components against the Alpha component.
         /// </summary>
-        /// <returns>A new <see cref="ColorRGBA32"/> instance that contains the premultiplied color value.</returns>
+        /// <returns>A new <see cref="ColorRGB32"/> instance that contains the premultiplied color value.</returns>
         public ColorRGB32 PremultiplyAlpha()
         {
             return ColorRGB32.PremultiplyAlpha(this);
@@ -204,13 +204,15 @@ namespace NSynth.Imaging
         /// Pre-multiplies the Red, Green, and Blue color components against the Alpha component.
         /// </summary>
         /// <param name="color">The color value to be premultiplied.</param>
-        /// <returns>A new <see cref="ColorRGBA32"/> instance that contains the premultiplied color value.</returns>
+        /// <returns>A new <see cref="ColorRGB32"/> instance that contains the premultiplied color value.</returns>
         public static ColorRGB32 PremultiplyAlpha(ColorRGB32 color)
         {
-            byte red = (byte)(color.Red * (color.Alpha / 255f));
-            byte green = (byte)(color.Green * (color.Alpha / 255f));
-            byte blue = (byte)(color.Blue * (color.Alpha / 255f));
-            return new ColorRGB32(red, green, blue, 255);
+            var a = color.alpha / 255f;
+            return new ColorRGB32(
+                (byte)(color.Red * a),
+                (byte)(color.Green * a),
+                (byte)(color.Blue * a),
+                255);
         }
 
         /// <summary>

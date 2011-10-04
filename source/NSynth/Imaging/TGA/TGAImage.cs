@@ -23,6 +23,7 @@ namespace NSynth.Imaging.TGA
         /// Initializes a new instance of the <see cref="TGAImage"/> class.
         /// </summary>
         public TGAImage()
+            : base(0, 0)
         {
         }
 
@@ -31,6 +32,7 @@ namespace NSynth.Imaging.TGA
         /// </summary>
         /// <param name="bitmap">The bitmap of the new image.</param>
         public TGAImage(IBitmap bitmap)
+            : base(0, 0)
         {
             this.Bitmap = bitmap;
         }

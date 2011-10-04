@@ -244,6 +244,13 @@ namespace NSynth.Imaging
                 this.red = value;
             }
         }
+        public bool IsNormalized
+        {
+            get
+            {
+                return false;
+            }
+        }
         #endregion
         #region Methods
         /// <summary>
@@ -251,17 +258,37 @@ namespace NSynth.Imaging
         /// </summary>
         public void Clamp()
         {
-            this.red = Math.Max(Math.Min(this.red, 1.0f), 0.0f);
-            this.green = Math.Max(Math.Min(this.green, 1.0f), 0.0f);
-            this.blue = Math.Max(Math.Min(this.blue, 1.0f), 0.0f);
-            this.alpha = Math.Max(Math.Min(this.alpha, 1.0f), 0.0f);
+            Contract.Ensures(this.Red >= 0.0f);
+            Contract.Ensures(this.Red <= 1.0f);
+            Contract.Ensures(this.Green >= 0.0f);
+            Contract.Ensures(this.Green <= 1.0f);
+            Contract.Ensures(this.Blue >= 0.0f);
+            Contract.Ensures(this.Blue <= 1.0f);
+            Contract.Ensures(this.Alpha >= 0.0f);
+            Contract.Ensures(this.Alpha <= 1.0f);
+            Contract.Ensures(this.IsNormalized == true);
+
+            this.red = (this.red > 1.0f) ? 1.0f : ((this.red < 0.0f) ? 0.0f : this.red);
+            this.green = (this.green > 1.0f) ? 1.0f : (this.green < 0.0f) ? 0.0f : this.green;
+            this.blue = (this.blue > 1.0f) ? 1.0f : (this.blue < 0.0f) ? 0.0f : this.blue;
+            this.alpha = (this.alpha > 1.0f) ? 1.0f : (this.alpha < 0.0f) ? 0.0f : this.alpha;
         }
 
         /// <summary>
-        /// Compresses the <see cref="ColorRGB"/> color values to the 0.0 to 1.0 range.
+        /// Normalizes the values of the current <see cref="ColorRGB"/> instance to the [0.0, 1.0] range.
         /// </summary>
-        public void Compress()
+        public void Normalize()
         {
+            Contract.Ensures(this.Red >= 0.0f);
+            Contract.Ensures(this.Red <= 1.0f);
+            Contract.Ensures(this.Green >= 0.0f);
+            Contract.Ensures(this.Green <= 1.0f);
+            Contract.Ensures(this.Blue >= 0.0f);
+            Contract.Ensures(this.Blue <= 1.0f);
+            Contract.Ensures(this.Alpha >= 0.0f);
+            Contract.Ensures(this.Alpha <= 1.0f);
+            Contract.Ensures(this.IsNormalized == true);
+
             var shift = (this.red < 0.0f) ? this.red : 0.0f;
             shift = (this.green < shift) ? this.green : shift;
             shift = (this.blue < shift) ? this.blue : shift;
@@ -292,16 +319,16 @@ namespace NSynth.Imaging
         }
 
         /// <summary>
-        /// Gets a new <see cref="ColorRGB"/> instance that is the clamped version of the current <see cref="ColorRGB"/>.
+        /// Gets a new <see cref="ColorRGB"/> instance that is the clamped version of the specified <see cref="ColorRGB"/>.
         /// </summary>
-        /// <returns>A new <see cref="ColorRGB"/> instance that is the clamped version of the current <see cref="ColorRGB"/>.</returns>
-        public ColorRGB GetClamped()
+        /// <returns>A new <see cref="ColorRGB"/> instance that is the clamped version of the specified <see cref="ColorRGB"/>.</returns>
+        public static ColorRGB Clamp(ColorRGB color)
         {
             return new ColorRGB(
-                Math.Max(Math.Min(this.red, 1.0f), 0.0f),
-                Math.Max(Math.Min(this.green, 1.0f), 0.0f),
-                Math.Max(Math.Min(this.blue, 1.0f), 0.0f),
-                Math.Max(Math.Min(this.alpha, 1.0f), 0.0f));
+                Math.Max(Math.Min(color.red, 1.0f), 0.0f),
+                Math.Max(Math.Min(color.green, 1.0f), 0.0f),
+                Math.Max(Math.Min(color.blue, 1.0f), 0.0f),
+                Math.Max(Math.Min(color.alpha, 1.0f), 0.0f));
         }
 
         /// <summary>
@@ -311,7 +338,7 @@ namespace NSynth.Imaging
         public ColorRGB GetCompressed()
         {
             ColorRGB comp = this;
-            comp.Compress();
+            comp.Normalize();
             return comp;
         }
 

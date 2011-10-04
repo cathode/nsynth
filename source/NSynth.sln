@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSynth", "NSynth\NSynth.csproj", "{7A03472E-02AF-4A19-9251-6E0F1C385E0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSynthGraphStudio", "NSynthGraphStudio\NSynthGraphStudio.csproj", "{31C37D71-E811-4CFD-8DD7-F303C4174FB9}"
 EndProject
 Global
@@ -27,16 +25,6 @@ Global
 		{7A03472E-02AF-4A19-9251-6E0F1C385E0A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7A03472E-02AF-4A19-9251-6E0F1C385E0A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7A03472E-02AF-4A19-9251-6E0F1C385E0A}.Release|x86.ActiveCfg = Release|Any CPU
-		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Release|x86.ActiveCfg = Release|Any CPU
 		{31C37D71-E811-4CFD-8DD7-F303C4174FB9}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{31C37D71-E811-4CFD-8DD7-F303C4174FB9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{31C37D71-E811-4CFD-8DD7-F303C4174FB9}.Debug|Mixed Platforms.Build.0 = Debug|x86

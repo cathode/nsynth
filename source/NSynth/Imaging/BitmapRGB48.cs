@@ -5,6 +5,7 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
@@ -31,6 +32,8 @@ namespace NSynth.Imaging
         public BitmapRGB48(Size size, ColorRGB48[] pixels)
             : base(size, pixels)
         {
+            Contract.Requires(pixels != null);
+            Contract.Requires(pixels.Length == size.Elements);
         }
 
         /// <summary>
@@ -41,6 +44,8 @@ namespace NSynth.Imaging
         public BitmapRGB48(int width, int height)
             : base(width, height)
         {
+            Contract.Requires(width >= 0);
+            Contract.Requires(height >= 0);
         }
 
         /// <summary>
@@ -52,6 +57,10 @@ namespace NSynth.Imaging
         public BitmapRGB48(int width, int height, ColorRGB48[] pixels)
             : base(width, height, pixels)
         {
+            Contract.Requires(width >= 0);
+            Contract.Requires(height >= 0);
+            Contract.Requires(pixels != null);
+            Contract.Requires(pixels.Length == width * height);
         }
         #endregion
         #region Properties
