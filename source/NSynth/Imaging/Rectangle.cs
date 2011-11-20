@@ -61,8 +61,6 @@ namespace NSynth.Imaging
         /// <param name="size">A <see cref="Size"/> that defines the width and height of the rectangle.</param>
         public Rectangle(Size size)
         {
-            Contract.Ensures(this.Size == size);
-
             this.left = 0;
             this.top = 0;
             this.right = size.Width;
@@ -286,6 +284,7 @@ namespace NSynth.Imaging
         /// <param name="r1">The first <see cref="Rectangle"/> to compare.</param>
         /// <param name="r2">The second <see cref="Rectangle"/> to compare.</param>
         /// <returns>true if both rectangles have the same value, otherwise false.</returns>
+        [Pure]
         public static bool Equals(Rectangle r1, Rectangle r2)
         {
             if (object.ReferenceEquals(r1, r2))
@@ -366,6 +365,7 @@ namespace NSynth.Imaging
         /// <param name="left">The left-hand operand to compare.</param>
         /// <param name="right">The right-hand operand to compare.</param>
         /// <returns>true if both instances represent the same value; otherwise, false.</returns>
+        [Pure]
         public static bool operator ==(Rectangle left, Rectangle right)
         {
             return Rectangle.Equals(left, right);
@@ -377,6 +377,7 @@ namespace NSynth.Imaging
         /// <param name="left">The left-hand operand to compare.</param>
         /// <param name="right">The right-hand operand to compare.</param>
         /// <returns>true if both instances represent different values; otherwise, false.</returns>
+        [Pure]
         public static bool operator !=(Rectangle left, Rectangle right)
         {
             return !Rectangle.Equals(left, right);

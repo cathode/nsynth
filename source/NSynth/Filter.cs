@@ -5,10 +5,10 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System;
-using NSynth;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using NSynth;
 
 namespace NSynth
 {

@@ -96,6 +96,7 @@
     <Compile Include="Audio\WAV\WAVInputFilter.cs" />
     <Compile Include="BitDecoder.cs" />
     <Compile Include="BitstreamInputFilter.cs" />
+    <Compile Include="FramePool.cs" />
     <Compile Include="Imaging\ColorG32.cs" />
     <Compile Include="Imaging\ColorG8.cs" />
     <Compile Include="EffectFilter.cs" />
@@ -129,8 +130,11 @@
     <Compile Include="Imaging\TGA\TGADecoder.cs" />
     <Compile Include="Imaging\TGA\TGADecodeStage.cs" />
     <Compile Include="Imaging\TGA\TGAEncodeContext.cs" />
+    <Compile Include="NavigationTrack.cs" />
     <Compile Include="OutputFilter.cs" />
     <Compile Include="SourceFilter.cs" />
+    <Compile Include="SubtitleTrack.cs" />
+    <Compile Include="Video\H264\H264Decoder.cs" />
     <Compile Include="ZlibStream.cs" />
     <None Include="cathode.public.snk" />
     <Compile Include="ByteOrder.cs" />

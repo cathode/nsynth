@@ -12,7 +12,7 @@ using System.Text;
 namespace NSynth.Imaging
 {
     /// <summary>
-    /// Represents an layer of visual data described by a rectangular grid of pixel values.
+    /// Represents an layer of visual data in an image, described by a grid of color values.
     /// </summary>
     public class RasterLayer : Layer
     {

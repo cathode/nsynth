@@ -82,6 +82,5 @@ namespace NSynth.Imaging
             return new ColorRGB(color);
         }
         #endregion
-
     }
 }

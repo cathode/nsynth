@@ -181,5 +181,10 @@ namespace NSynthGraphStudio
                 return frame;
             }
         }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            FramePool.Populate(200);
+        }
     }
 }

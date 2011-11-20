@@ -6,11 +6,12 @@
  *****************************************************************************/
 using NSynth.Audio;
 using NSynth.Video;
+using System.Collections.Generic;
 
 namespace NSynth
 {
     /// <summary>
-    /// Represents a series of frames and associated metadata.
+    /// Represents the format, layout, and other metadata of multimedia content.
     /// </summary>
     public sealed class Clip
     {
@@ -18,13 +19,17 @@ namespace NSynth
         /// <summary>
         /// Backing field for the <see cref="Clip.AudioTracks"/> property.
         /// </summary>
-        private readonly ClipData<AudioTrack> audioTracks;
+        private List<AudioTrack> audioTracks;
 
         /// <summary>
         /// Backing field for the <see cref="Clip.VideoTracks"/> property.
         /// </summary>
-        private readonly ClipData<VideoTrack> videoTracks;
+        private List<VideoTrack> videoTracks;
 
+
+        private List<SubtitleTrack> subtitleTracks;
+
+        private List<NavigationTrack> navigationTracks;
         /// <summary>
         /// Backing field for the <see cref="Clip.FrameCount"/> property.
         /// </summary>
@@ -36,8 +41,8 @@ namespace NSynth
         /// </summary>
         public Clip()
         {
-            this.audioTracks = new ClipData<AudioTrack>(this);
-            this.videoTracks = new ClipData<VideoTrack>(this);
+            this.audioTracks = new List<AudioTrack>();
+            this.videoTracks = new List<VideoTrack>();
         }
 
         /// <summary>
@@ -58,9 +63,9 @@ namespace NSynth
         #endregion
         #region Properties
         /// <summary>
-        /// Gets the audio track data of the current <see cref="Clip"/>.
+        /// Gets the audio tracks in the current <see cref="Clip"/>.
         /// </summary>
-        public ClipData<AudioTrack> AudioTracks
+        public List<AudioTrack> AudioTracks
         {
             get
             {
@@ -69,9 +74,9 @@ namespace NSynth
         }
 
         /// <summary>
-        /// Gets the video track data of the current <see cref="Clip"/>.
+        /// Gets the video tracks in the current <see cref="Clip"/>.
         /// </summary>
-        public ClipData<VideoTrack> VideoTracks
+        public List<VideoTrack> VideoTracks
         {
             get
             {
@@ -79,6 +84,27 @@ namespace NSynth
             }
         }
 
+        /// <summary>
+        /// Gets the navigation tracks in the current <see cref="Clip"/>.
+        /// </summary>
+        public List<NavigationTrack> NavigationTracks
+        {
+            get
+            {
+                return this.navigationTracks;
+            }
+        }
+
+        /// <summary>
+        /// Gets the subtitle tracks in the current <see cref="Clip"/>.
+        /// </summary>
+        public List<SubtitleTrack> SubtitleTrack
+        {
+            get
+            {
+                return this.subtitleTracks;
+            }
+        }
         /// <summary>
         /// Gets the number of frames in the current clip. If the tracks in the clip have different lengths,
         /// this property returns the number of frames in the longest track.
@@ -97,6 +123,16 @@ namespace NSynth
         #endregion
         #region Methods
         /// <summary>
+        /// Creates a deep clone of the current <see cref="Clip"/> and the track data it contains.
+        /// </summary>
+        /// <returns></returns>
+        public Clip DeepClone()
+        {
+            Clip c = new Clip();
+
+            return c;
+        }
+        /// <summary>
         /// Creates and returns a new <see cref="Frame"/> instance that contains the correct configuration of tracks and track data.
         /// </summary>
         /// <returns>The new empty <see cref="Frame"/> instance.</returns>
@@ -106,6 +142,7 @@ namespace NSynth
 
             return frame;
         }
+
         #endregion
     }
 }

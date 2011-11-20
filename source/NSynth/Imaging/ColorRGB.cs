@@ -248,24 +248,27 @@ namespace NSynth.Imaging
         {
             get
             {
-                return false;
+                return (this.red <= 1.0f && this.red >= 0.0f
+                    && this.green <= 1.0f && this.green >= 0.0f
+                    && this.blue <= 1.0f && this.blue >= 0.0f
+                    && this.alpha <= 1.0f && this.alpha >= 0.0f);
             }
         }
         #endregion
         #region Methods
         /// <summary>
-        /// Clamps the current <see cref="ColorRGB"/> color values to the 0.0 to 1.0 range.
+        /// Constrains the current <see cref="ColorRGB"/> color values to the 0.0 to 1.0 range.
         /// </summary>
         public void Clamp()
         {
-            Contract.Ensures(this.Red >= 0.0f);
-            Contract.Ensures(this.Red <= 1.0f);
-            Contract.Ensures(this.Green >= 0.0f);
-            Contract.Ensures(this.Green <= 1.0f);
-            Contract.Ensures(this.Blue >= 0.0f);
-            Contract.Ensures(this.Blue <= 1.0f);
-            Contract.Ensures(this.Alpha >= 0.0f);
-            Contract.Ensures(this.Alpha <= 1.0f);
+            Contract.Ensures(this.red >= 0.0f);
+            Contract.Ensures(this.red <= 1.0f);
+            Contract.Ensures(this.green >= 0.0f);
+            Contract.Ensures(this.green <= 1.0f);
+            Contract.Ensures(this.blue >= 0.0f);
+            Contract.Ensures(this.blue <= 1.0f);
+            Contract.Ensures(this.alpha >= 0.0f);
+            Contract.Ensures(this.alpha <= 1.0f);
             Contract.Ensures(this.IsNormalized == true);
 
             this.red = (this.red > 1.0f) ? 1.0f : ((this.red < 0.0f) ? 0.0f : this.red);
@@ -275,18 +278,18 @@ namespace NSynth.Imaging
         }
 
         /// <summary>
-        /// Normalizes the values of the current <see cref="ColorRGB"/> instance to the [0.0, 1.0] range.
+        /// Constrains the values of the current <see cref="ColorRGB"/> instance to the [0.0, 1.0] range.
         /// </summary>
         public void Normalize()
         {
-            Contract.Ensures(this.Red >= 0.0f);
-            Contract.Ensures(this.Red <= 1.0f);
-            Contract.Ensures(this.Green >= 0.0f);
-            Contract.Ensures(this.Green <= 1.0f);
-            Contract.Ensures(this.Blue >= 0.0f);
-            Contract.Ensures(this.Blue <= 1.0f);
-            Contract.Ensures(this.Alpha >= 0.0f);
-            Contract.Ensures(this.Alpha <= 1.0f);
+            Contract.Ensures(this.red >= 0.0f);
+            Contract.Ensures(this.red <= 1.0f);
+            Contract.Ensures(this.green >= 0.0f);
+            Contract.Ensures(this.green <= 1.0f);
+            Contract.Ensures(this.blue >= 0.0f);
+            Contract.Ensures(this.blue <= 1.0f);
+            Contract.Ensures(this.alpha >= 0.0f);
+            Contract.Ensures(this.alpha <= 1.0f);
             Contract.Ensures(this.IsNormalized == true);
 
             var shift = (this.red < 0.0f) ? this.red : 0.0f;
@@ -319,23 +322,20 @@ namespace NSynth.Imaging
         }
 
         /// <summary>
-        /// Gets a new <see cref="ColorRGB"/> instance that is the clamped version of the specified <see cref="ColorRGB"/>.
+        /// Gets a new <see cref="ColorRGB"/> instance that is the constrained version of the specified <see cref="ColorRGB"/>.
         /// </summary>
-        /// <returns>A new <see cref="ColorRGB"/> instance that is the clamped version of the specified <see cref="ColorRGB"/>.</returns>
+        /// <returns>A new <see cref="ColorRGB"/> instance that is the constrained version of the specified <see cref="ColorRGB"/>.</returns>
         public static ColorRGB Clamp(ColorRGB color)
         {
-            return new ColorRGB(
-                Math.Max(Math.Min(color.red, 1.0f), 0.0f),
-                Math.Max(Math.Min(color.green, 1.0f), 0.0f),
-                Math.Max(Math.Min(color.blue, 1.0f), 0.0f),
-                Math.Max(Math.Min(color.alpha, 1.0f), 0.0f));
+            color.Clamp();
+            return color;
         }
 
         /// <summary>
         /// Gets a new <see cref="ColorRGB"/> instance that is the compressed version of the current <see cref="ColorRGB"/>.
         /// </summary>
         /// <returns>A new <see cref="ColorRGB"/> instance that is the compressed version of the current <see cref="ColorRGB"/>.</returns>
-        public ColorRGB GetCompressed()
+        public ColorRGB GetNormalized()
         {
             ColorRGB comp = this;
             comp.Normalize();

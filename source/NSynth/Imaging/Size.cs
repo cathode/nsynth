@@ -34,6 +34,8 @@ namespace NSynth.Imaging
         {
             Contract.Requires(width >= 0);
             Contract.Requires(height >= 0);
+            //Contract.Ensures(this.Width == width);
+            //Contract.Ensures(this.Height == height);
                 
             this.height = height;
             this.width = width;

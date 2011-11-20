@@ -137,10 +137,20 @@ namespace NSynth.Video
         }
         #endregion
         #region Methods
+        protected override Track CreateDeepClone()
+        {
+            var track = new VideoTrack();
+            track.Dimensions = this.Dimensions;
+            track.Format = this.Format;
+
+            return track;
+        }
         [ContractInvariantMethod]
         private void _Invariants()
         {
         }
         #endregion
+
+        
     }
 }

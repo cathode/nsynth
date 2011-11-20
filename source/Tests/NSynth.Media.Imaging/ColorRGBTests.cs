@@ -22,7 +22,7 @@ namespace Tests.NSynth.Imaging
             ColorRGB actual = new ColorRGB(2.0f, 1.0f, 0.5f, 1.0f);
             ColorRGB expected = new ColorRGB(1.0f, 0.5f, 0.25f, 0.5f);
 
-            actual.Compress();
+            actual.Normalize();
 
             Assert.AreEqual(expected, actual);
         }
@@ -44,7 +44,7 @@ namespace Tests.NSynth.Imaging
             ColorRGB input = new ColorRGB(1.5f, 0.4f, -51.5f, 0.0f);
 
             ColorRGB compress = input.GetCompressed();
-            input.Compress();
+            input.Normalize();
 
             bool expected = true;
             bool actual = compress == input;

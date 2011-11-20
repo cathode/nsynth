@@ -6,6 +6,7 @@
     <DockPanel>
         <Menu IsMainMenu="True" DockPanel.Dock="Top" Name="mainMenu">
             <MenuItem Header="File">
+                <MenuItem Header="Frame Pool Test" Click="MenuItem_Click_1" />
                 <MenuItem Header="Vector Test" Click="MenuItem_Click" />
                 <MenuItem Header="Exit" Click="MenuItemFileExit_Click" />
             </MenuItem>

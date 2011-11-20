@@ -4,7 +4,7 @@
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
-
+using System;
 namespace NSynth.Audio
 {
     /// <summary>
@@ -92,6 +92,15 @@ namespace NSynth.Audio
             {
                 return TrackKind.Audio;
             }
+        }
+        #endregion
+        #region Methods
+        protected override Track CreateDeepClone()
+        {
+            var track = new AudioTrack();
+            throw new NotImplementedException();
+
+            return track;
         }
         #endregion
     }

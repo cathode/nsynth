@@ -6,6 +6,7 @@
  *****************************************************************************/
 using System;
 using System.Globalization;
+using System.Diagnostics.Contracts;
 
 namespace NSynth
 {
@@ -206,6 +207,24 @@ namespace NSynth
                 this.samplesPerFrame = value;
             }
         }
+        #endregion
+        #region Methods
+        public virtual Track DeepClone()
+        {
+            Contract.Ensures(Contract.Result<Track>() != null);
+            var track = this.CreateDeepClone();
+
+            track.Culture = this.Culture;
+            track.Delay = this.Delay;
+            track.Name = this.Name;
+            track.Options = this.Options;
+            track.FrameRate = this.FrameRate;
+            track.SampleCount = this.SampleCount;
+            track.SamplesPerFrame = this.SamplesPerFrame;
+
+            return track;
+        }
+        protected abstract Track CreateDeepClone();
         #endregion
     }
 }

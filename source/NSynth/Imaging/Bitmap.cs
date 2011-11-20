@@ -19,7 +19,9 @@ namespace NSynth.Imaging
         /// <summary>
         /// Backing field for the <see cref="Bitmap&lt;TColor&gt;.Size"/> property.
         /// </summary>
-        private readonly Size size;
+        private readonly int width;
+
+        private readonly int height;
 
         /// <summary>
         /// Holds the pixel data for the bitmap.
@@ -33,7 +35,8 @@ namespace NSynth.Imaging
         /// <param name="size">The dimensions (in pixels) of the new bitmap.</param>
         protected Bitmap(Size size)
         {
-            this.size = size;
+            this.width = size.Width;
+            this.height = size.Height;
             this.pixels = new TColor[size.Elements];
         }
 
@@ -47,7 +50,8 @@ namespace NSynth.Imaging
             Contract.Requires(pixels != null);
             Contract.Requires(pixels.Length == size.Elements);
 
-            this.size = size;
+            this.width = size.Width;
+            this.height = size.Height;
             this.pixels = pixels;
         }
 
@@ -61,8 +65,9 @@ namespace NSynth.Imaging
             Contract.Requires(width >= 0);
             Contract.Requires(height >= 0);
 
-            this.size = new Size(width, height);
-            this.pixels = new TColor[this.size.Elements];
+            this.width = width;
+            this.height = height;
+            this.pixels = new TColor[width * height];
         }
 
         /// <summary>
@@ -78,22 +83,11 @@ namespace NSynth.Imaging
             Contract.Requires(pixels != null);
             Contract.Requires(pixels.Length == width * height);
 
-            this.size = new Size(width, height);
+            this.width = width;
+            this.height = height;
             this.pixels = pixels;
         }
-        /*
-        public Bitmap(IBitmap source)
-        {
-            System.Diagnostics.Contracts.Contract.Requires(source != null);
 
-            this.size = new Size(source.Width, source.Height);
-            this.pixels = new TColor[this.size.Elements];
-            int i = 0;
-            for (int y = 0; y < source.Height; y++)
-                for (int x = 0; x < source.Width; x++)
-                    this.pixels[i++] = this.GetTColor(source[x, y]);
-        }
-        */
         #endregion
         #region Properties
         /// <summary>
@@ -103,7 +97,7 @@ namespace NSynth.Imaging
         {
             get
             {
-                return this.size.Height;
+                return this.height;
             }
         }
 
@@ -125,7 +119,7 @@ namespace NSynth.Imaging
         {
             get
             {
-                return this.size.Width;
+                return this.width;
             }
         }
 
@@ -136,7 +130,10 @@ namespace NSynth.Imaging
         {
             get
             {
-                return this.size;
+                Contract.Ensures(Contract.Result<Size>().Width == this.Width);
+                Contract.Ensures(Contract.Result<Size>().Height == this.Height);
+
+                return new Size(this.Width, this.Height);
             }
         }
 
@@ -248,7 +245,7 @@ namespace NSynth.Imaging
         {
             Contract.Requires(bitmap != null);
 
-            this.Combine(bitmap, new Point(0, 0), bitmap.size, CombineMode.Normal, mask);
+            this.Combine(bitmap, new Point(0, 0), bitmap.Size, CombineMode.Normal, mask);
         }
 
         public virtual void Combine(Bitmap<TColor> bitmap, Point location, Size size, CombineMode mode, Bitmap<TColor> mask)
@@ -263,7 +260,8 @@ namespace NSynth.Imaging
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            
+            //Contract.Invariant(this.Size.Width == this.Width);
+            //Contract.Invariant(this.Size.Height == this.Height);
         }
         #endregion
         
