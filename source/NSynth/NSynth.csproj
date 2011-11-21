@@ -96,7 +96,10 @@
     <Compile Include="Audio\WAV\WAVInputFilter.cs" />
     <Compile Include="BitDecoder.cs" />
     <Compile Include="BitstreamInputFilter.cs" />
+    <Compile Include="Filters\Video\ConvertFilter.cs" />
+    <Compile Include="Filters\Video\IgnoreAlphaFilter.cs" />
     <Compile Include="FramePool.cs" />
+    <Compile Include="IFrameSource.cs" />
     <Compile Include="Imaging\ColorG32.cs" />
     <Compile Include="Imaging\ColorG8.cs" />
     <Compile Include="EffectFilter.cs" />

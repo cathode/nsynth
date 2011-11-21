@@ -18,6 +18,9 @@ namespace NSynth.Imaging
             : base(bitstream)
         {
         }
+        protected ImageEncoder()
+        {
+        }
         #endregion
         #region Methods
         public abstract void EncodeImage(Image image);

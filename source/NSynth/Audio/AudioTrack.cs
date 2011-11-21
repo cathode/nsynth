@@ -98,7 +98,6 @@ namespace NSynth.Audio
         protected override Track CreateDeepClone()
         {
             var track = new AudioTrack();
-            throw new NotImplementedException();
 
             return track;
         }

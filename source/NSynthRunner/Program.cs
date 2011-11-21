@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NSynth.Imaging.TGA;
 using NSynth;
+using NSynth.Imaging;
 
 namespace NSynthRunner
 {
@@ -11,22 +12,44 @@ namespace NSynthRunner
     {
         internal static void Main(string[] args)
         {
-            var src = new TGASourceFilter("C:\\NSynth\\Capture\\frames\\BinaryFlow_{0:D6}.tga")
-            {
-                MultiFrame = true,
-                FrameCount = 10,
-            };
-            var sw = new System.Diagnostics.Stopwatch();
-            sw.Start();
-            for (int i = 0; i < src.FrameCount; ++i)
+            Console.Write("TGA frame path: ");
+            var path = Console.ReadLine();
+            path = @"c:\nsynth\capture\frames\chaostheory{0:d6}.tga";
+            Console.Write("Frame count: ");
+            var count = 6376;//int.Parse(Console.ReadLine());
+            var start = 0;
+            var src = new TGASourceFilter(path);
+            src.FrameCount = count;
+            //if (count > 1)
+            src.MultiFrame = true;
+
+            var outpath = @"c:\nsynth\capture\rgb24\chaostheory_post{0:d6}.tga";
+            var end = start + count;
+            for (int i = start; i < end; ++i)
             {
                 var frame = src.Render(i);
-                Console.WriteLine("Decoded frame {0}", i);
-            }
-            sw.Stop();
-            Console.WriteLine("Decoding took {0}ms", sw.Elapsed.TotalMilliseconds);
+                var bitmap = frame.Video[0] as BitmapRGB32;
+                var ymax = bitmap.Height;
+                var xmax = bitmap.Width;
+                var bmp = new BitmapRGB24(bitmap.Size);
 
-            Console.Read();
+                for (int y = 0; y < ymax; ++y)
+                {
+                    for (int x = 0; x < xmax; ++x)
+                    {
+                        var px = bitmap[x, y];
+                        bmp[x, y] = new ColorRGB24(px.Red, px.Green, px.Blue);
+                    }
+                }
+                var tga = new TGAImage(bmp);
+                tga.UseRunLengthEncoding = true;
+                var outfile = string.Format(outpath, i);
+                System.IO.File.Delete(outfile);
+                using (var enc = new TGAEncoder(System.IO.File.Open(outfile, System.IO.FileMode.Create, System.IO.FileAccess.Write)))
+                {
+                    enc.EncodeImage(tga);
+                }
+            }
         }
     }
 }

@@ -97,7 +97,7 @@ namespace NSynth.Imaging.TGA
 
         public override Image CreateImage(int width, int height)
         {
-            throw new NotImplementedException();
+            return new TGAImage();
         }
 
         public override int MaxThreads

@@ -7,5 +7,6 @@ namespace NSynth.Imaging.TGA
 {
     public sealed class TGAEncodeContext
     {
+        public TGABitstreamHeader Header;
     }
 }

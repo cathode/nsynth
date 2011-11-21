@@ -6,6 +6,8 @@
  *****************************************************************************/
 using System;
 using System.IO;
+using System.ComponentModel;
+using System.Diagnostics.Contracts;
 
 namespace NSynth
 {
@@ -18,12 +20,17 @@ namespace NSynth
         /// <summary>
         /// Backing field for the <see cref="MediaEncoder.Bitstream"/> property.
         /// </summary>
-        private readonly Stream bitstream;
+        private Stream bitstream;
 
         /// <summary>
         /// Backing field for the <see cref="MediaEncoder.IsDisposed"/> property.
         /// </summary>
         private bool isDisposed;
+
+        /// <summary>
+        /// Backing field for the <see cref="MediaEncoder.IsOpen"/> property.
+        /// </summary>
+        private bool isOpen;
         #endregion
         #region Constructors
         /// <summary>
@@ -36,12 +43,24 @@ namespace NSynth
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MediaEncoder"/> class.
+        /// </summary>
+        protected MediaEncoder()
+        {
+            this.bitstream = null;
+        }
+
+        /// <summary>
         /// Finalizes an instance of the <see cref="MediaEncoder"/> class.
         /// </summary>
         ~MediaEncoder()
         {
             this.Dispose(false);
         }
+        #endregion
+        #region Events
+        public event AsyncCompletedEventHandler EncodeCompleted;
+        public event ProgressChangedEventHandler ProgressChanged;
         #endregion
         #region Properties
         /// <summary>
@@ -56,7 +75,7 @@ namespace NSynth
         }
 
         /// <summary>
-        /// Gets a value indicating whether the state of the encoder can be persisted to allow an active encoding session to be resumed at a later time.
+        /// Gets a value indicating whether the state of the encoder can be persisted to allow an encoding operation to be resumed at a later time.
         /// </summary>
         public virtual bool CanSuspend
         {
@@ -74,6 +93,11 @@ namespace NSynth
             get;
         }
 
+        public bool IsBusy
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// Gets a value indicating whether the current <see cref="MediaEncoder"/> is disposed.
         /// Attempting to call methods of a disposed object will immediately result in an <see cref="ObjectDisposedException"/> being thrown.
@@ -84,22 +108,60 @@ namespace NSynth
             {
                 return this.isDisposed;
             }
+            protected set
+            {
+                this.isDisposed = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the current <see cref="MediaEncoder"/> is open.
+        /// </summary>
+        public bool IsOpen
+        {
+            get
+            {
+                return this.isOpen;
+            }
         }
         #endregion
         #region Methods
+        /// <summary>
+        /// Cancels a pending asynchronous operation.
+        /// </summary>
+        /// <param name="userState"></param>
+        public void CancelAsync(object userState)
+        {
+        }
+        
+        /// <summary>
+        /// Encodes a specified range of frames obtained from the specified frame source.
+        /// </summary>
+        /// <param name="frameSource"></param>
+        /// <param name="start"></param>
+        /// <param name="count"></param>
+        public void Encode(IFrameSource frameSource, long start, long count)
+        {
+            Contract.Requires(frameSource != null);
+            
+            var end = start + count;
+            for (long i = start; i < end; ++i)
+                this.EncodeFrame(frameSource.Render(i));
+        }
+
+        /// <summary>
+        /// Asynchronously encodes a specified range of frames obtained from the specified frame source.
+        /// </summary>
+        /// <param name="frameSource"></param>
+        /// <param name="start"></param>
+        /// <param name="count"></param>
+        /// <param name="userState"></param>
+        public void EncodeAsync(IFrameSource frameSource, long start, long count, object userState)
+        {
+
+        }
         public abstract void EncodeFrame(Frame frame);
 
-        public virtual IAsyncResult BeginEncodeFrame(Frame frame, AsyncCallback callback, object state)
-        {
-            EncodeFrameAsyncHelper action = this.EncodeFrame;
-            return action.BeginInvoke(frame, callback, state);
-        }
-
-        public virtual void EndEncodeFrame(IAsyncResult result)
-        {
-            EncodeFrameAsyncHelper action = this.EncodeFrame;
-            action.EndInvoke(result);
-        }
         public abstract bool Open();
         public abstract bool Close();
 
@@ -133,10 +195,16 @@ namespace NSynth
                 if (this.Bitstream != null)
                     this.Bitstream.Dispose();
         }
-        #endregion
-        #region Types
-        public delegate void EncodeFrameAsyncHelper(Frame frame);
-        public delegate bool CloseAsyncHelper();
+
+        protected virtual void OnOpening(EventArgs e)
+        {
+
+        }
+
+        protected virtual void OnClosing(EventArgs e)
+        {
+
+        }
         #endregion
     }
 }

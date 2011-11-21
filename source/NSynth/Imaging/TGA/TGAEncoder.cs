@@ -14,6 +14,9 @@ namespace NSynth.Imaging.TGA
     /// </summary>
     public sealed class TGAEncoder : ImageEncoder
     {
+        #region Fields
+        private TGAEncodeContext context;
+        #endregion
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="TGAEncoder"/> class.
@@ -45,61 +48,81 @@ namespace NSynth.Imaging.TGA
         /// <returns></returns>
         public override bool Open()
         {
-            // Assemble buffer
-            var buffer = new byte[18];
+            this.context = new TGAEncodeContext();
+            this.context.Header = new TGABitstreamHeader();
 
-            // No "Image ID" field
-            buffer[0x00] = 0;
-
-            buffer[0x01] = (byte)TGAColorMapType.None;
-            buffer[0x02] = (byte)TGAImageType.UncompressedTrueColor;
-
-            // No color map specification
-            buffer[0x03] = 0;
-            buffer[0x04] = 0;
-            buffer[0x05] = 0;
-            buffer[0x06] = 0;
-            buffer[0x07] = 0;
-
-            // Image X-origin/Y-origin are obsolete/unused.
-            buffer[0x08] = 0;
-            buffer[0x09] = 0;
-            buffer[0x0A] = 0;
-            buffer[0x0B] = 0;
-
-            // Image width/height. Reserved for Close.
-            buffer[0x0C] = 0;
-            buffer[0x0D] = 0;
-            buffer[0x0E] = 0;
-            buffer[0x0F] = 0;
-
-            // Pixel depth (bits per pixel). Reserved for close.
-            buffer[0x10] = 0;
-
-            // Image descriptor. Reserved for close.
-            buffer[0x11] = 0;
-
-            this.Bitstream.Seek(0, System.IO.SeekOrigin.Begin);
-            this.Bitstream.Write(buffer, 0, 18);
-            this.Bitstream.Flush();
+            this.WriteHeader(this.context.Header);
 
             return true;
         }
 
         public override bool Close()
         {
-            throw new NotImplementedException();
+            this.WriteHeader(this.context.Header);
+
+            return true;
         }
 
         public override void EncodeImage(Image image)
         {
+            this.Open();
             this.Bitstream.Seek(18, System.IO.SeekOrigin.Begin);
 
             var tga = image as TGAImage ?? new TGAImage(image.Bitmap);
+            var header = this.context.Header;
+            header.Width = (ushort)tga.Width;
+            header.Height = (ushort)tga.Height;
 
             if (tga.Bitmap is BitmapRGB24)
             {
-                throw new NotImplementedException();
+                header.BitsPerPixel = 24;
+                header.AttributeBits = 0;
+                header.ImageDescriptor = TGAImageDescriptor.TopLeft;
+                var bmp = tga.Bitmap as BitmapRGB24;
+                tga.UseRunLengthEncoding = false;
+                if (tga.UseRunLengthEncoding)
+                {
+                    header.ImageType = TGAImageType.RunLengthEncodedTrueColor;
+                    var buffer = new byte[bmp.Size.Elements * 4];
+                    var pix = bmp.Pixels;
+                    int n = -1;
+                    var line = new ColorRGB24[tga.Width];
+
+                    // Operate on each scanline.
+                    for (int s = 0; s < tga.Height; ++s)
+                    {
+                        // Copy pixels from source image into scanline buffer.
+                        Array.Copy(pix, s * tga.Width, line, 0, line.Length);
+
+                        int rle = 0;
+                        int raw = 0;
+
+                        // Record the offset of where the packet header will be
+                        var packetOffset = ++n;
+                        for (int i = 1; i < line.Length; ++i)
+                        {
+                            var current = line[i];
+                            var prev = line[i - 1];
+
+                            
+                        }
+                    }
+                    this.Bitstream.Write(buffer, 0, n);
+                }
+                else
+                {
+                    header.ImageType = TGAImageType.UncompressedTrueColor;
+
+                    var buffer = new byte[bmp.Size.Elements * 3];
+                    var pix = bmp.Pixels;
+                    for (int i = 0, n = -1; i < pix.Length; ++i)
+                    {
+                        buffer[++n] = pix[i].Blue;
+                        buffer[++n] = pix[i].Green;
+                        buffer[++n] = pix[i].Red;
+                    }
+                    this.Bitstream.Write(buffer, 0, buffer.Length);
+                }
             }
             else if (tga.Bitmap is BitmapRGB32)
             {
@@ -109,6 +132,17 @@ namespace NSynth.Imaging.TGA
             {
                 throw new NotImplementedException();
             }
+            this.context.Header = header;
+            this.Close();
+        }
+
+        private void WriteHeader(TGABitstreamHeader header)
+        {
+            var buffer = header.ToByteArray();
+
+            this.Bitstream.Seek(0, System.IO.SeekOrigin.Begin);
+            this.Bitstream.Write(buffer, 0, buffer.Length);
+            this.Bitstream.Flush();
         }
         #endregion
 
