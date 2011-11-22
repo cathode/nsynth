@@ -77,9 +77,9 @@ namespace NSynth.Imaging.TGA
             {
                 header.BitsPerPixel = 24;
                 header.AttributeBits = 0;
-                header.ImageDescriptor = TGAImageDescriptor.TopLeft;
+                header.ImageDescriptor = TGAImageDescriptor.BottomLeft;
                 var bmp = tga.Bitmap as BitmapRGB24;
-                tga.UseRunLengthEncoding = false;
+                //tga.UseRunLengthEncoding = false;
                 if (tga.UseRunLengthEncoding)
                 {
                     header.ImageType = TGAImageType.RunLengthEncodedTrueColor;
@@ -89,25 +89,88 @@ namespace NSynth.Imaging.TGA
                     var line = new ColorRGB24[tga.Width];
 
                     // Operate on each scanline.
-                    for (int s = 0; s < tga.Height; ++s)
+                    for (int s = tga.Height - 1; s >= 0; --s)
                     {
                         // Copy pixels from source image into scanline buffer.
                         Array.Copy(pix, s * tga.Width, line, 0, line.Length);
 
-                        int rle = 0;
-                        int raw = 0;
-
-                        // Record the offset of where the packet header will be
-                        var packetOffset = ++n;
-                        for (int i = 1; i < line.Length; ++i)
+                        int remaining = line.Length;
+                        int idx = 0;
+                        while (remaining > 0)
                         {
-                            var current = line[i];
-                            var prev = line[i - 1];
+                            // Record the offset of where the packet header will be,
+                            // n is incremented so that the pixel is written to the correct offset.
+                            var basis = ++n;
+                            // Get the first pixel of the packet.
+                            var p = line[idx];
+                            // c is the number of pixels we counted. There will always be at least 1.
+                            var c = 1;
+                            bool rle = false;
 
-                            
+                            // Only go into a loop if there's more than one pixel left on the scanline.
+                            if (remaining > 1)
+                            {
+                                // pn holds the next pixel to compare, as we loop.
+                                var pn = line[idx + 1];
+                                // Even if there is more than 128 pixels remaining,
+                                // we don't loop more times than that (actually, one less, since pn is the first
+                                // pixel beyond the packet pixel.)
+                                var iMax = idx + Math.Min(remaining, 127);
+                                if (p == pn)
+                                {
+                                    rle = true;
+                                    // Write out the first pixel of the packet header.
+                                    buffer[++n] = p.Blue;
+                                    buffer[++n] = p.Green;
+                                    buffer[++n] = p.Red;
+                                    // We can use 'i' as a direct index into 'line'.
+                                    for (int i = idx; i < iMax - 1; ++i)
+                                        if (line[i] == line[i + 1])
+                                            ++c;
+                                        else
+                                            break;
+                                }
+                                else
+                                {
+                                    rle = false;
+                                    bool last = true;
+                                    pn = line[idx];
+                                    c = 0;
+                                    for (int i = idx + 1; i < iMax; ++i)
+                                    {
+                                        if (line[i] != pn)
+                                        {
+                                            ++c;
+                                            buffer[++n] = pn.Blue;
+                                            buffer[++n] = pn.Green;
+                                            buffer[++n] = pn.Red;
+                                            pn = line[i];
+                                        }
+                                        else
+                                        {
+                                            last = false;
+                                            break;
+                                        }
+                                    }
+                                    if (last)
+                                    {
+                                        buffer[++n] = pn.Blue;
+                                        buffer[++n] = pn.Green;
+                                        buffer[++n] = pn.Red;
+                                    }
+                                }
+                            }
+
+                            // Write out the packet header.
+                            // We save c as 1 less since a packet with 0 pixels is never written (what's the point?).
+                            // Allows a maximum of 128 for the repetition count.
+                            buffer[basis] = (byte)((rle ? 0x80 : 0x00) | (c - 1));
+
+                            idx += c;
+                            remaining -= c;
                         }
                     }
-                    this.Bitstream.Write(buffer, 0, n);
+                    this.Bitstream.Write(buffer, 0, ++n);
                 }
                 else
                 {
