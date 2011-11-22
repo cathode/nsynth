@@ -16,7 +16,7 @@ namespace NSynthRunner
             var path = Console.ReadLine();
             path = @"c:\nsynth\capture\rgb24\chaostheory_post{0:d6}.tga";
             Console.Write("Frame count: ");
-            var count = 10;//int.Parse(Console.ReadLine());
+            var count = 1;//int.Parse(Console.ReadLine());
             var start = 1500;
             var src = new TGASourceFilter(path);
             src.FrameCount = count;

@@ -6,6 +6,7 @@
  *****************************************************************************/
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace NSynth.Imaging.TGA
 {
@@ -85,7 +86,7 @@ namespace NSynth.Imaging.TGA
                     header.ImageType = TGAImageType.RunLengthEncodedTrueColor;
                     var buffer = new byte[bmp.Size.Elements * 4];
                     var pix = bmp.Pixels;
-                    int n = -1;
+                    int n = 0;
                     var line = new ColorRGB24[tga.Width];
 
                     // Operate on each scanline.
@@ -100,7 +101,8 @@ namespace NSynth.Imaging.TGA
                         {
                             // Record the offset of where the packet header will be,
                             // n is incremented so that the pixel is written to the correct offset.
-                            var basis = ++n;
+                            var basis = n;
+                            //var packet = new TgaPacketRGB24(basis);
                             // Get the first pixel of the packet.
                             var p = line[idx];
                             // c is the number of pixels we counted. There will always be at least 1.
@@ -115,7 +117,7 @@ namespace NSynth.Imaging.TGA
                                 // Even if there is more than 128 pixels remaining,
                                 // we don't loop more times than that (actually, one less, since pn is the first
                                 // pixel beyond the packet pixel.)
-                                var iMax = idx + Math.Min(remaining, 127);
+                                var iMax = idx + Math.Min(remaining, 128);
                                 if (p == pn)
                                 {
                                     rle = true;
@@ -208,6 +210,18 @@ namespace NSynth.Imaging.TGA
             this.Bitstream.Flush();
         }
         #endregion
-
+        #region Types
+        internal class TgaPacketRGB24
+        {
+            internal bool IsRle;
+            internal int Basis;
+            internal int RepetitionCount;
+            internal readonly List<ColorRGB24> Pixels = new List<ColorRGB24>();
+            internal TgaPacketRGB24(int basis)
+            {
+                this.Basis = basis;
+            }
+        }
+        #endregion
     }
 }
