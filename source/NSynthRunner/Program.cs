@@ -13,17 +13,17 @@ namespace NSynthRunner
         internal static void Main(string[] args)
         {
             Console.Write("TGA frame path: ");
-            var path = Console.ReadLine();
-            path = @"c:\nsynth\capture\rgb24\chaostheory_post{0:d6}.tga";
+            //var path = Console.ReadLine();
+            var path = @"c:\nsynth\sample.tga";
             Console.Write("Frame count: ");
             var count = 1;//int.Parse(Console.ReadLine());
             var start = 1500;
             var src = new TGASourceFilter(path);
             src.FrameCount = count;
-            //if (count > 1)
-            src.MultiFrame = true;
+            if (count > 1)
+                src.MultiFrame = true;
 
-            var outpath = @"c:\nsynth\capture\rgb24\chaostheory_rle{0:d6}.tga";
+            var outpath = @"c:\nsynth\sample_out.tga";
             var end = start + count;
             for (int i = start; i < end; ++i)
             {
