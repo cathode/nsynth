@@ -156,59 +156,13 @@ namespace NSynth
             return frames.ToArray();
         }
 
+        //public void DecodeAsync(
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
 
             this.isDisposed = true;
-        }
-
-        /// <summary>
-        /// Begins an asynchronous frame decoding operation.
-        /// </summary>
-        /// <param name="frameIndex">The zero-based index of the frame to decode.</param>
-        /// <param name="callback"></param>
-        /// <param name="state"></param>
-        /// <returns></returns>
-        public virtual IAsyncResult BeginDecodeFrame(long frameIndex, AsyncCallback callback, object state)
-        {
-            MediaDecoder.DecodeFrameAsyncHelper action = this.Decode;
-            return action.BeginInvoke(callback, state);
-        }
-
-        /// <summary>
-        /// Ends a pending asynchronous frame decoding operation.
-        /// </summary>
-        /// <param name="result"></param>
-        /// <returns>The decoded frame.</returns>
-        public virtual Frame EndDecodeFrame(IAsyncResult result)
-        {
-            MediaDecoder.DecodeFrameAsyncHelper action = this.Decode;
-            return action.EndInvoke(result);
-        }
-
-        /// <summary>
-        /// Begins an asynchronous open operation.
-        /// </summary>
-        /// <param name="callback"></param>
-        /// <param name="state"></param>
-        /// <returns></returns>
-        public virtual IAsyncResult BeginOpen(AsyncCallback callback, object state)
-        {
-            OpenAsyncHelper action = this.Initialize;
-            return action.BeginInvoke(callback, state);
-        }
-
-        /// <summary>
-        /// Ends a pending asynchronous open operating.
-        /// </summary>
-        /// <param name="result"></param>
-        /// <returns></returns>
-        public virtual bool EndOpen(IAsyncResult result)
-        {
-            OpenAsyncHelper action = this.Initialize;
-            return action.EndInvoke(result);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -227,11 +181,6 @@ namespace NSynth
         {
             Contract.Invariant(this.FramePosition >= 0);
         }
-        #endregion
-        #region Types
-        public delegate Frame DecodeFrameAsyncHelper();
-        public delegate bool OpenAsyncHelper();
-        public delegate bool CloseAsyncHelper();
         #endregion
     }
 }

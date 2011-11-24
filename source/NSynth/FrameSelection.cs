@@ -7,42 +7,51 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using System.Text;
+using System.Diagnostics.Contracts;
 
 namespace NSynth
 {
     /// <summary>
-    /// Represents a range of selected frame indices.
+    /// Represents a selection of frames (accessed by index), and supports non-contigious ranges.
     /// </summary>
-    public sealed class FrameSelection : IEnumerable<int>
+    public sealed class FrameSelection : IEnumerable<long>
     {
+        #region Fields
+        private readonly List<Range> ranges;
+        #endregion
+        #region Constructors
+        public FrameSelection()
+        {
+            this.ranges = new List<Range>();
+        }
+        #endregion
         #region Methods
-        public void Include(int index)
+        public void Include(long index)
         {
             throw new NotImplementedException();
         }
-        public void Include(int startIndex, int count)
+        public void Include(long startIndex, long count)
         {
             throw new NotImplementedException();
         }
-        public void Include(int[] indexes)
+        public void Include(long[] indexes)
         {
             throw new NotImplementedException();
         }
-        public void Exclude(int index)
+        public void Exclude(long index)
         {
             throw new NotImplementedException();
         }
-        public void Exclude(int startIndex, int count)
+        public void Exclude(long startIndex, long count)
         {
             throw new NotImplementedException();
         }
-        public void Exclude(int[] indexes)
+        public void Exclude(long[] indexes)
         {
             throw new NotImplementedException();
         }
-        public IEnumerator<int> GetEnumerator()
+        public IEnumerator<long> GetEnumerator()
         {
             throw new NotImplementedException();
         }

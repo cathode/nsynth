@@ -423,7 +423,7 @@
     <Compile Include="Video\Dirac\DiracState.cs" />
     <Compile Include="Video\VideoCodec.cs" />
     <Compile Include="Video\VideoTrack.cs" />
-    <None Include="Range.cs" />
+    <Compile Include="Range.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="Script.cs">
       <SubType>Code</SubType>
