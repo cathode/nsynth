@@ -15,7 +15,7 @@ namespace NSynth
     /// <summary>
     /// Represents a selection of frames (accessed by index), and supports non-contigious ranges.
     /// </summary>
-    public sealed class FrameSelection : IEnumerable<long>
+    public sealed class FrameSelection : IEnumerable<ulong>
     {
         #region Fields
         private readonly List<Range> ranges;
@@ -25,33 +25,45 @@ namespace NSynth
         {
             this.ranges = new List<Range>();
         }
+        public FrameSelection(Range range)
+        {
+            this.ranges = new List<Range>();
+            this.ranges.Add(range);
+        }
         #endregion
         #region Methods
-        public void Include(long index)
+        public void Include(ulong index)
+        {
+            this.Include(index, 1);
+
+        }
+        public void Include(ulong startIndex, ulong count)
+        {
+            var rng = new Range(startIndex, 1);
+            for (int i = 0; i < ranges.Count; ++i)
+            {
+                var r = this.ranges[i];
+                //if (r.Contains(rng)
+
+            }
+        }
+        public void Include(ulong[] indexes)
         {
             throw new NotImplementedException();
         }
-        public void Include(long startIndex, long count)
+        public void Exclude(ulong index)
         {
             throw new NotImplementedException();
         }
-        public void Include(long[] indexes)
+        public void Exclude(ulong startIndex, ulong count)
         {
             throw new NotImplementedException();
         }
-        public void Exclude(long index)
+        public void Exclude(ulong[] indexes)
         {
             throw new NotImplementedException();
         }
-        public void Exclude(long startIndex, long count)
-        {
-            throw new NotImplementedException();
-        }
-        public void Exclude(long[] indexes)
-        {
-            throw new NotImplementedException();
-        }
-        public IEnumerator<long> GetEnumerator()
+        public IEnumerator<ulong> GetEnumerator()
         {
             throw new NotImplementedException();
         }
@@ -60,7 +72,5 @@ namespace NSynth
             return this.GetEnumerator();
         }
         #endregion
-
-      
     }
 }
