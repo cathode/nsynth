@@ -36,7 +36,7 @@ namespace NSynth.Imaging
         {
             get
             {
-                return this.path;
+                return this.path ?? string.Empty;
             }
             set
             {
@@ -57,15 +57,6 @@ namespace NSynth.Imaging
             {
                 this.multiFrame = value;
             }
-        }
-
-        /// <summary>
-        /// Gets or sets the number of frames.
-        /// </summary>
-        public int FrameCount
-        {
-            get;
-            set;
         }
         #endregion
         #region Methods

@@ -73,22 +73,6 @@ namespace NSynth
         #endregion
         #region Properties
         /// <summary>
-        /// Gets or sets the <see cref="Clip"/> that represents the characteristics current filter's output.
-        /// </summary>
-        [Obsolete]
-        public Clip Clip
-        {
-            get
-            {
-                return null;
-            }
-            protected set
-            {
-
-            }
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether the current <see cref="Filter"/> is disposed.
         /// </summary>
         public bool IsDisposed

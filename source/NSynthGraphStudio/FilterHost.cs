@@ -21,6 +21,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using NSynth;
 using NSynth.Imaging;
+using NSynth.Video;
 
 namespace NSynthGraphStudio
 {
@@ -68,10 +69,12 @@ namespace NSynthGraphStudio
             if (this.filter == null)
                 return;
 
-            if (this.filter.Clip.VideoTracks.Count == 0)
-                return;
+            // TODO: Fix this!!!
+            //if (this.filter.Clip.VideoTracks.Count == 0)
+            //    return;
 
-            var track = this.filter.Clip.VideoTracks[0];
+            // TODO: Fix this!!!
+            VideoTrack track = null; //this.filter.Clip.VideoTracks[0];
 
             double dpi = 96.0;
 

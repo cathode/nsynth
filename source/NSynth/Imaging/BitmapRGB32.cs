@@ -62,12 +62,6 @@ namespace NSynth.Imaging
             Contract.Requires(pixels != null);
             Contract.Requires(pixels.Length == width * height);
         }
-        /*
-        public BitmapRGB32(IBitmap source)
-            : base(source)
-        {
-            Contract.Requires(source != null);
-        }*/
         #endregion
         #region Properties
         /// <summary>
@@ -85,7 +79,7 @@ namespace NSynth.Imaging
 
         [ContractVerification(false)]
         public override void Combine(Bitmap<ColorRGB32> bitmap, Point location, Size size, CombineMode mode, Bitmap<ColorRGB32> mask)
-        {
+        {  
             int xMax = Math.Min(Math.Min(size.Width + location.X, this.Width), (mask == null) ? bitmap.Width + location.X : Math.Min(bitmap.Width + location.X, mask.Width + location.X));
             int yMax = Math.Min(Math.Min(size.Height + location.Y, this.Height), (mask == null) ? bitmap.Height + location.Y : Math.Min(bitmap.Height + location.Y, mask.Height + location.Y));
             int xStart = Math.Max(Math.Min(location.X, this.Width), 0);
@@ -121,10 +115,12 @@ namespace NSynth.Imaging
             }
         }
 
+
         public void Fill(ColorRGB32 color, Bitmap<ColorRGB32> mask)
         {
             Contract.Requires(mask != null);
-            Contract.Requires(this.Size == mask.Size);
+            Contract.Requires(this.Width == mask.Width);
+            Contract.Requires(this.Height == mask.Height);
 
             for (int y = 0; y < this.Height; y++)
                 for (int x = 0; x < this.Width; x++)

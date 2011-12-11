@@ -39,15 +39,6 @@ namespace NSynth
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Frame"/> class.
-        /// </summary>
-        /// <param name="clip">A <see cref="Clip"/> that defines the track layout.</param>
-        public Frame(Clip clip)
-        {
-
-        }
-
         internal Frame(Filter owner)
         {
             this.owner = owner;

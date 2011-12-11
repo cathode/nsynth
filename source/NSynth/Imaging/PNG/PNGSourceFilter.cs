@@ -32,13 +32,13 @@ namespace NSynth.Imaging.PNG
                         if (bitmap != null)
                         {
                             var track = new VideoTrack();
-                            track.SampleCount = this.FrameCount;
+                            //track.SampleCount = this.FrameCount;
                             track.Width = bitmap.Width;
                             track.Height = bitmap.Height;
                             track.Format = bitmap.Format;
                             track.SamplesPerFrame = 1;
 
-                            this.Clip = new Clip(track);
+                            //this.Clip = new Clip(track);
                         }
                     }
                 }

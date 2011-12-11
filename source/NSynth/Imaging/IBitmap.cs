@@ -93,6 +93,7 @@ namespace NSynth.Imaging
                 Contract.Requires(x < this.Width);
                 Contract.Requires(y >= 0);
                 Contract.Requires(y < this.Height);
+                Contract.Ensures(Contract.Result<IColor>() != null);
 
                 return default(IColor);
             }
@@ -102,6 +103,7 @@ namespace NSynth.Imaging
                 Contract.Requires(x < this.Width);
                 Contract.Requires(y >= 0);
                 Contract.Requires(y < this.Height);
+                Contract.Requires(value != null);
             }
         }
 

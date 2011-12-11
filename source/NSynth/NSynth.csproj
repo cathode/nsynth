@@ -115,8 +115,6 @@
     <Compile Include="FrameRenderRequest.cs" />
     <Compile Include="Imaging\CombineMode.cs" />
     <Compile Include="Imaging\DownsampleMode.cs" />
-    <Compile Include="Imaging\Filters\ExtractColorChannelsFilter.cs" />
-    <Compile Include="Imaging\Filters\ImageFilter.cs" />
     <Compile Include="Imaging\Layer.cs" />
     <Compile Include="Imaging\RasterLayer.cs" />
     <Compile Include="Imaging\TGA\TGAOutputFilter.cs" />
@@ -154,8 +152,8 @@
     <Compile Include="EX.cs" />
     <Compile Include="FilterGraph.cs" />
     <Compile Include="BitstreamIndex.cs" />
-    <Compile Include="Clip.cs" />
-    <Compile Include="ClipData.cs" />
+    <None Include="Clip.cs" />
+    <None Include="ClipData.cs" />
     <Compile Include="DataBuffer.cs" />
     <Compile Include="Filter.cs">
       <SubType>Code</SubType>
@@ -172,9 +170,6 @@
     <None Include="Filters\DeleteFilter.cs">
       <SubType>Code</SubType>
     </None>
-    <Compile Include="Filters\ImageSourceFilterBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <None Include="Filters\TrackMergeFilter.cs">
       <SubType>Code</SubType>
     </None>
@@ -199,9 +194,9 @@
     <None Include="Filters\Video\InvertChannels.cs">
       <SubType>Code</SubType>
     </None>
-    <Compile Include="Filters\Video\InvertFilter.cs">
+    <None Include="Filters\Video\InvertFilter.cs">
       <SubType>Code</SubType>
-    </Compile>
+    </None>
     <None Include="Filters\Video\OverlayFilter.cs">
       <SubType>Code</SubType>
     </None>
@@ -229,12 +224,6 @@
     <None Include="Filters\Video\ScaleFilter.cs">
       <SubType>Code</SubType>
     </None>
-    <Compile Include="Filters\ProcessFilterBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Filters\SourceFilterBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="FrameDimensions.cs" />
     <Compile Include="Margins.cs" />
     <Compile Include="Audio\AAC\AACCodec.cs" />

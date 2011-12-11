@@ -171,11 +171,6 @@ namespace NSynth
                 if (this.Bitstream != null)
                     this.Bitstream.Dispose();
         }
-
-        public virtual Clip GetClip()
-        {
-            throw new NotImplementedException();
-        }
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {

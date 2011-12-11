@@ -13,14 +13,17 @@ namespace NSynth.Imaging
     /// Represents a generic bitmap.
     /// </summary>
     /// <typeparam name="TColor">The type of the color used to represent pixel values.</typeparam>
-    public abstract class Bitmap<TColor> : IBitmap where TColor : IColor
+    public abstract class Bitmap<TColor> : IBitmap where TColor : struct, IColor
     {
         #region Fields
         /// <summary>
-        /// Backing field for the <see cref="Bitmap&lt;TColor&gt;.Size"/> property.
+        /// Backing field for the <see cref="Width"/> property.
         /// </summary>
         private readonly int width;
 
+        /// <summary>
+        /// Backing field for the <see cref="Height"/> property.
+        /// </summary>
         private readonly int height;
 
         /// <summary>
@@ -130,8 +133,8 @@ namespace NSynth.Imaging
         {
             get
             {
-                Contract.Ensures(Contract.Result<Size>().Width == this.Width);
-                Contract.Ensures(Contract.Result<Size>().Height == this.Height);
+                //Contract.Ensures(Contract.Result<Size>().Width == this.Width);
+                //Contract.Ensures(Contract.Result<Size>().Height == this.Height);
 
                 return new Size(this.Width, this.Height);
             }
@@ -195,10 +198,10 @@ namespace NSynth.Imaging
         /// Fills the entire bitmap with the specified color.
         /// </summary>
         /// <param name="color">The color to fill with.</param>
-        public void Fill(TColor color)
+        public virtual void Fill(TColor color)
         {
             var px = this.pixels;
-            for (int i = 0; i < px.Length; i++)
+            for (int i = 0; i < px.Length; ++i)
                 px[i] = color;
         }
 
@@ -208,6 +211,8 @@ namespace NSynth.Imaging
         /// <param name="color">The color to fill with.</param>
         public void Fill(IColor color)
         {
+            Contract.Requires(color != null);
+
             this.Fill(this.GetTColor(color));
         }
 
@@ -225,8 +230,8 @@ namespace NSynth.Imaging
         /// <summary>
         /// Blends the specified bitmap with the current bitmap.
         /// </summary>
-        /// <param name="bitmap"></param>
-        /// <param name="location"></param>
+        /// <param name="bitmap">The bitmap to blend against the current bitmap.</param>
+        /// <param name="location">The location on the current bitmap where the specified bitmap will be combined.</param>
         public void Combine(Bitmap<TColor> bitmap, Point location)
         {
             Contract.Requires(bitmap != null);
@@ -255,15 +260,23 @@ namespace NSynth.Imaging
             throw new NotImplementedException();
         }
 
-        protected abstract TColor GetTColor(IColor color);
+        protected virtual TColor GetTColor(IColor color)
+        {
+            Contract.Requires(color != null);
+
+            if (color is TColor)
+                return (TColor)color;
+            else
+                throw new NotImplementedException();
+        }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            //Contract.Invariant(this.Size.Width == this.Width);
-            //Contract.Invariant(this.Size.Height == this.Height);
+            Contract.Invariant(this.Width >= 0);
+            Contract.Invariant(this.Height >= 0);
+            Contract.Invariant(this.Format != null);
         }
         #endregion
-        
     }
 }
