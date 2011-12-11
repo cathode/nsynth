@@ -55,10 +55,7 @@ namespace NSynth.Filters.Video
         }
         #endregion
         #region Methods
-        public override Frame Render(long frameIndex)
-        {
-            throw new NotImplementedException();
-        }
+      
         #endregion
     }
 }

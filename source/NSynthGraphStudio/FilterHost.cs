@@ -96,10 +96,10 @@ namespace NSynthGraphStudio
             //if (this.cachedBitmap != null)
             //    throw new NotImplementedException();
 
-            var frame = this.filter.Render(frameIndex);
-            var frameBitmap = frame.Video[0];
+            //var frame = this.filter.GetFrame(frameIndex);
+            //var frameBitmap = frame.Video;
 
-            this.RefreshCachedBitmap(frameBitmap);
+            //this.RefreshCachedBitmap(frameBitmap);
         }
 
         private unsafe void RefreshCachedBitmap(IBitmap frameBitmap)

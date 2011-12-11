@@ -19,12 +19,14 @@ namespace NSynth
         /// <summary>
         /// Backing field for the <see cref="Frame.Audio"/> property.
         /// </summary>
-        private readonly FrameData<ISegment> audio;
+        private ISegment audio;
 
         /// <summary>
         /// Backing field for the <see cref="Frame.Video"/> property.
         /// </summary>
-        private readonly FrameData<IBitmap> video;
+        private IBitmap video;
+
+        private Filter owner;
         #endregion
         #region Constructors
         /// <summary>
@@ -35,8 +37,6 @@ namespace NSynth
         /// </remarks>
         public Frame()
         {
-            this.audio = new FrameData<ISegment>(1);
-            this.video = new FrameData<IBitmap>(1);
         }
 
         /// <summary>
@@ -45,37 +45,52 @@ namespace NSynth
         /// <param name="clip">A <see cref="Clip"/> that defines the track layout.</param>
         public Frame(Clip clip)
         {
-            this.video = new FrameData<IBitmap>(clip.VideoTracks.Count);
-            for (int i = 0; i < this.video.Count; i++)
-            {
-                var track = clip.VideoTracks[i];
-                this.video[i] = track.Format.CreateBitmap(track.Dimensions);
-            }
 
-            this.audio = new FrameData<ISegment>(0);
+        }
+
+        internal Frame(Filter owner)
+        {
+            this.owner = owner;
         }
         #endregion
         #region Properties
         /// <summary>
         /// Gets the audio data for the current frame.
         /// </summary>
-        public FrameData<ISegment> Audio
+        public ISegment Audio
         {
             get
             {
                 return this.audio;
+            }
+            set
+            {
+                this.audio = value;
             }
         }
 
         /// <summary>
         /// Gets the video data for the current frame.
         /// </summary>
-        public FrameData<IBitmap> Video
+        public IBitmap Video
         {
             get
             {
                 return this.video;
             }
+            set
+            {
+                this.video = value;
+            }
+        }
+        #endregion
+        #region Methods
+        public Frame CreateEmptyClone()
+        {
+            var frame = new Frame();
+
+
+            return frame;
         }
         #endregion
     }

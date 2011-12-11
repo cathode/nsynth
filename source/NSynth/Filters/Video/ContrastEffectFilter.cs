@@ -16,7 +16,7 @@ namespace NSynth.Filters.Video
     {
         #region Fields
         private float contrast;
-     
+
         #endregion
         #region Properties
         public float Contrast
@@ -30,33 +30,14 @@ namespace NSynth.Filters.Video
                 this.contrast = value;
             }
         }
-        
+
         #endregion
         #region Methods
         protected override void OnInitializing(FilterInitializationEventArgs e)
         {
             base.OnInitializing(e);
 
-            this.Clip = this.InputFrames.Filter.Clip;
         }
-        public override Frame Render(long frameIndex)
-        {
-            Frame frame = this.InputFrames.GetValue(frameIndex);
-
-            foreach (var bitmap in frame.Video)
-                for (int row = 0; row < bitmap.Height; row++)
-                    for (int col = 0; col < bitmap.Width; col++)
-                    {
-                        var px = bitmap[col, row];
-                        px.Red = (px.Red - 0.5f) * this.contrast;
-                        px.Green = (px.Green - 0.5f) * this.contrast;
-                        px.Blue = (px.Blue - 0.5f) * this.contrast;
-                        bitmap[col, row] = px;
-                    }
-
-            return frame;
-        }
-
         private BitmapRGB24 ApplyEffectRGB24(BitmapRGB24 input)
         {
             ColorRGB24[] pix = new ColorRGB24[input.Size.Elements];

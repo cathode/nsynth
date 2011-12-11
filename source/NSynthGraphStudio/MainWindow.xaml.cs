@@ -140,51 +140,5 @@ namespace NSynthGraphStudio
             App.Current.Shutdown();
         }
         #endregion
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            this.host.Filter = new SplineTestFilter();
-        }
-
-        internal sealed class SplineTestFilter : Filter
-        {
-            internal SplineTestFilter()
-            {
-                this.Clip = new Clip(new NSynth.Video.VideoTrack(512, 512)
-                {
-                    Format = NSynth.Imaging.ColorFormat.RGB24
-                });
-            }
-            public override NSynth.Frame Render(long frameIndex)
-            {
-                var frame = this.Clip.NewFrame();
-                var spline = new BCurve(new Pointf(0f, 0f),
-                    new Pointf(0f, 0.8f),
-                    new Pointf(1f, 0.3f),
-                    new Pointf(1f, 0.4f),
-                    new Pointf(.7f, 1f),
-                    new Pointf(.4f, 0f),
-                    new Pointf(.9f, .9f));
-                var pix = new BitmapRGB24(512, 512);
-
-                pix.Fill(new ColorRGB24(0, 0, 0));
-
-                for (int i = 0; i < 2048; i++)
-                {
-                    var p = spline.Sample(i / 2047f);
-                    pix[(int)(p.X * 511), (int)(p.Y * 511)] = new ColorRGB24(255, 255, 255);
-
-                }
-
-                frame.Video[0] = pix;
-
-                return frame;
-            }
-        }
-
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
-            FramePool.Populate(200);
-        }
     }
 }

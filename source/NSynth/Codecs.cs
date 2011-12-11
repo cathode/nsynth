@@ -14,6 +14,11 @@ namespace NSynth
     {
         #region Fields
         /// <summary>
+        /// Backing field for the <see cref="Codecs.IFF"/> property.
+        /// </summary>
+        private static IFFCodec iff = new IFFCodec();
+
+        /// <summary>
         /// Backing field for the <see cref="Codecs.AAC"/> property.
         /// </summary>
         private static Audio.AAC.AACCodec aac = new Audio.AAC.AACCodec();
@@ -104,6 +109,13 @@ namespace NSynth
         private static Video.VP8.VP8Codec vp8 = new Video.VP8.VP8Codec();
         #endregion
         #region Properties
+        public static IFFCodec IFF
+        {
+            get
+            {
+                return Codecs.iff;
+            }
+        }
         #region Audio Codecs
         /// <summary>
         /// Gets the codec for Advanced Audio Coding.

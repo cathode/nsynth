@@ -26,7 +26,7 @@ namespace NSynth.Imaging
 
                 var frame = decoder.Decode();
                 if (frame != null)
-                    return frame.Video[0];
+                    return frame.Video;
                 else
                     return null;
             }

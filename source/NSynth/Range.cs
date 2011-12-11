@@ -46,6 +46,7 @@ namespace NSynth
                 yield return i + start;
             }
         }
+
         /// <summary>
         /// Enumerates over the frame indices in the current
         /// <see cref="Range"/>.
@@ -78,6 +79,7 @@ namespace NSynth
         {
             return (this.Length > 0) && (range.Length > 0) && (range.Start >= this.Start) && (range.End <= this.End);
         }
+
         /// <summary>
         /// Determines if the current <see cref="Range"/> and the specified <see cref="Range"/>
         /// share any indices.
@@ -92,6 +94,7 @@ namespace NSynth
         {
             return (this.Length > 0) && (range.Length > 0) && (range.Start >= this.Start) && (range.Start <= this.End);
         }
+
         /// <summary>
         /// Returns a new <see cref="Range"/> that represents the indices which are shared by the current instance
         /// and the specified instance.

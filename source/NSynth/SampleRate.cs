@@ -9,7 +9,8 @@ using System;
 namespace NSynth
 {
     /// <summary>
-    /// Represents a measurement of samples per time unit taken from a continuous signal to make a discrete signal.
+    /// Represents a measurement of samples per time unit taken from a
+    /// continuous signal to make a discrete signal.
     /// </summary>
     public struct SampleRate
     {
@@ -98,7 +99,7 @@ namespace NSynth
         #endregion
         #region Properties
         /// <summary>
-        /// Gets or sets the number of samples.
+        /// Gets the number of samples.
         /// </summary>
         public long Samples
         {
@@ -109,7 +110,7 @@ namespace NSynth
         }
 
         /// <summary>
-        /// Gets or sets the duration of the current <see cref="SampleRate"/>.
+        /// Gets the duration of the current <see cref="SampleRate"/>.
         /// </summary>
         public TimeSpan Duration
         {

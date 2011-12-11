@@ -69,11 +69,6 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Methods
-        public override Frame Render(long frameIndex)
-        {
-
-            throw new NotImplementedException();
-        }
         protected Stream OpenStreamForFrame(long frameIndex)
         {
             if (this.MultiFrame)

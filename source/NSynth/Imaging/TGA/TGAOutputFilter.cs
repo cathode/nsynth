@@ -9,10 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NSynth
+namespace NSynth.Imaging.TGA
 {
-    public abstract class FilterInput<T>
+    public class TGAOutputFilter : OutputFilter
     {
-        public abstract T GetValue(long frameIndex);
+        protected override bool Render(Frame output, ulong index)
+        {
+            var inframe = this.Inputs.Default.Source.GetFrame(index);
+            return true;
+        }
     }
 }

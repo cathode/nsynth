@@ -16,11 +16,11 @@ namespace NSynth
     /// </summary>
     public interface IFrameSource
     {
-        long FrameCount
+        ulong FrameCount
         {
             get;
         }
 
-        Frame Render(long index);
+        Frame GetFrame(ulong index);
     }
 }

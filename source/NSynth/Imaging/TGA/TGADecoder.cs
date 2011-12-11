@@ -58,7 +58,7 @@ namespace NSynth.Imaging.TGA
             this.DecodeBitmap();
 
             var frame = new Frame();
-            frame.Video[0] = this.context.DecodedBitmap;
+            frame.Video = this.context.DecodedBitmap;
 
             return frame;
         }

@@ -35,26 +35,6 @@ namespace NSynth.Imaging.TGA
         #region Properties
         #endregion
         #region Methods
-        /// <summary>
-        /// Overridden. Renders the frame with the specified index.
-        /// </summary>
-        /// <param name="frameIndex"></param>
-        /// <returns></returns>
-        public override Frame Render(long frameIndex)
-        {
-            using (var stream = this.OpenStreamForFrame(frameIndex))
-            {
-                using (var decoder = new TGADecoder())
-                {
-                    decoder.Bitstream = stream;
-                    if (!decoder.Initialize())
-                        throw new NotImplementedException();
-
-                    return decoder.Decode();
-                }
-            }
-        }
-
         protected override void OnInitializing(FilterInitializationEventArgs e)
         {
             base.OnInitializing(e);
@@ -65,20 +45,18 @@ namespace NSynth.Imaging.TGA
                     decoder.Bitstream = stream;
                     decoder.Initialize();
                     var frame = decoder.Decode();
-                    if (frame.Video.Count > 0)
+
+                    var bitmap = frame.Video;
+                    if (bitmap != null)
                     {
-                        var bitmap = frame.Video[0];
-                        if (bitmap != null)
-                        {
-                            var track = new VideoTrack();
-                            track.SampleCount = this.FrameCount;
-                            track.Width = bitmap.Width;
-                            track.Height = bitmap.Height;
-                            track.Format = bitmap.Format;
-                            track.SamplesPerFrame = 1;
-                            
-                            this.Clip = new Clip(track);
-                        }
+                        var track = new VideoTrack();
+                        track.SampleCount = this.FrameCount;
+                        track.Width = bitmap.Width;
+                        track.Height = bitmap.Height;
+                        track.Format = bitmap.Format;
+                        track.SamplesPerFrame = 1;
+
+                        this.Clip = new Clip(track);
                     }
                 }
             }

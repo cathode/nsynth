@@ -7,6 +7,7 @@
 using NSynth.Audio;
 using NSynth.Video;
 using System.Collections.Generic;
+using System;
 
 namespace NSynth
 {
@@ -138,9 +139,7 @@ namespace NSynth
         /// <returns>The new empty <see cref="Frame"/> instance.</returns>
         public Frame NewFrame()
         {
-            var frame = new Frame(this);
-
-            return frame;
+            throw new NotSupportedException();
         }
 
         #endregion

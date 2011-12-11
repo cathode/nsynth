@@ -59,22 +59,7 @@ namespace NSynth.Filters.Internal
         }
         #endregion
         #region Methods
-        /// <summary>
-        /// Overridden. Gets the <see cref="Frame"/> with the specified index.
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public override Frame Render(long frameIndex)
-        {
-            if (this.Path == null)
-                return null;
-            else
-                throw new NotImplementedException();
-
-            // string framePath = string.Format(this.path, frameIndex);
-
-            // return null;
-        }
+       
         #endregion
     }
 }

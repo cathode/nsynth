@@ -9,20 +9,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using NSynth;
+using System.Diagnostics.Contracts;
 
 namespace NSynth
 {
     /// <summary>
     /// Represents the base class used for all filters in the graph.
     /// </summary>
-    public abstract class Filter : IDisposable
+    public abstract class Filter : IDisposable, IFrameSource
     {
         #region Fields
-        /// <summary>
-        /// Backing field for the <see cref="Filter.Clip"/> property.
-        /// </summary>
-        private Clip clip;
-
         /// <summary>
         /// Backing field for the <see cref="Filter.IsDisposed"/> property.
         /// </summary>
@@ -39,9 +35,16 @@ namespace NSynth
         private string tag;
 
         /// <summary>
-        /// Backing field for the <see cref="Filter.Rank"/> property.
+        /// Holds frames buffered for output.
         /// </summary>
-        private int rank;
+        private readonly Dictionary<ulong, Frame> bufferedFrames;
+
+        /// <summary>
+        /// Holds the indices of frames that have been requested for rendering.
+        /// </summary>
+        private readonly Queue<ulong> requestedFrames;
+
+        private readonly FilterInputSlotCollection inputs;
         #endregion
         #region Constructors
         /// <summary>
@@ -49,7 +52,9 @@ namespace NSynth
         /// </summary>
         protected Filter()
         {
-            this.clip = new Clip();
+            this.bufferedFrames = new Dictionary<ulong, Frame>();
+            this.requestedFrames = new Queue<ulong>();
+            this.inputs = new FilterInputSlotCollection(this);
         }
 
         /// <summary>
@@ -70,15 +75,16 @@ namespace NSynth
         /// <summary>
         /// Gets or sets the <see cref="Clip"/> that represents the characteristics current filter's output.
         /// </summary>
+        [Obsolete]
         public Clip Clip
         {
             get
             {
-                return this.clip;
+                return null;
             }
             protected set
             {
-                this.clip = value ?? new Clip();
+
             }
         }
 
@@ -109,21 +115,6 @@ namespace NSynth
         }
 
         /// <summary>
-        /// Gets the rank of the current filter within the filter graph that it belongs to.
-        /// </summary>
-        public int Rank
-        {
-            get
-            {
-                return this.rank;
-            }
-            internal set
-            {
-                this.rank = value;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets a string that is meaningful to the user which identifies the current <see cref="Filter"/>.
         /// </summary>
         // [FilterParameter("Tag", Description = "TagParameterDescription", Kind = FilterParameterKind.String)]
@@ -138,20 +129,27 @@ namespace NSynth
                 this.tag = value;
             }
         }
+
+        /// <summary>
+        /// Gets a collection of inputs to the current filter.
+        /// </summary>
+        public FilterInputSlotCollection Inputs
+        {
+            get
+            {
+                return this.inputs;
+            }
+        }
+
+        public virtual ulong FrameCount
+        {
+            get
+            {
+                return 0;
+            }
+        }
         #endregion
         #region Methods
-        public virtual IAsyncResult BeginRender(long frameIndex, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-        public virtual IAsyncResult BeginRender(long frameIndex, long count, AsyncCallback callback, object state)
-        {
-            throw new NotImplementedException();
-        }
-        public virtual Frame EndRender(IAsyncResult result)
-        {
-            throw new NotImplementedException();
-        }
         /// <summary>
         /// Disposes the current <see cref="Filter"/>, releasing managed and unmanaged resources.
         /// </summary>
@@ -179,30 +177,6 @@ namespace NSynth
         }
 
         /// <summary>
-        /// Renders the frame with the specified index.
-        /// </summary>
-        /// <param name="frameIndex">The zero-based index of the frame to render. This index is relative to the current filter.</param>
-        public virtual Frame Render(long frameIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Renders the range of frames defined by the starting index and frame count.
-        /// </summary>
-        /// <param name="startIndex">The zero-based index of the first frame in the range to be rendered. This index is relative to the current filter.</param>
-        /// <param name="count">The number of frames to render.</param>
-        public virtual Frame[] Render(long startIndex, long count)
-        {
-            var frames = new Frame[count];
-
-            for (long i = 0, n = startIndex; i < count; i++, n++)
-                frames[i] = this.Render(n);
-
-            return frames;
-        }
-
-        /// <summary>
         /// Disposes the current <see cref="Filter"/>, releasing unmanaged resources and optionally managed resources.
         /// </summary>
         /// <param name="disposing">Indicates whether to release managed resources.</param>
@@ -225,6 +199,42 @@ namespace NSynth
             if (this.Initializing != null)
                 this.Initializing(this, e);
         }
+        /// <summary>
+        /// Requests that a single frame should be rendered.
+        /// </summary>
+        /// <param name="frameIndex">The index of the frame to render.</param>
+        public void RequestFrame(ulong frameIndex)
+        {
+            //if (!this.requestedFrames.Contains(frameIndex))
+            //    this.requestedFrames.Enqueue(frameIndex);
+
+            // TODO: Ensure that request queue is being processed by the worker thread.
+
+            // HACK: Perform blocking render.
+
+            var frame = new Frame(this);
+            this.Render(frame, frameIndex);
+
+            this.bufferedFrames.Add(frameIndex, frame);
+            
+        }
+
+        public Frame GetFrame(ulong index)
+        {
+            if (this.bufferedFrames.ContainsKey(index))
+                return this.bufferedFrames[index];
+            else
+                this.RequestFrame(index);
+
+            return this.bufferedFrames[index];
+        }
+
+        protected virtual bool Render(Frame output, ulong index)
+        {
+            return false;
+        }
         #endregion
+
+        
     }
 }

@@ -1,4 +1,10 @@
-﻿using System;
+﻿/******************************************************************************
+ * NSynth - A Managed Multimedia API - http://nsynth.gearedstudios.com/       *
+ * Copyright © 2009-2011 William 'cathode' Shelley. All Rights Reserved.      *
+ * This software is released under the terms and conditions of the MIT/X11    *
+ * license; see the included 'license.txt' file for the full text.            *
+ *****************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,31 +18,12 @@ namespace NSynthRunner
     {
         internal static void Main(string[] args)
         {
-            Console.Write("TGA frame path: ");
-            //var path = Console.ReadLine();
-            var path = @"c:\nsynth\sample.tga";
-            Console.Write("Frame count: ");
-            var count = 1;//int.Parse(Console.ReadLine());
-            var start = 1500;
-            var src = new TGASourceFilter(path);
-            src.FrameCount = count;
-            if (count > 1)
-                src.MultiFrame = true;
+            var input = new TGASourceFilter(@"C:\NSynth\sample.tga");
+           
+            var tgaout = new TGAOutputFilter();
+            tgaout.Inputs.Default.Source = input;
 
-            var outpath = @"c:\nsynth\sample_out.tga";
-            var end = start + count;
-            for (int i = start; i < end; ++i)
-            {
-                var frame = src.Render(i);
-                var tga = new TGAImage(frame.Video[0]);
-                tga.UseRunLengthEncoding = true;
-                var outfile = string.Format(outpath, i);
-                System.IO.File.Delete(outfile);
-                using (var enc = new TGAEncoder(System.IO.File.Open(outfile, System.IO.FileMode.Create, System.IO.FileAccess.Write)))
-                {
-                    enc.EncodeImage(tga);
-                }
-            }
+            tgaout.RequestFrame(0);
         }
     }
 }

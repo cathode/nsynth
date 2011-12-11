@@ -122,7 +122,7 @@ namespace NSynth.Imaging.PNG
                             pix[i] = p;
                         }
 
-                        result.Video[0] = new BitmapRGB32(width, height, pix);
+                        result.Video = new BitmapRGB32(width, height, pix);
                     }
                     else if (colorType == PNGColorType.Truecolor)
                     {
@@ -146,7 +146,7 @@ namespace NSynth.Imaging.PNG
                             pix[i] = p;
                         }
 
-                        result.Video[0] = new BitmapRGB24(width, height, pix);
+                        result.Video = new BitmapRGB24(width, height, pix);
                     }
                     else
                     {

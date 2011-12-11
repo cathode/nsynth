@@ -24,22 +24,15 @@ namespace NSynth.Filters.Video
         }
         #endregion
         #region Methods
-        public override Frame Render(long frameIndex)
-        {
-            var result = this.Clip.NewFrame();
-
-            result.Video[0] = this.BoxBlur(this.InputFrames.GetValue(frameIndex).Video[0]);
-
-            return result;
-        }
         protected override void OnInitializing(FilterInitializationEventArgs e)
         {
             base.OnInitializing(e);
-
+            /*
             if (this.InputFrames.Filter == null)
                 this.Clip = new Clip();
             else
                 this.Clip = this.InputFrames.Filter.Clip;
+            */
         }
 
         private BitmapRGB BoxBlur(IBitmap source)

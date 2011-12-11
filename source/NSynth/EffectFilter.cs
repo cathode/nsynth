@@ -17,22 +17,15 @@ namespace NSynth
     public abstract class EffectFilter : SourceFilter
     {
         #region Fields
-        private readonly FrameInput effectSource;
         #endregion
         #region Constructors
         protected EffectFilter()
         {
-            this.effectSource = new FrameInput();
+            
         }
         #endregion
         #region Properties
-        public FrameInput InputFrames
-        {
-            get
-            {
-                return this.effectSource;
-            }
-        }
+       
         #endregion
     }
 }

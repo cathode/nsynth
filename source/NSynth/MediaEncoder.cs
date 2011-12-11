@@ -72,6 +72,13 @@ namespace NSynth
             {
                 return this.bitstream;
             }
+            set
+            {
+                if (this.IsOpen)
+                    this.Close();
+                this.bitstream = value;
+
+            }
         }
 
         /// <summary>
@@ -133,20 +140,20 @@ namespace NSynth
         public void CancelAsync(object userState)
         {
         }
-        
+
         /// <summary>
         /// Encodes a specified range of frames obtained from the specified frame source.
         /// </summary>
         /// <param name="frameSource"></param>
         /// <param name="start"></param>
         /// <param name="count"></param>
-        public void Encode(IFrameSource frameSource, long start, long count)
+        public void Encode(IFrameSource frameSource, ulong start, ulong count)
         {
             Contract.Requires(frameSource != null);
-            
+
             var end = start + count;
-            for (long i = start; i < end; ++i)
-                this.EncodeFrame(frameSource.Render(i));
+            for (ulong i = start; i < end; ++i)
+                this.EncodeFrame(frameSource.GetFrame(i));
         }
 
         /// <summary>

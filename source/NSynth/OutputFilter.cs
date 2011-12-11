@@ -12,7 +12,9 @@ using System.Text;
 namespace NSynth
 {
     /// <summary>
-    /// Provides a filter that consumes frames from another filter, and outputs them to a non-filter target, such as a file, network socket, or user interface.
+    /// Provides a filter that consumes frames from another filter, and outputs
+    /// them to a non-filter target, such as a file, network socket,
+    /// or user interface.
     /// </summary>
     public abstract class OutputFilter : Filter
     {
@@ -24,9 +26,21 @@ namespace NSynth
         /// </summary>
         protected OutputFilter()
         {
+
         }
         #endregion
         #region Properties
+        #endregion
+        #region Methods
+        public void Output(ulong index)
+        {
+            this.RequestFrame(index);
+        }
+
+        protected override bool Render(Frame output, ulong index)
+        {
+            return base.Render(output, index);
+        }
         #endregion
     }
 }

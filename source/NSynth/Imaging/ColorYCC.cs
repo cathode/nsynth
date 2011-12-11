@@ -9,7 +9,7 @@ using System;
 namespace NSynth.Imaging
 {
     /// <summary>
-    /// Represents a color in the Y'CbCr color space.
+    /// Represents a color in the Y'Cb'Cr color space.
     /// </summary>
     public struct ColorYCC : IColor
     {

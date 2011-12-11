@@ -16,17 +16,6 @@ namespace NSynth.Filters.Video
     public class InvertFilter : ProcessFilterBase
     {
         #region Methods
-        public override Frame Render(long frameIndex)
-        {
-            var frame = this.Input.Render(frameIndex);
-
-            foreach (var bitmap in frame.Video)
-            {
-                this.InvertBitmap(bitmap);
-            }
-
-            return frame;
-        }
         private void InvertBitmap(IBitmap bitmap)
         {
             for (int y = 0; y < bitmap.Height; y++)
