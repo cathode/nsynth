@@ -1,6 +1,6 @@
 ﻿/******************************************************************************
  * NSynth - A Managed Multimedia API - http://nsynth.gearedstudios.com/       *
- * Copyright © 2009-2011 William 'cathode' Shelley. All Rights Reserved.      *
+ * Copyright © 2009-2012 William 'cathode' Shelley. All Rights Reserved.      *
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
@@ -17,32 +17,32 @@ namespace NSynth
         /// <summary>
         /// Backing field for the <see cref="FrameDimensions.Height"/> property.
         /// </summary>
-        private int height;
+        private uint height;
 
         /// <summary>
         /// Backing field for the <see cref="FrameDimensions.Width"/> property.
         /// </summary>
-        private int width;
+        private uint width;
 
         /// <summary>
         /// Backing field for the <see cref="FrameDimensions.LeftOffset"/> property.
         /// </summary>
-        private int leftOffset;
+        private uint leftOffset;
 
         /// <summary>
         /// Backing field for the <see cref="FrameDimensions.TopOffset"/> property.
         /// </summary>
-        private int topOffset;
+        private uint topOffset;
 
         /// <summary>
         /// Backing field for the <see cref="FrameDimensions.RightOffset"/> property.
         /// </summary>
-        private int rightOffset;
+        private uint rightOffset;
 
         /// <summary>
         /// Backing field for the <see cref="FrameDimensions.BottomOffset"/> property.
         /// </summary>
-        private int bottomOffset;
+        private uint bottomOffset;
         #endregion
         #region Constructors
         /// <summary>
@@ -50,7 +50,7 @@ namespace NSynth
         /// </summary>
         /// <param name="width">The total and viewable width in pixels of a frame.</param>
         /// <param name="height">The total and viewable height in pixels of a frame.</param>
-        public FrameDimensions(int width, int height)
+        public FrameDimensions(uint width, uint height)
         {
             this.width = width;
             this.height = height;
@@ -67,7 +67,7 @@ namespace NSynth
         /// <param name="height">The total height in pixels of a frame.</param>
         /// <param name="cleanWidth">The viewable width in pixels of a frame.</param>
         /// <param name="cleanHeight">The viewable height in pixels of a frame.</param>
-        public FrameDimensions(int width, int height, int cleanWidth, int cleanHeight)
+        public FrameDimensions(uint width, uint height, uint cleanWidth, uint cleanHeight)
         {
             if (cleanWidth > width)
                 throw new ArgumentException();
@@ -90,7 +90,7 @@ namespace NSynth
         /// <summary>
         /// Gets or sets the total height in pixels of a frame.
         /// </summary>
-        public int Height
+        public uint Height
         {
             get
             {
@@ -105,7 +105,7 @@ namespace NSynth
         /// <summary>
         /// Gets or sets the total width in pixels of a frame.
         /// </summary>
-        public int Width
+        public uint Width
         {
             get
             {
@@ -120,7 +120,7 @@ namespace NSynth
         /// <summary>
         /// Gets or sets the viewable height in pixels of a frame.
         /// </summary>
-        public int CleanHeight
+        public uint CleanHeight
         {
             get
             {
@@ -140,7 +140,7 @@ namespace NSynth
         /// <summary>
         /// Gets or sets the viewable width in pixels of a frame.
         /// </summary>
-        public int CleanWidth
+        public uint CleanWidth
         {
             get
             {
@@ -160,7 +160,7 @@ namespace NSynth
         /// <summary>
         /// Gets or sets the number of pixels on the left edge that are not part of the clean frame.
         /// </summary>
-        public int LeftOffset
+        public uint LeftOffset
         {
             get
             {
@@ -178,7 +178,7 @@ namespace NSynth
         /// <summary>
         /// Gets or sets the number of pixels on the right edge that are not part of the clean frame.
         /// </summary>
-        public int RightOffset
+        public uint RightOffset
         {
             get
             {
@@ -196,7 +196,7 @@ namespace NSynth
         /// <summary>
         /// Gets or sets the number of pixels on the top edge that are not part of the clean frame size.
         /// </summary>
-        public int TopOffset
+        public uint TopOffset
         {
             get
             {
@@ -214,7 +214,7 @@ namespace NSynth
         /// <summary>
         /// Gets or sets the number of pixels on the bottom edge that are not part of the clean frame size.
         /// </summary>
-        public int BottomOffset
+        public uint BottomOffset
         {
             get
             {
