@@ -13,7 +13,7 @@ namespace NSynth.Imaging.TGA
 {
     public class TGAOutputFilter : OutputFilter
     {
-        protected override bool Render(Frame output, ulong index)
+        protected override bool Render(Frame output, long index)
         {
             var inframe = this.Inputs.Default.Source.GetFrame(index);
             return true;

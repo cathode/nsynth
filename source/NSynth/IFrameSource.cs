@@ -12,15 +12,27 @@ using System.Text;
 namespace NSynth
 {
     /// <summary>
-    /// TODO: Update summary.
+    /// Represents a source of frame data.
     /// </summary>
     public interface IFrameSource
     {
-        ulong FrameCount
+        #region Properties
+        /// <summary>
+        /// Gets the total number of frames, if known. For frame sources with an undetermined or infinite number of frames,
+        /// this property will return -1 instead.
+        /// </summary>
+        long FrameCount
         {
             get;
         }
-
-        Frame GetFrame(ulong index);
+        #endregion
+        #region Methods
+        /// <summary>
+        /// Gets the frame with the specified index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        Frame GetFrame(long index);
+        #endregion
     }
 }

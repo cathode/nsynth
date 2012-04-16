@@ -147,12 +147,12 @@ namespace NSynth
         /// <param name="frameSource"></param>
         /// <param name="start"></param>
         /// <param name="count"></param>
-        public void Encode(IFrameSource frameSource, ulong start, ulong count)
+        public void Encode(IFrameSource frameSource, long start, long count)
         {
             Contract.Requires(frameSource != null);
 
             var end = start + count;
-            for (ulong i = start; i < end; ++i)
+            for (long i = start; i < end; ++i)
                 this.EncodeFrame(frameSource.GetFrame(i));
         }
 

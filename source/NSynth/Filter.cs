@@ -37,12 +37,12 @@ namespace NSynth
         /// <summary>
         /// Holds frames buffered for output.
         /// </summary>
-        private readonly Dictionary<ulong, Frame> bufferedFrames;
+        private readonly Dictionary<long, Frame> bufferedFrames;
 
         /// <summary>
         /// Holds the indices of frames that have been requested for rendering.
         /// </summary>
-        private readonly Queue<ulong> requestedFrames;
+        private readonly Queue<long> requestedFrames;
 
         private readonly FilterInputSlotCollection inputs;
         #endregion
@@ -52,8 +52,8 @@ namespace NSynth
         /// </summary>
         protected Filter()
         {
-            this.bufferedFrames = new Dictionary<ulong, Frame>();
-            this.requestedFrames = new Queue<ulong>();
+            this.bufferedFrames = new Dictionary<long, Frame>();
+            this.requestedFrames = new Queue<long>();
             this.inputs = new FilterInputSlotCollection(this);
         }
 
@@ -125,11 +125,11 @@ namespace NSynth
             }
         }
 
-        public virtual ulong FrameCount
+        public virtual long FrameCount
         {
             get
             {
-                return 0;
+                return -1;
             }
         }
         #endregion
@@ -187,7 +187,7 @@ namespace NSynth
         /// Requests that a single frame should be rendered.
         /// </summary>
         /// <param name="frameIndex">The index of the frame to render.</param>
-        public void RequestFrame(ulong frameIndex)
+        public void RequestFrame(long frameIndex)
         {
             //if (!this.requestedFrames.Contains(frameIndex))
             //    this.requestedFrames.Enqueue(frameIndex);
@@ -203,7 +203,7 @@ namespace NSynth
             
         }
 
-        public Frame GetFrame(ulong index)
+        public Frame GetFrame(long index)
         {
             if (this.bufferedFrames.ContainsKey(index))
                 return this.bufferedFrames[index];
@@ -213,7 +213,7 @@ namespace NSynth
             return this.bufferedFrames[index];
         }
 
-        protected virtual bool Render(Frame output, ulong index)
+        protected virtual bool Render(Frame output, long index)
         {
             return false;
         }

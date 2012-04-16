@@ -13,8 +13,15 @@ using zlib;
 
 namespace NSynth.Imaging.PNG
 {
+    /// <summary>
+    /// Provides a decoder for PNG (Portable Network Graphics) bitmap images.
+    /// </summary>
     public sealed class PNGDecoder : ImageDecoder
     {
+        #region Properties
+        /// <summary>
+        /// Gets the codec for the current decoder.
+        /// </summary>
         public override Codec Codec
         {
             get
@@ -22,12 +29,17 @@ namespace NSynth.Imaging.PNG
                 return Codecs.PNG;
             }
         }
-
+        #endregion
+        #region Methods
         public int CalculateCRC(byte[] data, int startIndex, int length)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Decodes the next frame from the bitstream.
+        /// </summary>
+        /// <returns></returns>
         public override Frame Decode()
         {
             int width = 0, height = 0;
@@ -89,7 +101,7 @@ namespace NSynth.Imaging.PNG
                             break;
 
                         default:
-                            //Console.WriteLine("Skipping unknown chunk \"{0}\" in PNG bitstream at offset {1}", chunk, (buf.Position - 8).ToString("X"));
+                            Console.WriteLine("Skipping unknown chunk \"{0}\" in PNG bitstream at offset {1}", chunk, (buf.Position - 8).ToString("X"));
                             buf.Position += (length > buf.Available) ? buf.Available : length;
                             break;
                     }
@@ -161,5 +173,6 @@ namespace NSynth.Imaging.PNG
                 return result;
             }
         }
+        #endregion
     }
 }

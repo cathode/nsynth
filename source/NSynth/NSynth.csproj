@@ -141,6 +141,7 @@
     <Compile Include="SourceFilter.cs" />
     <Compile Include="SubtitleTrack.cs" />
     <Compile Include="Video\H264\H264Decoder.cs" />
+    <Compile Include="Video\PictureKind.cs" />
     <Compile Include="ZlibStream.cs" />
     <None Include="cathode.public.snk" />
     <Compile Include="ByteOrder.cs" />
@@ -376,7 +377,6 @@
     <Compile Include="Imaging\TIFF\TIFFPhotometricInterpretation.cs" />
     <Compile Include="Imaging\TIFF\TIFFSubfile.cs" />
     <Compile Include="Imaging\TIFF\TIFFTag.cs" />
-    <Compile Include="PictureKind.cs" />
     <Compile Include="TrackKind.cs" />
     <Compile Include="TrackOptions.cs" />
     <Compile Include="Video\Dirac\DiracColorMatrix.cs" />

@@ -32,12 +32,12 @@ namespace NSynth
         #region Properties
         #endregion
         #region Methods
-        public void Output(ulong index)
+        public void Output(long index)
         {
             this.RequestFrame(index);
         }
 
-        protected override bool Render(Frame output, ulong index)
+        protected override bool Render(Frame output, long index)
         {
             return base.Render(output, index);
         }

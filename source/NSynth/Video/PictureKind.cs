@@ -5,11 +5,15 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 
-namespace NSynth
+namespace NSynth.Video
 {
     /// <summary>
     /// Enumerates kinds of frame pictures within a GOP (Group-of-Pictures).
     /// </summary>
+    /// <remarks>
+    /// This enumeration provides a generalized view of picture coding methods.
+    /// Specific video codecs may use different designations.
+    /// </remarks>
     public enum PictureKind
     {
         /// <summary>

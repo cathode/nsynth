@@ -25,6 +25,7 @@ namespace NSynth.Video.Dirac
         CoreIntraNonReferencePicture = 0x08,
         CoreIntraReferencePictureNonCoded = 0x4C,
         CoreIntraNonReferencePictureNonCoded = 0x48,
+
         CoreInterReferencePictureSingle = 0x0D,
         CoreInterReferencePictureDouble = 0x0E,
         CoreInterNonReferencePictureSingle = 0x09,
