@@ -6,6 +6,7 @@
  *****************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace NSynth
 {
@@ -32,11 +33,20 @@ namespace NSynth
         /// </summary>
         internal ClipData(Clip clip)
         {
+            Contract.Requires(clip != null);
+
             this.clip = clip;
             this.tracks = new List<T>();
         }
         #endregion
         #region Properties
+        public Clip Clip
+        {
+            get
+            {
+                return this.clip;
+            }
+        }
         /// <summary>
         /// Gets the number of tracks of the current kind contained in the <see cref="Clip"/>.
         /// </summary>
@@ -47,6 +57,7 @@ namespace NSynth
                 return this.tracks.Count;
             }
         }
+
         #endregion
         #region Indexers
         /// <summary>
@@ -73,6 +84,8 @@ namespace NSynth
         /// <param name="track">The track to add.</param>
         public void Add(T track)
         {
+            Contract.Requires(!this.Clip.IsLocked);
+
             if (this.tracks.Contains(track))
                 throw new InvalidOperationException("Cannot add the same track twice.");
 

@@ -45,6 +45,8 @@ namespace NSynth
         private readonly Queue<long> requestedFrames;
 
         private readonly FilterInputSlotCollection inputs;
+
+        private FrameBuffer output;
         #endregion
         #region Constructors
         /// <summary>
@@ -130,6 +132,14 @@ namespace NSynth
             get
             {
                 return -1;
+            }
+        }
+
+        public FrameBuffer Output
+        {
+            get
+            {
+                return this.output;
             }
         }
         #endregion

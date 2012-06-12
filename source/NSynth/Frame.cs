@@ -26,7 +26,15 @@ namespace NSynth
         /// </summary>
         private IBitmap video;
 
-        private Filter owner;
+        /// <summary>
+        /// Backing field for the <see cref="Frame.Origin"/> property.
+        /// </summary>
+        private Filter origin;
+
+        /// <summary>
+        /// Backing field for the <see cref="Frame.IsReclaimed"/> property.
+        /// </summary>
+        private bool isReclaimed;
         #endregion
         #region Constructors
         /// <summary>
@@ -39,9 +47,9 @@ namespace NSynth
         {
         }
 
-        internal Frame(Filter owner)
+        internal Frame(Filter origin)
         {
-            this.owner = owner;
+            this.origin = origin;
         }
         #endregion
         #region Properties
@@ -72,6 +80,33 @@ namespace NSynth
             set
             {
                 this.video = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the frame was reclaimed by the frame pool for it's clip.
+        /// </summary>
+        public bool IsReclaimed
+        {
+            get
+            {
+                return this.isReclaimed;
+            }
+            internal set
+            {
+                this.isReclaimed = value;
+            }
+        }
+
+        public Filter Origin
+        {
+            get
+            {
+                return this.origin;
+            }
+            internal set
+            {
+                this.origin = value;
             }
         }
         #endregion

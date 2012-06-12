@@ -4,10 +4,11 @@
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using NSynth.Audio;
 using NSynth.Video;
-using System.Collections.Generic;
-using System;
 
 namespace NSynth
 {
@@ -20,21 +21,32 @@ namespace NSynth
         /// <summary>
         /// Backing field for the <see cref="Clip.AudioTracks"/> property.
         /// </summary>
-        private List<AudioTrack> audioTracks;
+        private readonly ClipData<AudioTrack> audioTracks;
 
         /// <summary>
         /// Backing field for the <see cref="Clip.VideoTracks"/> property.
         /// </summary>
-        private List<VideoTrack> videoTracks;
+        private readonly ClipData<VideoTrack> videoTracks;
 
+        /// <summary>
+        /// Backing field for the <see cref="Clip.SubtitleTracks"/> property.
+        /// </summary>
+        private readonly ClipData<SubtitleTrack> subtitleTracks;
 
-        private List<SubtitleTrack> subtitleTracks;
+        /// <summary>
+        /// Backing field for the <see cref="Clip.NavigationTracks"/> property.
+        /// </summary>
+        private readonly ClipData<NavigationTrack> navigationTracks;
 
-        private List<NavigationTrack> navigationTracks;
         /// <summary>
         /// Backing field for the <see cref="Clip.FrameCount"/> property.
         /// </summary>
         private long frameCount;
+
+        /// <summary>
+        /// Backing field for the <see cref="Clip.IsLocked"/> property.
+        /// </summary>
+        private bool isLocked;
         #endregion
         #region Constructors
         /// <summary>
@@ -42,8 +54,11 @@ namespace NSynth
         /// </summary>
         public Clip()
         {
-            this.audioTracks = new List<AudioTrack>();
-            this.videoTracks = new List<VideoTrack>();
+            this.isLocked = false;
+            this.audioTracks = new ClipData<AudioTrack>(this);
+            this.navigationTracks = new ClipData<NavigationTrack>(this);
+            this.subtitleTracks = new ClipData<SubtitleTrack>(this);
+            this.videoTracks = new ClipData<VideoTrack>(this);
         }
 
         /// <summary>
@@ -59,6 +74,10 @@ namespace NSynth
                     this.audioTracks.Add((AudioTrack)t);
                 else if (t is VideoTrack)
                     this.videoTracks.Add((VideoTrack)t);
+                else if (t is SubtitleTrack)
+                    this.subtitleTracks.Add((SubtitleTrack)t);
+                else if (t is NavigationTrack)
+                    this.navigationTracks.Add((NavigationTrack)t);
             }
         }
         #endregion
@@ -66,7 +85,7 @@ namespace NSynth
         /// <summary>
         /// Gets the audio tracks in the current <see cref="Clip"/>.
         /// </summary>
-        public List<AudioTrack> AudioTracks
+        public ClipData<AudioTrack> AudioTracks
         {
             get
             {
@@ -77,7 +96,7 @@ namespace NSynth
         /// <summary>
         /// Gets the video tracks in the current <see cref="Clip"/>.
         /// </summary>
-        public List<VideoTrack> VideoTracks
+        public ClipData<VideoTrack> VideoTracks
         {
             get
             {
@@ -88,7 +107,7 @@ namespace NSynth
         /// <summary>
         /// Gets the navigation tracks in the current <see cref="Clip"/>.
         /// </summary>
-        public List<NavigationTrack> NavigationTracks
+        public ClipData<NavigationTrack> NavigationTracks
         {
             get
             {
@@ -99,13 +118,14 @@ namespace NSynth
         /// <summary>
         /// Gets the subtitle tracks in the current <see cref="Clip"/>.
         /// </summary>
-        public List<SubtitleTrack> SubtitleTrack
+        public ClipData<SubtitleTrack> SubtitleTrack
         {
             get
             {
                 return this.subtitleTracks;
             }
         }
+
         /// <summary>
         /// Gets the number of frames in the current clip. If the tracks in the clip have different lengths,
         /// this property returns the number of frames in the longest track.
@@ -118,7 +138,24 @@ namespace NSynth
             }
             internal set
             {
+                Contract.Requires(!this.IsLocked);
+
                 this.frameCount = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the configuration of the clip is locked. A locked clip can't have tracks added or removed, or any other metadata changed.
+        /// </summary>
+        public bool IsLocked
+        {
+            get
+            {
+                return this.isLocked;
+            }
+            internal set
+            {
+                this.isLocked = value;
             }
         }
         #endregion
@@ -134,14 +171,22 @@ namespace NSynth
             return c;
         }
         /// <summary>
-        /// Creates and returns a new <see cref="Frame"/> instance that contains the correct configuration of tracks and track data.
+        /// Obtains a <see cref="Frame"/> that reflects the current clip.
         /// </summary>
         /// <returns>The new empty <see cref="Frame"/> instance.</returns>
-        public Frame NewFrame()
+        /// <remarks>
+        /// Frames are pooled to reduce memory allocations, as each instance can be quite large (tens or even hundreds of megabytes),
+        /// and expensive to (re)create.
+        /// </remarks>
+        public Frame GetFrame()
         {
             throw new NotSupportedException();
         }
 
+        public void LockConfiguration()
+        {
+            this.isLocked = true;
+        }
         #endregion
     }
 }

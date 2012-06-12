@@ -212,6 +212,7 @@ namespace NSynth
         public virtual Track DeepClone()
         {
             Contract.Ensures(Contract.Result<Track>() != null);
+
             var track = this.CreateDeepClone();
 
             track.Culture = this.Culture;
