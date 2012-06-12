@@ -206,7 +206,7 @@ namespace NSynth
 
             // HACK: Perform blocking render.
 
-            var frame = new Frame(this);
+            var frame = new Frame();
             this.Render(frame, frameIndex);
 
             this.bufferedFrames.Add(frameIndex, frame);

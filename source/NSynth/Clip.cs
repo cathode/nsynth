@@ -5,6 +5,7 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using NSynth.Audio;
@@ -38,6 +39,8 @@ namespace NSynth
         /// </summary>
         private readonly ClipData<NavigationTrack> navigationTracks;
 
+        private readonly List<Frame> framePool;
+
         /// <summary>
         /// Backing field for the <see cref="Clip.FrameCount"/> property.
         /// </summary>
@@ -59,6 +62,8 @@ namespace NSynth
             this.navigationTracks = new ClipData<NavigationTrack>(this);
             this.subtitleTracks = new ClipData<SubtitleTrack>(this);
             this.videoTracks = new ClipData<VideoTrack>(this);
+
+            this.framePool = new List<Frame>();
         }
 
         /// <summary>
@@ -170,17 +175,32 @@ namespace NSynth
 
             return c;
         }
+
         /// <summary>
-        /// Obtains a <see cref="Frame"/> that reflects the current clip.
+        /// Obtains a <see cref="Frame"/> relevant to the current clip.
         /// </summary>
         /// <returns>The new empty <see cref="Frame"/> instance.</returns>
         /// <remarks>
-        /// Frames are pooled to reduce memory allocations, as each instance can be quite large (tens or even hundreds of megabytes),
+        /// Frames are pooled to reduce memory allocations, as each frame instance can be quite large (tens or even hundreds of megabytes),
         /// and expensive to (re)create.
         /// </remarks>
         public Frame GetFrame()
         {
-            throw new NotSupportedException();
+            Contract.Ensures(Contract.Result<Frame>() != null);
+
+            Frame result;
+            lock (this.framePool)
+            {
+                result = this.framePool.FirstOrDefault(f => f.IsReclaimed);
+
+                if (result == null)
+                {
+                    result = new Frame(this);
+                    this.framePool.Add(result);
+                }
+                    
+            }
+            return result;
         }
 
         public void LockConfiguration()

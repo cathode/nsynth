@@ -35,6 +35,12 @@ namespace NSynth
         /// Backing field for the <see cref="Frame.IsReclaimed"/> property.
         /// </summary>
         private bool isReclaimed;
+
+        private FrameData<IBitmap> videoData;
+        private FrameData<ISegment> audioData;
+
+
+        private Clip clip;
         #endregion
         #region Constructors
         /// <summary>
@@ -45,11 +51,26 @@ namespace NSynth
         /// </remarks>
         public Frame()
         {
+            this.videoData = new FrameData<IBitmap>(clip.VideoTracks.Count);
+            this.audioData = new FrameData<ISegment>(clip.AudioTracks.Count);
         }
 
-        internal Frame(Filter origin)
+        internal Frame(Clip clip)
+            : this()
         {
-            this.origin = origin;
+            this.clip = clip;
+
+            for (int i = 0; i < this.videoData.Count; ++i)
+            {
+                var track = clip.VideoTracks[i];
+                this.videoData[i] = track.Format.CreateBitmap(track.Dimensions);
+            }
+
+            for (int i = 0; i < this.audioData.Count; ++i)
+            {
+                var track = clip.AudioTracks[i];
+                this.audioData[i] = null;
+            }
         }
         #endregion
         #region Properties
