@@ -39,7 +39,11 @@ namespace NSynth
         /// </summary>
         private readonly ClipData<NavigationTrack> navigationTracks;
 
-        private readonly List<Frame> framePool;
+        private readonly object framePoolLock = new object();
+
+        private readonly List<Frame> inUseFrames;
+
+        private readonly LinkedList<Frame> freeFrames;
 
         /// <summary>
         /// Backing field for the <see cref="Clip.FrameCount"/> property.
@@ -63,7 +67,8 @@ namespace NSynth
             this.subtitleTracks = new ClipData<SubtitleTrack>(this);
             this.videoTracks = new ClipData<VideoTrack>(this);
 
-            this.framePool = new List<Frame>();
+            this.inUseFrames = new List<Frame>();
+            this.freeFrames = new LinkedList<Frame>();
         }
 
         /// <summary>
@@ -173,6 +178,15 @@ namespace NSynth
         {
             Clip c = new Clip();
 
+            foreach (var t in this.audioTracks)
+                c.audioTracks.Add(t.DeepClone() as AudioTrack);
+            foreach (var t in this.navigationTracks)
+                c.navigationTracks.Add(t.DeepClone() as NavigationTrack);
+            foreach (var t in this.subtitleTracks)
+                c.subtitleTracks.Add(t.DeepClone() as SubtitleTrack);
+            foreach (var t in this.videoTracks)
+                c.videoTracks.Add(t.DeepClone() as VideoTrack);
+
             return c;
         }
 
@@ -184,21 +198,24 @@ namespace NSynth
         /// Frames are pooled to reduce memory allocations, as each frame instance can be quite large (tens or even hundreds of megabytes),
         /// and expensive to (re)create.
         /// </remarks>
-        public Frame GetFrame()
+        public Frame IssueFrame()
         {
             Contract.Ensures(Contract.Result<Frame>() != null);
 
             Frame result;
-            lock (this.framePool)
-            {
-                result = this.framePool.FirstOrDefault(f => f.IsReclaimed);
 
-                if (result == null)
+            lock (this.framePoolLock)
+            {
+                if (this.freeFrames.Count > 0)
+                {
+                    result = this.freeFrames.Last.Value;
+                    this.freeFrames.RemoveLast();
+                }
+                else
                 {
                     result = new Frame(this);
-                    this.framePool.Add(result);
+                    this.inUseFrames.Add(result);
                 }
-                    
             }
             return result;
         }
@@ -206,6 +223,16 @@ namespace NSynth
         public void LockConfiguration()
         {
             this.isLocked = true;
+        }
+
+        internal void Reclaim(Frame frame)
+        {
+            lock (this.framePoolLock)
+            {
+                frame.IsReclaimed = true;
+
+                this.freeFrames.AddLast(frame);
+            }
         }
         #endregion
     }

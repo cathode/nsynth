@@ -56,6 +56,7 @@ namespace NSynth.Imaging.TGA
                         track.Format = bitmap.Format;
                         track.SamplesPerFrame = 1;
 
+                        
                         //this.Clip = new Clip(track);
                     }
                 }

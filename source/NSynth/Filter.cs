@@ -142,6 +142,9 @@ namespace NSynth
                 return this.output;
             }
         }
+
+        public Clip Clip { get; set; }
+
         #endregion
         #region Methods
         /// <summary>
@@ -210,7 +213,7 @@ namespace NSynth
             this.Render(frame, frameIndex);
 
             this.bufferedFrames.Add(frameIndex, frame);
-            
+
         }
 
         public Frame GetFrame(long index)
@@ -229,6 +232,6 @@ namespace NSynth
         }
         #endregion
 
-        
+
     }
 }

@@ -7,6 +7,7 @@
 using System;
 using NSynth.Audio;
 using NSynth.Imaging;
+using System.Diagnostics.Contracts;
 
 namespace NSynth
 {
@@ -40,7 +41,7 @@ namespace NSynth
         private FrameData<ISegment> audioData;
 
 
-        private Clip clip;
+        private readonly Clip clip;
         #endregion
         #region Constructors
         /// <summary>
@@ -58,6 +59,8 @@ namespace NSynth
         internal Frame(Clip clip)
             : this()
         {
+            Contract.Requires(clip != null);
+
             this.clip = clip;
 
             for (int i = 0; i < this.videoData.Count; ++i)
@@ -132,12 +135,9 @@ namespace NSynth
         }
         #endregion
         #region Methods
-        public Frame CreateEmptyClone()
+        public void Release()
         {
-            var frame = new Frame();
 
-
-            return frame;
         }
         #endregion
     }
