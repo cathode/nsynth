@@ -19,5 +19,11 @@ namespace NSynth
             get;
             set;
         }
+
+        public bool ForceFullReinitialization
+        {
+            get;
+            set;
+        }
     }
 }

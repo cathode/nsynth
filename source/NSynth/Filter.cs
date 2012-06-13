@@ -19,6 +19,8 @@ namespace NSynth
     public abstract class Filter : IDisposable, IFrameSource
     {
         #region Fields
+        protected readonly Mutex Sync = new Mutex(true);
+
         /// <summary>
         /// Backing field for the <see cref="Filter.IsDisposed"/> property.
         /// </summary>

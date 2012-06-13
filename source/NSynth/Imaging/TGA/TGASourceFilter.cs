@@ -37,29 +37,42 @@ namespace NSynth.Imaging.TGA
         #region Methods
         protected override void OnInitializing(FilterInitializationEventArgs e)
         {
-            base.OnInitializing(e);
-            using (var stream = this.OpenStreamForFrame(0))
+            try
             {
-                using (var decoder = new TGADecoder())
+                this.Sync.WaitOne();
+
+                base.OnInitializing(e);
+
+                if (e.ForceFullReinitialization || this.Clip == null)
                 {
-                    decoder.Bitstream = stream;
-                    decoder.Initialize();
-                    var frame = decoder.Decode();
-
-                    var bitmap = frame.Video;
-                    if (bitmap != null)
+                    using (var stream = this.OpenStreamForFrame(0))
                     {
-                        var track = new VideoTrack();
-                        //track.SampleCount = this.FrameCount;
-                        track.Width = bitmap.Width;
-                        track.Height = bitmap.Height;
-                        track.Format = bitmap.Format;
-                        track.SamplesPerFrame = 1;
+                        using (var decoder = new TGADecoder())
+                        {
+                            decoder.Bitstream = stream;
+                            decoder.Initialize();
+                            var frame = decoder.Decode();
 
-                        
-                        //this.Clip = new Clip(track);
+                            var bitmap = frame.Video;
+                            if (bitmap != null)
+                            {
+                                var track = new VideoTrack();
+                                track.SampleCount = 1;
+                                track.Width = bitmap.Width;
+                                track.Height = bitmap.Height;
+                                track.Format = bitmap.Format;
+                                track.SamplesPerFrame = 1;
+                                track.Options = TrackOptions.Infinite;
+
+                                this.Clip = new Clip(track);
+                            }
+                        }
                     }
                 }
+            }
+            finally
+            {
+                this.Sync.ReleaseMutex();
             }
         }
         #endregion
