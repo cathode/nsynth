@@ -19,9 +19,11 @@ namespace NSynthRunner
         internal static void Main(string[] args)
         {
             var input = new TGASourceFilter(@"C:\NSynth\sample.tga");
-           
+            input.Initialize();
+
             var tgaout = new TGAOutputFilter();
             tgaout.Inputs.Default.Source = input;
+            tgaout.Initialize();
 
             tgaout.RequestFrame(0);
         }

@@ -126,7 +126,7 @@ namespace NSynth.Imaging
         {
             get
             {
-                return false;
+                return true;
             }
         }
 
@@ -628,7 +628,7 @@ namespace NSynth.Imaging
             {
                 get
                 {
-                    throw new NotImplementedException();
+                    return 32;
                 }
             }
 
@@ -639,7 +639,7 @@ namespace NSynth.Imaging
             {
                 get
                 {
-                    throw new NotImplementedException();
+                    return ColorChannels.RGBA;
                 }
             }
             #endregion

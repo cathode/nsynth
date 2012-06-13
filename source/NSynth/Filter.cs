@@ -19,7 +19,7 @@ namespace NSynth
     public abstract class Filter : IDisposable, IFrameSource
     {
         #region Fields
-        protected readonly Mutex Sync = new Mutex(true);
+        protected readonly Mutex Sync = new Mutex();
 
         /// <summary>
         /// Backing field for the <see cref="Filter.IsDisposed"/> property.
@@ -211,7 +211,7 @@ namespace NSynth
 
             // HACK: Perform blocking render.
 
-            var frame = new Frame();
+            var frame = new Frame(this.Clip);
             this.Render(frame, frameIndex);
 
             this.bufferedFrames.Add(frameIndex, frame);
@@ -233,7 +233,5 @@ namespace NSynth
             return false;
         }
         #endregion
-
-
     }
 }

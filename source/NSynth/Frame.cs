@@ -52,8 +52,8 @@ namespace NSynth
         /// </remarks>
         public Frame()
         {
-            this.videoData = new FrameData<IBitmap>(clip.VideoTracks.Count);
-            this.audioData = new FrameData<ISegment>(clip.AudioTracks.Count);
+            this.videoData = new FrameData<IBitmap>(0);
+            this.audioData = new FrameData<ISegment>(0);
         }
 
         internal Frame(Clip clip)
@@ -62,6 +62,8 @@ namespace NSynth
             Contract.Requires(clip != null);
 
             this.clip = clip;
+            this.videoData = new FrameData<IBitmap>(clip.VideoTracks.Count);
+            this.audioData = new FrameData<ISegment>(clip.AudioTracks.Count);
 
             for (int i = 0; i < this.videoData.Count; ++i)
             {
