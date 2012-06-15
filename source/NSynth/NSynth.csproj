@@ -127,6 +127,7 @@
     <Compile Include="FrameRenderRequest.cs" />
     <Compile Include="Imaging\CombineMode.cs" />
     <Compile Include="Imaging\DownsampleMode.cs" />
+    <Compile Include="Imaging\ImageOutputFilter.cs" />
     <Compile Include="Imaging\Layer.cs" />
     <Compile Include="Imaging\RasterLayer.cs" />
     <Compile Include="Imaging\TGA\TGAOutputFilter.cs" />

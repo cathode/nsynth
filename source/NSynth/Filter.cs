@@ -49,6 +49,7 @@ namespace NSynth
         private readonly FilterInputSlotCollection inputs;
 
         private FrameBuffer output;
+        private Clip clip;
         #endregion
         #region Constructors
         /// <summary>
@@ -145,7 +146,17 @@ namespace NSynth
             }
         }
 
-        public Clip Clip { get; set; }
+        public Clip Clip
+        {
+            get
+            {
+                return this.clip;
+            }
+            set
+            {
+                this.clip = value;
+            }
+        }
 
         #endregion
         #region Methods
@@ -197,7 +208,13 @@ namespace NSynth
         {
             if (this.Initializing != null)
                 this.Initializing(this, e);
+
+            if (this.inputs.Default != null && this.inputs.Default.Source != null)
+                this.Clip = this.inputs.Default.Source.Clip;
+            else
+                this.Clip = new Clip();
         }
+
         /// <summary>
         /// Requests that a single frame should be rendered.
         /// </summary>

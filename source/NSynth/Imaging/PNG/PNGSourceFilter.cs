@@ -28,7 +28,7 @@ namespace NSynth.Imaging.PNG
                         return;
                     else if (frame.Video != null)
                     {
-                        var bitmap = frame.Video;
+                        var bitmap = frame.Video[0];
                         if (bitmap != null)
                         {
                             var track = new VideoTrack();

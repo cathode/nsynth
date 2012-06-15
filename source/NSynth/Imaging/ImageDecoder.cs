@@ -17,7 +17,8 @@ namespace NSynth.Imaging
     {
         public static IBitmap DecodeBitmap(string path)
         {
-            Contract.Requires(!string.IsNullOrWhiteSpace(path));
+            Contract.Requires(path != null);
+            Contract.Requires(path != string.Empty);
 
             using (ImageDecoder decoder = ImageDecoder.CreateByFileExtension(path))
             {
@@ -26,20 +27,32 @@ namespace NSynth.Imaging
 
                 var frame = decoder.Decode();
                 if (frame != null)
-                    return frame.Video;
+                    return frame.Video[0];
                 else
                     return null;
             }
         }
+
         public static ImageDecoder CreateByFileExtension(string path)
         {
             switch (Path.GetExtension(path).ToLower())
             {
                 case ".tga":
-                    return new TGA.TGADecoder();
+                    return new NSynth.Imaging.TGA.TGADecoder();
 
                 case ".png":
-                    return new PNG.PNGDecoder();
+                    return new NSynth.Imaging.PNG.PNGDecoder();
+
+                case ".tif":
+                case ".tiff":
+                    return new NSynth.Imaging.TIFF.TIFFDecoder();
+
+                case ".bmp":
+                    return new NSynth.Imaging.BMP.BMPDecoder();
+
+                case ".jpg":
+                case ".jpeg":
+                    return new NSynth.Imaging.JPEG.JPEGDecoder();
 
                 default:
                     return null;

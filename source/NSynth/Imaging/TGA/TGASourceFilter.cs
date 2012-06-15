@@ -43,29 +43,27 @@ namespace NSynth.Imaging.TGA
 
                 base.OnInitializing(e);
 
-                if (e.ForceFullReinitialization || this.Clip == null)
+                using (var stream = this.OpenStreamForFrame(0))
                 {
-                    using (var stream = this.OpenStreamForFrame(0))
+                    using (var decoder = new TGADecoder())
                     {
-                        using (var decoder = new TGADecoder())
+                        decoder.Bitstream = stream;
+                        decoder.Initialize();
+                        var frame = new Frame();
+                        decoder.Decode(frame);
+
+                        var bitmap = frame.Video[0];
+                        if (bitmap != null)
                         {
-                            decoder.Bitstream = stream;
-                            decoder.Initialize();
-                            var frame = decoder.Decode();
+                            var track = new VideoTrack();
+                            track.SampleCount = 1;
+                            track.Width = bitmap.Width;
+                            track.Height = bitmap.Height;
+                            track.Format = bitmap.Format;
+                            track.SamplesPerFrame = 1;
+                            track.Options = TrackOptions.Infinite;
 
-                            var bitmap = frame.Video;
-                            if (bitmap != null)
-                            {
-                                var track = new VideoTrack();
-                                track.SampleCount = 1;
-                                track.Width = bitmap.Width;
-                                track.Height = bitmap.Height;
-                                track.Format = bitmap.Format;
-                                track.SamplesPerFrame = 1;
-                                track.Options = TrackOptions.Infinite;
-
-                                this.Clip = new Clip(track);
-                            }
+                            this.Clip = new Clip(track);
                         }
                     }
                 }
@@ -74,6 +72,27 @@ namespace NSynth.Imaging.TGA
             {
                 this.Sync.ReleaseMutex();
             }
+        }
+
+        protected override bool Render(Frame output, long index)
+        {
+            try
+            {
+                using (var stream = this.OpenStreamForFrame(0))
+                {
+                    using (var decoder = new TGADecoder(stream))
+                    {
+                        decoder.Initialize();
+                        decoder.Decode(output);
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            
+            return true;
         }
         #endregion
     }

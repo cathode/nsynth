@@ -8,15 +8,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace NSynth.Imaging.TGA
 {
-    public class TGAOutputFilter : OutputFilter
+    public class TGAOutputFilter : ImageOutputFilter
     {
-        protected override bool Render(Frame output, long index)
+        #region Constructors
+        public TGAOutputFilter(string path)
+            : base(path)
         {
-            var inframe = this.Inputs.Default.Source.GetFrame(index);
-            return true;
+
         }
+        #endregion
+        #region Methods
+        protected override ImageEncoder GetEncoder(Stream bitstream)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

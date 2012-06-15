@@ -49,18 +49,11 @@ namespace NSynth.Imaging.TGA
         /// Overridden. Decodes the next frame from the bitstream.
         /// </summary>
         /// <returns></returns>
-        public override Frame Decode()
+        public override void Decode(Frame output)
         {
-            if (!this.IsInitialized)
-                if (!this.Initialize())
-                    throw new NotImplementedException();
-
             this.DecodeBitmap();
 
-            var frame = new Frame();
-            frame.Video = this.context.DecodedBitmap;
-
-            return frame;
+            output.Video[0] = this.context.DecodedBitmap;
         }
 
         /// <summary>

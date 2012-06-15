@@ -18,14 +18,21 @@ namespace NSynthRunner
     {
         internal static void Main(string[] args)
         {
-            var input = new TGASourceFilter(@"C:\NSynth\sample.tga");
+            var input = new TGASourceFilter(@"C:\NSynth\source\lost{0:000000}.tga");
+            input.MultiFrame = true;
+            
             input.Initialize();
 
-            var tgaout = new TGAOutputFilter();
-            tgaout.Inputs.Default.Source = input;
-            tgaout.Initialize();
+            var frames = new Frame[300];
 
-            tgaout.RequestFrame(0);
+            for (int i = 0; i < frames.Length; ++i)
+            {
+                frames[i] = input.GetFrame(i);
+                //frames[i].Video[0][0, 0] = new ColorRGB24(255, 255, 255);
+            }
+
+            Console.WriteLine(GC.GetTotalMemory(true));
+            Console.ReadLine();
         }
     }
 }

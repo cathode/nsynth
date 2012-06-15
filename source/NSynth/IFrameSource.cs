@@ -25,6 +25,11 @@ namespace NSynth
         {
             get;
         }
+
+        Clip Clip
+        {
+            get;
+        }
         #endregion
         #region Methods
         /// <summary>

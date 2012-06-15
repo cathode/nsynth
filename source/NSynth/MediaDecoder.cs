@@ -144,25 +144,33 @@ namespace NSynth
         /// Decodes the next frame from the bitstream.
         /// </summary>
         /// <returns>The decoded frame.</returns>
-        public abstract Frame Decode();
-
-        public Frame[] Decode(int count)
+        [Obsolete]
+        public virtual Frame Decode()
         {
-            List<Frame> frames = new List<Frame>();
-            for (int i = 0; i < count; i++)
-            {
-                frames.Add(this.Decode());
-            }
-            return frames.ToArray();
+            throw new NotImplementedException();
         }
 
-        //public void DecodeAsync(
+
+        public virtual void Decode(Frame output)
+        {
+            if (!this.IsInitialized)
+                if (!this.Initialize())
+                    throw new NotImplementedException();
+
+            this.DoDecode(output);
+        }
+
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
 
             this.isDisposed = true;
+        }
+
+        protected virtual void DoDecode(Frame output)
+        {
+            throw new NotImplementedException();
         }
 
         protected virtual void Dispose(bool disposing)

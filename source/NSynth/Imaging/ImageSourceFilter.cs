@@ -9,6 +9,9 @@ using System.IO;
 
 namespace NSynth.Imaging
 {
+    /// <summary>
+    /// Provides a base class for source filters that yield frames from one or more image streams.
+    /// </summary>
     public abstract class ImageSourceFilter : Filter
     {
         #region Fields

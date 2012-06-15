@@ -5,8 +5,8 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System;
-using System.Globalization;
 using System.Diagnostics.Contracts;
+using System.Globalization;
 
 namespace NSynth
 {
@@ -52,7 +52,7 @@ namespace NSynth
         private long sampleCount;
 
         /// <summary>
-        /// Backing field for the <see cref="SamplesPerFrame"/> property.
+        /// Backing field for the <see cref="Track.SamplesPerFrame"/> property.
         /// </summary>
         private int samplesPerFrame;
         #endregion

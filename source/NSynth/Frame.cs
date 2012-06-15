@@ -20,26 +20,22 @@ namespace NSynth
         /// <summary>
         /// Backing field for the <see cref="Frame.Audio"/> property.
         /// </summary>
-        private ISegment audio;
+        private FrameData<ISegment> audio;
 
         /// <summary>
         /// Backing field for the <see cref="Frame.Video"/> property.
         /// </summary>
-        private IBitmap video;
+        private FrameData<IBitmap> video;
 
         /// <summary>
-        /// Backing field for the <see cref="Frame.Origin"/> property.
+        /// Backing field for the <see cref="Frame.Source"/> property.
         /// </summary>
-        private Filter origin;
+        private Filter source;
 
         /// <summary>
         /// Backing field for the <see cref="Frame.IsReclaimed"/> property.
         /// </summary>
         private bool isReclaimed;
-
-        private FrameData<IBitmap> videoData;
-        private FrameData<ISegment> audioData;
-
 
         private readonly Clip clip;
         #endregion
@@ -52,8 +48,13 @@ namespace NSynth
         /// </remarks>
         public Frame()
         {
-            this.videoData = new FrameData<IBitmap>(0);
-            this.audioData = new FrameData<ISegment>(0);
+            this.video = new FrameData<IBitmap>(1);
+            this.audio = new FrameData<ISegment>(1);
+        }
+
+        public Frame(params Track[] tracks)
+            : this(new Clip(tracks))
+        {
         }
 
         internal Frame(Clip clip)
@@ -62,19 +63,19 @@ namespace NSynth
             Contract.Requires(clip != null);
 
             this.clip = clip;
-            this.videoData = new FrameData<IBitmap>(clip.VideoTracks.Count);
-            this.audioData = new FrameData<ISegment>(clip.AudioTracks.Count);
+            this.video = new FrameData<IBitmap>(clip.VideoTracks.Count);
+            this.audio = new FrameData<ISegment>(clip.AudioTracks.Count);
 
-            for (int i = 0; i < this.videoData.Count; ++i)
+            for (int i = 0; i < this.video.Count; ++i)
             {
                 var track = clip.VideoTracks[i];
-                this.videoData[i] = track.Format.CreateBitmap(track.Dimensions);
+                this.video[i] = track.Format.CreateBitmap(track.Dimensions);
             }
 
-            for (int i = 0; i < this.audioData.Count; ++i)
+            for (int i = 0; i < this.audio.Count; ++i)
             {
                 var track = clip.AudioTracks[i];
-                this.audioData[i] = null;
+                this.audio[i] = null;
             }
         }
         #endregion
@@ -82,7 +83,7 @@ namespace NSynth
         /// <summary>
         /// Gets the audio data for the current frame.
         /// </summary>
-        public ISegment Audio
+        public FrameData<ISegment> Audio
         {
             get
             {
@@ -97,7 +98,7 @@ namespace NSynth
         /// <summary>
         /// Gets the video data for the current frame.
         /// </summary>
-        public IBitmap Video
+        public FrameData<IBitmap> Video
         {
             get
             {
@@ -124,15 +125,23 @@ namespace NSynth
             }
         }
 
-        public Filter Origin
+        public Filter Source
         {
             get
             {
-                return this.origin;
+                return this.source;
             }
             internal set
             {
-                this.origin = value;
+                this.source = value;
+            }
+        }
+
+        public Clip Owner
+        {
+            get
+            {
+                return this.clip;
             }
         }
         #endregion
