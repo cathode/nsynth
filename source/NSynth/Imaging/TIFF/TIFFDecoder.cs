@@ -17,14 +17,8 @@ namespace NSynth.Imaging.TIFF
         {
             get
             {
-                throw new NotImplementedException();
+                return Codecs.TIFF;
             }
-        }
-
-
-        public override Frame Decode()
-        {
-            throw new NotImplementedException();
         }
     }
 }

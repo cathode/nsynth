@@ -17,13 +17,8 @@ namespace NSynth.Imaging.JPEG
         {
             get
             {
-                throw new NotImplementedException();
+                return Codecs.JPEG;
             }
-        }
-
-        public override Frame Decode()
-        {
-            throw new NotImplementedException();
         }
     }
 }

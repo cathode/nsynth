@@ -17,17 +17,11 @@ namespace NSynth.Audio.FLAC
             throw new NotImplementedException();
         }
 
-
-        public override Frame Decode()
-        {
-            throw new NotImplementedException();
-        }
-
         public override Codec Codec
         {
             get
             {
-                throw new NotImplementedException();
+                return Codecs.FLAC;
             }
         }
     }

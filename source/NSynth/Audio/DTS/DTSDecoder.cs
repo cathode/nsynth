@@ -27,7 +27,7 @@ namespace NSynth.Audio.DTS
         {
             get
             {
-                return new DTSCodec();
+                return Codecs.DTS;
             }
         }
         #endregion
@@ -37,10 +37,6 @@ namespace NSynth.Audio.DTS
             throw new NotImplementedException();
         }
 
-        public override Frame Decode()
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Syncs the decoder to the bitstream.

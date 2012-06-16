@@ -17,13 +17,8 @@ namespace NSynth.Imaging.BMP
         {
             get
             {
-                throw new NotImplementedException();
+                return Codecs.BMP;
             }
-        }
-
-        public override Frame Decode()
-        {
-            throw new NotImplementedException();
         }
     }
 }

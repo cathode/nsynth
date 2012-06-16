@@ -14,5 +14,11 @@ namespace NSynth
         #region Fields
         private readonly Dictionary<long, Frame> bufferedFrames;
         #endregion
+        #region Methods
+        public void PopulateBuffer(long index)
+        {
+
+        }
+        #endregion
     }
 }

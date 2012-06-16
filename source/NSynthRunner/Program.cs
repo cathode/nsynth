@@ -11,6 +11,8 @@ using System.Text;
 using NSynth.Imaging.TGA;
 using NSynth;
 using NSynth.Imaging;
+using NSynth.Win32;
+using System.Windows.Forms;
 
 namespace NSynthRunner
 {
@@ -23,14 +25,14 @@ namespace NSynthRunner
             
             input.Initialize();
 
-            var frames = new Frame[300];
+            var frames = new Frame[16];
 
             for (int i = 0; i < frames.Length; ++i)
             {
                 frames[i] = input.GetFrame(i);
                 //frames[i].Video[0][0, 0] = new ColorRGB24(255, 255, 255);
             }
-
+           
             Console.WriteLine(GC.GetTotalMemory(true));
             Console.ReadLine();
         }

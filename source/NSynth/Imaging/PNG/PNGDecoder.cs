@@ -42,6 +42,13 @@ namespace NSynth.Imaging.PNG
         /// <returns></returns>
         public override Frame Decode()
         {
+            var frame = new Frame();
+            this.Decode(frame);
+            return frame;
+        }
+
+        public override void Decode(Frame output)
+        {
             int width = 0, height = 0;
             byte depth = 0;
             PNGColorType colorType = PNGColorType.TruecolorWithAlpha;
@@ -51,7 +58,7 @@ namespace NSynth.Imaging.PNG
 
             // Pull the PNG into a data buffer.
             if (this.Bitstream == null || this.Bitstream.Length < 1)
-                return null;
+                return;
 
             var bytes = new byte[this.Bitstream.Length];
             this.Bitstream.Read(bytes, 0, bytes.Length);

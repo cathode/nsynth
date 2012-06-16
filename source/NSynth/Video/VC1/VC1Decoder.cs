@@ -17,17 +17,11 @@ namespace NSynth.Video.VC1
             throw new NotImplementedException();
         }
 
-
-        public override Frame Decode()
-        {
-            throw new NotImplementedException();
-        }
-
         public override Codec Codec
         {
             get
             {
-                throw new NotImplementedException();
+                return Codecs.VC1;
             }
         }
     }

@@ -23,10 +23,5 @@ namespace NSynth.Video.H264
                 return Codecs.H264;
             }
         }
-
-        public override Frame Decode()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

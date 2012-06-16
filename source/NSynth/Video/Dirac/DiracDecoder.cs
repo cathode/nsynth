@@ -74,11 +74,9 @@ namespace NSynth.Video.Dirac
         /// Decodes the next frame from the bitstream.
         /// </summary>
         /// <returns>The <see cref="Frame"/> that was decoded.</returns>
-        public override Frame Decode()
+        public override void Decode(Frame output)
         {
-            this.Synchronize();
-
-            throw new NotImplementedException();
+            base.Decode(output);
         }
 
         /// <summary>

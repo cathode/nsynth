@@ -23,10 +23,5 @@ namespace NSynth
                 return Codecs.IFF;
             }
         }
-
-        public override Frame Decode()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NSynth.Video;
 
 namespace NSynth.Imaging.GIF
 {
@@ -16,13 +17,8 @@ namespace NSynth.Imaging.GIF
         {
             get
             {
-                throw new NotImplementedException();
+                return null;
             }
-        }
-
-        public override Frame Decode()
-        {
-            throw new NotImplementedException();
         }
     }
 }
