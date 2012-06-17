@@ -52,7 +52,7 @@ namespace NSynth.Imaging.PNG
             int width = 0, height = 0;
             byte depth = 0;
             PNGColorType colorType = PNGColorType.TruecolorWithAlpha;
-            Frame result = new Frame();
+            Frame result = output;
 
             // TODO: Verify signature
 
@@ -176,8 +176,6 @@ namespace NSynth.Imaging.PNG
                 {
                     throw new NotImplementedException();
                 }
-
-                return result;
             }
         }
         #endregion
