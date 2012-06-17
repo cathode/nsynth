@@ -48,7 +48,10 @@ namespace NSynth
 
         private readonly FilterInputSlotCollection inputs;
 
-        private FrameBuffer output;
+        private readonly List<FilterInputSlot> consumers;
+
+        private readonly object sync;
+
         private Clip clip;
         #endregion
         #region Constructors
@@ -75,6 +78,11 @@ namespace NSynth
         /// Raised when the filter performs it's initialization step.
         /// </summary>
         public event EventHandler<FilterInitializationEventArgs> Initializing;
+
+        /// <summary>
+        /// Raised when the.
+        /// </summary>
+        public event EventHandler<FrameRenderEventArgs> FrameRendered;
         #endregion
         #region Properties
         /// <summary>
@@ -138,14 +146,9 @@ namespace NSynth
             }
         }
 
-        public FrameBuffer Output
-        {
-            get
-            {
-                return this.output;
-            }
-        }
-
+        /// <summary>
+        /// Gets or sets the <see cref="Clip"/> that describes the frames processed by the current <see cref="Filter"/>.
+        /// </summary>
         public Clip Clip
         {
             get
