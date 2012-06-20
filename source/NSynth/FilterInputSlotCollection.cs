@@ -15,7 +15,7 @@ namespace NSynth
     /// <summary>
     /// Provides a collection of filter inputs.
     /// </summary>
-    public sealed class FilterInputSlotCollection
+    public sealed class FilterInputSlotCollection : IEnumerable<FilterInputSlot>
     {
         #region Fields
         private readonly Filter owner;
@@ -76,5 +76,15 @@ namespace NSynth
             this.items.Remove(name);
         }
         #endregion
+
+        public IEnumerator<FilterInputSlot> GetEnumerator()
+        {
+            return this.items.Values.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
     }
 }

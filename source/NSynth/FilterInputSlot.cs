@@ -30,7 +30,7 @@ namespace NSynth
         /// <summary>
         /// Backing field for the <see cref="FilterInputSlot.Source"/> property.
         /// </summary>
-        private IFrameSource source;
+        private Filter source;
         #endregion
         internal FilterInputSlot(string name)
         {
@@ -54,7 +54,7 @@ namespace NSynth
         /// Gets or sets the <see cref="Filter"/> that is assigned to the
         /// current input slot.
         /// </summary>
-        public IFrameSource Source
+        public Filter Source
         {
             get
             {
@@ -64,6 +64,33 @@ namespace NSynth
             {
                 this.source = value;
             }
+        }
+        #endregion
+        #region Methods
+        public bool Bind(Filter source)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Determines if a specified <see cref="Filter"/> is already bound as part of the subtree of the current input slot.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public bool IsInSubtree(Filter filter)
+        {
+            if (this.source == null || filter == null)
+                return false; // Nothing to look in / look for.
+
+            if (this.source == filter)
+                return true; // Found!
+            else
+                foreach (var input in this.source.Inputs)
+                    if (input.IsInSubtree(filter))
+                        return true; // Found in a subtree
+            // Not found
+            return false;
         }
         #endregion
     }

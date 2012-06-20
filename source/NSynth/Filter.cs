@@ -14,7 +14,8 @@ using System.Diagnostics.Contracts;
 namespace NSynth
 {
     /// <summary>
-    /// Represents the base class used for all filters in the graph.
+    /// Represents the base class used for all filters in the graph. This class is thread safe.
+    /// Inherited classes should be thread safe as well.
     /// </summary>
     public abstract class Filter : IDisposable, IFrameSource
     {
@@ -50,8 +51,9 @@ namespace NSynth
 
         private readonly List<FilterInputSlot> consumers;
 
-        private readonly object sync;
-
+        /// <summary>
+        /// Backing field for the <see cref="Filter.Clip"/> property.
+        /// </summary>
         private Clip clip;
         #endregion
         #region Constructors
@@ -63,6 +65,7 @@ namespace NSynth
             this.bufferedFrames = new Dictionary<long, Frame>();
             this.requestedFrames = new Queue<long>();
             this.inputs = new FilterInputSlotCollection(this);
+            this.consumers = new List<FilterInputSlot>();
         }
 
         /// <summary>
@@ -80,9 +83,10 @@ namespace NSynth
         public event EventHandler<FilterInitializationEventArgs> Initializing;
 
         /// <summary>
-        /// Raised when the.
+        /// Raised when the filter completes the rendering of a frame.
         /// </summary>
         public event EventHandler<FrameRenderEventArgs> FrameRendered;
+
         #endregion
         #region Properties
         /// <summary>
