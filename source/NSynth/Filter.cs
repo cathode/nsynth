@@ -256,6 +256,16 @@ namespace NSynth
         {
             return false;
         }
+
+        internal void BindConsumer(FilterInputSlot consumer)
+        {
+
+        }
+        
+        internal void UnbindConsumer(FilterInputSlot consumer)
+        {
+
+        }
         #endregion
     }
 }

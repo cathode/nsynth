@@ -22,6 +22,7 @@ namespace NSynth
         /// Holds the default input slot name.
         /// </summary>
         public const string DefaultName = "default";
+
         /// <summary>
         /// Backing field for the <see cref="FilterInputSlot.Name"/> property.
         /// </summary>
@@ -32,12 +33,19 @@ namespace NSynth
         /// </summary>
         private Filter source;
         #endregion
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FilterInputSlot"/> class.
+        /// </summary>
+        /// <param name="name"></param>
         internal FilterInputSlot(string name)
         {
             Contract.Requires(name != null);
+            Contract.Requires(name != string.Empty);
 
             this.name = name;
         }
+        #endregion
         #region Properties
         /// <summary>
         /// Gets the name of the input slot.
@@ -67,9 +75,29 @@ namespace NSynth
         }
         #endregion
         #region Methods
-        public bool Bind(Filter source)
+
+        /// <summary>
+        /// Binds the input slot to a filter, thereby establishing a link between the specified filter and the filter
+        /// to which this input slot belongs.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public bool Bind(Filter filter)
         {
-            throw new NotImplementedException();
+            Contract.Requires(filter != null);
+
+            if (this.source == filter)
+                return true;
+            else
+                this.Unbind();
+
+
+            if (!this.IsInSubtree(filter))
+            {
+
+            }
+
+            return true;
         }
 
 
@@ -80,17 +108,24 @@ namespace NSynth
         /// <returns></returns>
         public bool IsInSubtree(Filter filter)
         {
-            if (this.source == null || filter == null)
-                return false; // Nothing to look in / look for.
+            Contract.Requires(filter != null);
 
-            if (this.source == filter)
+            if (this.source == null)
+                return false; // Nothing to look in.
+            else if (this.source == filter)
                 return true; // Found!
             else
                 foreach (var input in this.source.Inputs)
                     if (input.IsInSubtree(filter))
                         return true; // Found in a subtree
+
             // Not found
             return false;
+        }
+
+        public void Unbind()
+        {
+            //this.source.
         }
         #endregion
     }
