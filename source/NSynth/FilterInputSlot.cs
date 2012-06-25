@@ -73,6 +73,14 @@ namespace NSynth
                 this.source = value;
             }
         }
+
+        public bool IsBound
+        {
+            get
+            {
+                return this.source != null;
+            }
+        }
         #endregion
         #region Methods
 
@@ -92,7 +100,7 @@ namespace NSynth
                 this.Unbind();
 
 
-            if (!this.IsInSubtree(filter))
+            //if (!filter.IsInSubtree(this))
             {
 
             }

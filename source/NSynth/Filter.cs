@@ -20,7 +20,7 @@ namespace NSynth
     public abstract class Filter : IDisposable, IFrameSource
     {
         #region Fields
-        protected readonly Mutex Sync = new Mutex();
+        protected readonly Mutex Mutex = new Mutex();
 
         /// <summary>
         /// Backing field for the <see cref="Filter.IsDisposed"/> property.
@@ -257,14 +257,54 @@ namespace NSynth
             return false;
         }
 
+        /// <summary>
+        /// Determines if a specified <see cref="Filter"/> is a direct or indirect parent of the current filter.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public bool IsParent(Filter filter)
+        {
+            Contract.Requires(filter != null);
+
+            if (this.source == null)
+                return false; // Nothing to look in.
+            else if (this.source == filter)
+                return true; // Found!
+            else
+                foreach (var input in this.source.Inputs)
+                    if (input.IsInSubtree(filter))
+                        return true; // Found in a subtree
+
+            // Not found
+            return false;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="consumer"></param>
         internal void BindConsumer(FilterInputSlot consumer)
         {
+            Contract.Requires(consumer != null);
 
+            this.Mutex.WaitOne();
+
+            try
+            {
+                if (this.consumers.Contains(consumer))
+                    return;
+
+                this.consumers.Add(consumer);
+            }
+            finally
+            {
+                this.Mutex.ReleaseMutex();
+            }
         }
         
         internal void UnbindConsumer(FilterInputSlot consumer)
         {
-
+            Contract.Requires(consumer != null);
         }
         #endregion
     }

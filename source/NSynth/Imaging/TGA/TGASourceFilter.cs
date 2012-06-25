@@ -39,7 +39,7 @@ namespace NSynth.Imaging.TGA
         {
             try
             {
-                this.Sync.WaitOne();
+                this.Mutex.WaitOne();
 
                 base.OnInitializing(e);
 
@@ -70,7 +70,7 @@ namespace NSynth.Imaging.TGA
             }
             finally
             {
-                this.Sync.ReleaseMutex();
+                this.Mutex.ReleaseMutex();
             }
         }
 
