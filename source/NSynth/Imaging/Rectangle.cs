@@ -257,6 +257,22 @@ namespace NSynth.Imaging
         #endregion
         #region Methods
         /// <summary>
+        /// Finds a rectangle that describes the area shared by the two specified rectangles.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Rectangle Intersect(Rectangle a, Rectangle b)
+        {
+            var x = Math.Abs(b.Left - a.Left);
+            var y = Math.Abs(b.Top - a.Top);
+            var w = Math.Abs(a.Right - b.Left);
+            var h = Math.Abs(a.Bottom - b.Top);
+
+            return new Rectangle(new Point(x, y), new Size(w, h));
+        }
+
+        /// <summary>
         /// Compares the current <see cref="Rectangle"/> instance with another object and determines if they have the same value.
         /// </summary>
         /// <param name="obj">An object to compare with.</param>

@@ -217,6 +217,22 @@ namespace NSynth.Imaging
         }
 
         /// <summary>
+        /// Performs a quick and dirty Bit-Block Image Transfer onto the current bitmap.
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <param name="location"></param>
+        public virtual void BitBlit(Bitmap<TColor> bitmap, Point location)
+        {
+            Contract.Requires(bitmap != null);
+
+            Rectangle r1 = new Rectangle(this.Size);
+            Rectangle r2 = new Rectangle(location, bitmap.Size);
+            Rectangle rx = Rectangle.Intersect(r1, r2);
+
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Blends the specified bitmap with the current bitmap.
         /// </summary>
         /// <param name="bitmap"></param>

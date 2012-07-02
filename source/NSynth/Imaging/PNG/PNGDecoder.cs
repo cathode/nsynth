@@ -127,7 +127,7 @@ namespace NSynth.Imaging.PNG
                         ColorRGB32[] pix = new ColorRGB32[width * height];
                         ColorRGB32 p = new ColorRGB32();
 
-                        File.WriteAllBytes("dump.bin", pd);
+                        //File.WriteAllBytes("dump.bin", pd);
 
                         for (int i = 0, n = 0; i < pix.Length; i++)
                         {
@@ -152,7 +152,7 @@ namespace NSynth.Imaging.PNG
                         ColorRGB24[] pix = new ColorRGB24[width * height];
                         ColorRGB24 p = new ColorRGB24();
 
-                        File.WriteAllBytes("dump.bin", pd);
+                        //File.WriteAllBytes("dump.bin", pd);
 
                         for (int i = 0, n = 0; i < pix.Length; i++)
                         {

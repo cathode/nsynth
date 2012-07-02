@@ -8,31 +8,63 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
     /// <summary>
     /// Represents a layer within an image.
     /// </summary>
-    public abstract class Layer
+    public class Layer
     {
+        #region Fields
+        private readonly Image owner;
+        private readonly IBitmap content;
+        private readonly IBitmap mask;
+        #endregion
+        #region Constructors
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Layer"/> class.
+        /// </summary>
+        /// <param name="owner"></param>
+        internal Layer(Image owner)
+        {
+            Contract.Requires(owner != null);
+
+            this.owner = owner;
+            this.content = owner.Format.CreateBitmap(owner.Size);
+            this.mask = owner.Format.CreateBitmap(owner.Size);
+        }
+        #endregion
         #region Properties
         /// <summary>
         /// Gets or sets the <see cref="Image"/> that the current layer belongs to.
         /// </summary>
         public Image Owner
         {
-            get;
-            set;
+            get
+            {
+                return this.owner;
+            }
+        }
+
+        public IBitmap Content
+        {
+            get
+            {
+                return this.content;
+            }
         }
 
         /// <summary>
-        /// Gets or sets the opacity of the contents of the current layer.
+        /// Gets the <see cref="IBitmap"/> that will be used as the blend mask.
         /// </summary>
-        public float Opacity
+        public IBitmap BlendMask
         {
-            get;
-            set;
+            get
+            {
+                return this.mask;
+            }
         }
 
         /// <summary>

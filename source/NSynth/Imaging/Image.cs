@@ -11,33 +11,45 @@ using System.Diagnostics.Contracts;
 namespace NSynth.Imaging
 {
     /// <summary>
-    /// Represents visual data that can be described by a grid of pixels.
+    /// Represents a more complex bitmap whose image data resides in multiple layers.
     /// </summary>
-    public class Image : IBitmap, IEnumerable<Layer>
+    public class Image : IEnumerable<Layer>
     {
         #region Fields
         /// <summary>
-        /// Backing field for the <see cref="Image.Bitmap"/> property.
+        /// Backing field for the <see cref="Image.Format"/> property.
         /// </summary>
-        private IBitmap bitmap;
-        private readonly List<Layer> layers = new List<Layer>();
+        private readonly ColorFormat format;
+
+        /// <summary>
+        /// Holds the layers that comprise the image.
+        /// </summary>
+        private readonly List<Layer> layers;
+
+        /// <summary>
+        /// Backing field for the <see cref="Image.Size"/> property.
+        /// </summary>
         private Size size;
         #endregion
         #region Constructors
-        public Image(Size size)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Image"/> class.
+        /// </summary>
+        /// <param name="size">The dimensions of the new image.</param>
+        /// <param name="format">The color format that the image will use.</param>
+        public Image(Size size, ColorFormat format)
         {
-            this.size = size;
-        }
-        public Image(int width, int height)
-        {
-            Contract.Requires(width >= 0);
-            Contract.Requires(height >= 0);
+            Contract.Requires(format != null);
 
-            this.size = new Size(width, height);
+            this.format = format;
+            this.size = size;
+            this.layers = new List<Layer>();
         }
         #endregion
         #region Properties
-
+        /// <summary>
+        /// Gets or sets the background layer. This is always the lowest-level layer and is typically a raster layer.
+        /// </summary>
         public Layer Background
         {
             get
@@ -48,32 +60,15 @@ namespace NSynth.Imaging
                     return null;
             }
         }
-        /// <summary>
-        /// Gets or sets the <see cref="IBitmap"/> that contains the actual pixel data of the current <see cref="Image"/>.
-        /// </summary>
-        /// <remarks>
-        /// In cases where the image contains more than one layer, this is the first layer, background layer, primary layer, etc.
-        /// </remarks>
-        public IBitmap Bitmap
-        {
-            get
-            {
-                return this.bitmap;
-            }
-            set
-            {
-                this.bitmap = value;
-            }
-        }
 
         /// <summary>
-        /// Gets the width in pixels of the current <see cref="Image"/>.
+        /// Gets the <see cref="ColorFormat"/> of the currnet <see cref="Image"/>.
         /// </summary>
-        public int Width
+        public ColorFormat Format
         {
             get
             {
-                return (this.Bitmap != null) ? this.Bitmap.Width : 0;
+                return this.format;
             }
         }
 
@@ -84,12 +79,51 @@ namespace NSynth.Imaging
         {
             get
             {
-                return (this.Bitmap != null) ? this.Bitmap.Height : 0;
+                return this.size.Height;
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Gets the size in pixels of the current <see cref="Image"/>.
+        /// </summary>
+        public Size Size
+        {
+            get
+            {
+                return this.size;
+            }
+        }
 
+        /// <summary>
+        /// Gets the width in pixels of the current <see cref="Image"/>.
+        /// </summary>
+        public int Width
+        {
+            get
+            {
+                return this.size.Width;
+            }
+        }
+        #endregion
+        #region Methods
+
+        public IBitmap Flatten()
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// Creates a new <see cref="Layer"/> in the current <see cref="Image"/>.
+        /// </summary>
+        /// <returns>The new <see cref="Layer"/> that was created.</returns>
+        public Layer NewLayer()
+        {
+            var layer = new Layer(this);
+
+            this.layers.Add(layer);
+
+            return layer;
+        }
+        #endregion
         public IEnumerator<Layer> GetEnumerator()
         {
             foreach (var layer in this.layers)
@@ -99,32 +133,6 @@ namespace NSynth.Imaging
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
-        }
-
-
-        public ColorFormat Format
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public IColor this[int x, int y]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public void Fill(IColor color)
-        {
-            throw new NotImplementedException();
         }
     }
 }

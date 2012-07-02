@@ -30,7 +30,7 @@ namespace NSynth.Imaging
             ImageCodec codec = this.Codec as ImageCodec;
 
             var img = codec.CreateImage(frame.Video[0].Width, frame.Video[0].Height);
-            img.Bitmap = frame.Video[0];
+            //img.Background = frame.Video[0];
 
             this.EncodeImage(img);
         }

@@ -265,7 +265,7 @@ namespace NSynth
         public bool IsParent(Filter filter)
         {
             Contract.Requires(filter != null);
-
+            /*
             if (this.source == null)
                 return false; // Nothing to look in.
             else if (this.source == filter)
@@ -274,7 +274,7 @@ namespace NSynth
                 foreach (var input in this.source.Inputs)
                     if (input.IsInSubtree(filter))
                         return true; // Found in a subtree
-
+            */
             // Not found
             return false;
         }

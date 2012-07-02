@@ -19,5 +19,18 @@ namespace NSynth.Imaging
         #region Fields
         private IBitmap content;
         #endregion
+        #region Properties
+        public IBitmap Content
+        {
+            get
+            {
+                return this.content;
+            }
+            set
+            {
+                this.content = value;
+            }
+        }
+        #endregion
     }
 }

@@ -69,7 +69,11 @@ namespace NSynth.Imaging.TGA
             this.Open();
             this.Bitstream.Seek(TGABitstreamHeader.Length, System.IO.SeekOrigin.Begin);
 
-            var tga = image as TGAImage ?? new TGAImage(image.Bitmap);
+            var tga = image as TGAImage;
+
+            if (tga == null)
+                throw new NotImplementedException();
+
             var header = this.context.Header;
             header.Width = (ushort)tga.Width;
             header.Height = (ushort)tga.Height;
@@ -77,13 +81,15 @@ namespace NSynth.Imaging.TGA
             // Temporarily force RLE off until RLE is implemented properly.
             tga.UseRunLengthEncoding = false;
 
-            if (tga.Bitmap is BitmapRGB24)
+            var bitmap = tga.Flatten();
+
+            if (bitmap is BitmapRGB24)
             {
                 header.BitsPerPixel = 24;
                 header.AttributeBits = 0;
                 header.ImageDescriptor = TGAImageDescriptor.BottomLeft;
-                var bmp = tga.Bitmap as BitmapRGB24;
-                
+                var bmp = bitmap as BitmapRGB24;
+
                 if (tga.UseRunLengthEncoding)
                 {
                     throw new NotImplementedException();
@@ -137,11 +143,11 @@ namespace NSynth.Imaging.TGA
                     this.Bitstream.Write(buffer, 0, buffer.Length);
                 }
             }
-            else if (tga.Bitmap is BitmapRGB32)
+            else if (bitmap is BitmapRGB32)
             {
-                var bmp = tga.Bitmap as BitmapRGB32;
-                
-                
+                var bmp = bitmap as BitmapRGB32;
+
+
                 if (tga.UseRunLengthEncoding)
                     throw new NotImplementedException();
                 else

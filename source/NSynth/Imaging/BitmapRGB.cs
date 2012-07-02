@@ -76,7 +76,24 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Methods
+        /*
+        public override unsafe void BitBlit(Bitmap<ColorRGB> bitmap, Point location)
+        {
+            int xMax = Math.Min(bitmap.Width + location.X, this.Width);
+            int yMax = Math.Min(bitmap.Height + location.Y, this.Height);
+            int xStart = Math.Min(Math.Min(location.X, this.Width), 0);
+            int yStart = Math.Max(Math.Min(location.Y, this.Height), 0);
 
+            long stride = (this.Format.BitsPerPixel / 8) * bitmap.Width;
+
+            fixed (ColorRGB* cptr = &this.Pixels[xMax])
+            {
+                long* ptr = (long*)(cptr);
+
+
+            }
+        }
+        */
         protected override ColorRGB GetTColor(IColor color)
         {
             return new ColorRGB(color);

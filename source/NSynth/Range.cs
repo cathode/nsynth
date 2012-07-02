@@ -70,7 +70,7 @@ namespace NSynth
 
         /// <summary>
         /// Determines if the specified <see cref="Range"/> is contained within
-        /// the current <see cref="Range."/>
+        /// the current <see cref="Range"/>
         /// </summary>
         /// <param name="range">true if the specified <see cref="Range"/> is
         /// contained entirely within the current <see cref="Range"/>; otherwise false.</param>

@@ -154,6 +154,25 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Methods
+        public static ColorFormat GetFormat<TBitmap>() where TBitmap : IBitmap
+        {
+            var type = typeof(TBitmap);
+
+            if (type == typeof(BitmapRGB))
+                return ColorFormat.RGB;
+            else if (type == typeof(BitmapRGB24))
+                return ColorFormat.RGB24;
+            else if (type == typeof(BitmapRGB32))
+                return ColorFormat.RGB32;
+            else if (type == typeof(BitmapRGB48))
+                return ColorFormat.RGB48;
+            else if (type == typeof(BitmapRGB64))
+                return ColorFormat.RGB64;
+            else if (type == typeof(BitmapRGB96))
+                return ColorFormat.RGB96;
+            else
+                throw new NotImplementedException("Unknown TBitmap - I don't know what to do!");
+        }
         /// <summary>
         /// Gets the number of bits used by the specified <see cref="ColorChannels"/> configuration.
         /// </summary>
@@ -266,6 +285,7 @@ namespace NSynth.Imaging
 
             return true;
         }
+
         #endregion
         #region Inner Types
         /// <summary>
