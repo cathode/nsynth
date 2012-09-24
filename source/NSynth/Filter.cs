@@ -203,6 +203,7 @@ namespace NSynth
             {
                 if (disposing)
                 {
+                    this.Mutex.Dispose();
                 }
             }
         }

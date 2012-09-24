@@ -13,7 +13,7 @@ namespace NSynth
     /// <summary>
     /// Represents a buffer that primitive types can be decoded from/encoded to.
     /// </summary>
-    [ContractVerification(false)]
+    [ContractVerification(true)]
     public sealed class DataBuffer
     {
         #region Fields
@@ -33,6 +33,7 @@ namespace NSynth
         {
             Contract.Requires(capacity > 0);
             Contract.Ensures(this.Position == 0);
+            Contract.Ensures(this.Available == capacity);
 
             this.data = new byte[capacity];
             this.Mode = ByteOrder.System;
@@ -100,6 +101,9 @@ namespace NSynth
         }
         #endregion
         #region Properties
+        /// <summary>
+        /// Gets a value that indicates how many bytes are available to be written to in the buffer.
+        /// </summary>
         public int Available
         {
             get
@@ -527,6 +531,7 @@ namespace NSynth
         /// <param name="value">A 64-bit unsigned integer value to write to the buffer.</param>
         public void WriteUInt64(ulong value)
         {
+            
             if (this.Mode == ByteOrder.BigEndian)
             {
                 this.data[this.position + 0] = (byte)(value >> 56);
@@ -550,18 +555,19 @@ namespace NSynth
                 this.data[this.position + 7] = (byte)(value >> 56);
             }
 
-            this.position += 8;
+            this.Position += 8;
         }
 
         public int WriteStringAscii(string value)
         {
+            Contract.Requires(value != null);
+
             throw new NotImplementedException();
         }
 
         public int WriteStringUtf8(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
-                return 0;
+            Contract.Requires(value != null);
 
             var bytes = Encoding.UTF8.GetBytes(value);
 
@@ -575,24 +581,46 @@ namespace NSynth
 
         public int WriteStringUtf16(string value)
         {
+            Contract.Requires(value != null);
+
             throw new NotImplementedException();
         }
 
-        public int WriteBytes(byte[] value)
+        public int WriteBytes(byte[] array)
         {
-            return this.WriteBytes(value, 0, value.Length);
+            Contract.Requires(array != null);
+
+            return this.WriteBytes(array, 0, array.Length);
         }
 
-        public int WriteBytes(byte[] value, int startIndex, int count)
+        /// <summary>
+        /// Writes a sequence of bytes from 'array' to the buffer.
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public int WriteBytes(byte[] array, int startIndex, int count)
         {
+            Contract.Requires(array != null);
+            Contract.Requires(startIndex >= 0);
+            Contract.Requires(count >= 0);
+            Contract.Requires(array.Length >= (startIndex + count));
+            Contract.Requires(count >= this.Available);
+
             int n;
             for (n = 0; n < count; n++)
-                this.data[this.position + n] = value[startIndex + n];
+                this.data[this.position + n] = array[startIndex + n];
 
             this.position += n;
             return n;
         }
 
+        /// <summary>
+        /// Writes a <see cref="System.Guid"/> to the buffer.
+        /// </summary>
+        /// <param name="id">The guid to write.</param>
+        /// <returns>The number of bytes written, which is always 16 for this operation.</returns>
         public int WriteGuid(Guid id)
         {
             Contract.Ensures(this.Position == Contract.OldValue<int>(this.Position) + 16);
@@ -607,6 +635,11 @@ namespace NSynth
             return 16;
         }
 
+        /// <summary>
+        /// Writes a <see cref="System.Version"/> to the buffer. The parts are written in the traditional order (Major, Minor, Build, Revision).
+        /// </summary>
+        /// <param name="version">The version to write.</param>
+        /// <returns>The number of bytes written, which is always 16 for this operation.</returns>
         public int WriteVersion(Version version)
         {
             this.WriteInt32(version.Major);
