@@ -294,7 +294,7 @@ namespace NSynth
         /// <returns>The decoded 16-bit unsigned integer value.</returns>
         public ushort ReadUInt16()
         {
-            Contract.Ensures(this.Position == this.Position + 2);
+            Contract.Ensures(this.Position == Contract.OldValue<long>(this.Position) + 2);
             // No bitshift operators for ushort, have to use int and cast when returning.
             int result;
 

@@ -13,8 +13,12 @@ using System.Diagnostics.Contracts;
 
 namespace NSynth.Imaging
 {
+    /// <summary>
+    /// Provides common functionality to support types that decode static images from bitstreams.
+    /// </summary>
     public abstract class ImageDecoder : MediaDecoder
     {
+        #region Methods
         public static IBitmap DecodeBitmap(string path)
         {
             Contract.Requires(path != null);
@@ -33,8 +37,15 @@ namespace NSynth.Imaging
             }
         }
 
+        /// <summary>
+        /// Creates and returns a new <see cref="ImageDecoder"/> suitable for decoding a bitmap from a file with the specified file extension.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
         public static ImageDecoder CreateByFileExtension(string path)
         {
+            Contract.Requires(!string.IsNullOrWhiteSpace(path));
+
             switch (Path.GetExtension(path).ToLower())
             {
                 case ".tga":
@@ -58,5 +69,6 @@ namespace NSynth.Imaging
                     return null;
             }
         }
+        #endregion
     }
 }

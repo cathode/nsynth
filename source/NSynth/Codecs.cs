@@ -184,6 +184,9 @@ namespace NSynth
         }
         #endregion
         #region Container Codecs
+        /// <summary>
+        /// Gets or sets the container codec for the Audio-Video-Interlaced multimedia standard.
+        /// </summary>
         public static Containers.AVI.AVIContainer AVI
         {
             get
@@ -191,6 +194,10 @@ namespace NSynth
                 return Codecs.avi;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the container codec for the Matroska multimedia standard.
+        /// </summary>
         public static Containers.MKV.MKVContainer MKV
         {
             get
@@ -200,6 +207,9 @@ namespace NSynth
         }
         #endregion
         #region Image Codecs
+        /// <summary>
+        /// Gets or sets the image codec for the Microsoft BMP bitmap standard.
+        /// </summary>
         public static Imaging.BMP.BMPCodec BMP
         {
             get
@@ -208,6 +218,9 @@ namespace NSynth
             }
         }
 
+        /// <summary>
+        /// Gets the image codec for the Joint Photographic Experts Group bitmap standard.
+        /// </summary>
         public static Imaging.JPEG.JPEGCodec JPEG
         {
             get
@@ -216,6 +229,9 @@ namespace NSynth
             }
         }
 
+        /// <summary>
+        /// Gets the image codec for the Portable Network Graphics bitmap standard.
+        /// </summary>
         public static Imaging.PNG.PNGCodec PNG
         {
             get
@@ -223,6 +239,10 @@ namespace NSynth
                 return Codecs.png;
             }
         }
+
+        /// <summary>
+        /// Gets the image codec for the Truevision TARGA bitmap standard.
+        /// </summary>
         public static Imaging.TGA.TGACodec TGA
         {
             get
@@ -230,6 +250,10 @@ namespace NSynth
                 return Codecs.tga;
             }
         }
+
+        /// <summary>
+        /// Gets the image codec for the Tagged Image File Format bitmap standard.
+        /// </summary>
         public static Imaging.TIFF.TIFFCodec TIFF
         {
             get
@@ -239,6 +263,9 @@ namespace NSynth
         }
         #endregion
         #region Video Codecs
+        /// <summary>
+        /// Gets the video codec for the Dirac video standard.
+        /// </summary>
         public static Video.Dirac.DiracCodec Dirac
         {
             get
@@ -246,6 +273,10 @@ namespace NSynth
                 return Codecs.dirac;
             }
         }
+
+        /// <summary>
+        /// Gets the video codec for the H.264 (MPEG-2) video standard.
+        /// </summary>
         public static Video.H262.H262Codec H262
         {
             get
@@ -253,6 +284,10 @@ namespace NSynth
                 return Codecs.h262;
             }
         }
+        
+        /// <summary>
+        /// Gets the video codec for the H.264 (MPEG-4 Part 10, Advanced Video Coding) video standard.
+        /// </summary>
         public static Video.H264.H264Codec H264
         {
             get
@@ -260,6 +295,10 @@ namespace NSynth
                 return Codecs.h264;
             }
         }
+
+        /// <summary>
+        /// Gets the video codec for the VC-1 video standard.
+        /// </summary>
         public static Video.VC1.VC1Codec VC1
         {
             get
@@ -268,6 +307,9 @@ namespace NSynth
             }
         }
 
+        /// <summary>
+        /// Gets the video codec for the VP8 video standard.
+        /// </summary>
         public static Video.VP8.VP8Codec VP8
         {
             get

@@ -88,14 +88,18 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Methods
+        [Pure]
         public override bool Equals(object obj)
         {
             return base.Equals(obj);
         }
+
+        [Pure]
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
+
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {

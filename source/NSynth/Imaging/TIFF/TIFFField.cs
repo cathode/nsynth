@@ -16,12 +16,12 @@ namespace NSynth.Imaging.TIFF
         #region Fields
 
         /// <summary>
-        /// Backing field for <see cref="NSynth.Imaging.TIFFField.Count"/>.
+        /// Backing field for <see cref="NSynth.Imaging.TIFF.TIFFField.Count"/>.
         /// </summary>
         private int count;
 
         /// <summary>
-        /// Backing field for <see cref="NSynth.Imaging.TIFFField.ValueOffset"/>.
+        /// Backing field for <see cref="NSynth.Imaging.TIFF.TIFFField.ValueOffset"/>.
         /// </summary>
         private int valueOffset;
 
@@ -32,7 +32,7 @@ namespace NSynth.Imaging.TIFF
         /// Gets or sets the number of values in the current TIFF Field.
         /// </summary>
         /// <remarks>
-        /// Note that Count is not the total number of bytes. For example, a TIFF field containing a single 16-bit word (<see cref="NSynth.Imaging.TIFFFieldType.Short"/>)
+        /// Note that Count is not the total number of bytes. For example, a TIFF field containing a single 16-bit word (<see cref="NSynth.Imaging.TIFF.TIFFFieldType.Short"/>)
         /// has a Count of 1; not 2, because the field only contains 1 element (even though that element is 2-bytes in length).
         /// </remarks>
         public int Count

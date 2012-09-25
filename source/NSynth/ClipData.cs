@@ -82,8 +82,10 @@ namespace NSynth
         /// Adds the specified track to the clip track data.
         /// </summary>
         /// <param name="track">The track to add.</param>
+        [ContractVerification(false)]
         public void Add(T track)
         {
+            Contract.Requires(track != null);
             Contract.Requires(!this.Clip.IsLocked);
 
             if (this.tracks.Contains(track))

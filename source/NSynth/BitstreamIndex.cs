@@ -25,6 +25,7 @@ namespace NSynth
         /// </summary>
         public BitstreamIndex()
         {
+
         }
         #endregion
         #region Indexers

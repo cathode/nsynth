@@ -261,14 +261,14 @@ namespace NSynth.Imaging
         /// </summary>
         public void Clamp()
         {
-            Contract.Ensures(this.red >= 0.0f);
-            Contract.Ensures(this.red <= 1.0f);
-            Contract.Ensures(this.green >= 0.0f);
-            Contract.Ensures(this.green <= 1.0f);
-            Contract.Ensures(this.blue >= 0.0f);
-            Contract.Ensures(this.blue <= 1.0f);
-            Contract.Ensures(this.alpha >= 0.0f);
-            Contract.Ensures(this.alpha <= 1.0f);
+            Contract.Ensures(this.Red >= 0.0f);
+            Contract.Ensures(this.Red <= 1.0f);
+            Contract.Ensures(this.Green >= 0.0f);
+            Contract.Ensures(this.Green <= 1.0f);
+            Contract.Ensures(this.Blue >= 0.0f);
+            Contract.Ensures(this.Blue <= 1.0f);
+            Contract.Ensures(this.Alpha >= 0.0f);
+            Contract.Ensures(this.Alpha <= 1.0f);
             Contract.Ensures(this.IsNormalized == true);
 
             this.red = (this.red > 1.0f) ? 1.0f : ((this.red < 0.0f) ? 0.0f : this.red);
@@ -282,14 +282,14 @@ namespace NSynth.Imaging
         /// </summary>
         public void Normalize()
         {
-            Contract.Ensures(this.red >= 0.0f);
-            Contract.Ensures(this.red <= 1.0f);
-            Contract.Ensures(this.green >= 0.0f);
-            Contract.Ensures(this.green <= 1.0f);
-            Contract.Ensures(this.blue >= 0.0f);
-            Contract.Ensures(this.blue <= 1.0f);
-            Contract.Ensures(this.alpha >= 0.0f);
-            Contract.Ensures(this.alpha <= 1.0f);
+            Contract.Ensures(this.Red >= 0.0f);
+            Contract.Ensures(this.Red <= 1.0f);
+            Contract.Ensures(this.Green >= 0.0f);
+            Contract.Ensures(this.Green <= 1.0f);
+            Contract.Ensures(this.Blue >= 0.0f);
+            Contract.Ensures(this.Blue <= 1.0f);
+            Contract.Ensures(this.Alpha >= 0.0f);
+            Contract.Ensures(this.Alpha <= 1.0f);
             Contract.Ensures(this.IsNormalized == true);
 
             var shift = (this.red < 0.0f) ? this.red : 0.0f;
@@ -325,6 +325,7 @@ namespace NSynth.Imaging
         /// Gets a new <see cref="ColorRGB"/> instance that is the constrained version of the specified <see cref="ColorRGB"/>.
         /// </summary>
         /// <returns>A new <see cref="ColorRGB"/> instance that is the constrained version of the specified <see cref="ColorRGB"/>.</returns>
+        [Pure]
         public static ColorRGB Clamp(ColorRGB color)
         {
             color.Clamp();
@@ -335,6 +336,7 @@ namespace NSynth.Imaging
         /// Gets a new <see cref="ColorRGB"/> instance that is the compressed version of the current <see cref="ColorRGB"/>.
         /// </summary>
         /// <returns>A new <see cref="ColorRGB"/> instance that is the compressed version of the current <see cref="ColorRGB"/>.</returns>
+        [Pure]
         public ColorRGB GetNormalized()
         {
             ColorRGB comp = this;
@@ -346,6 +348,7 @@ namespace NSynth.Imaging
         /// Gets a new <see cref="ColorRGB96"/> instance that is the premultiplied alpha version of the current <see cref="ColorRGB"/>.
         /// </summary>
         /// <returns>A new <see cref="ColorRGB96"/> instance that is the premultiplied alpha version of the current <see cref="ColorRGB"/>.</returns>
+        [Pure]
         public ColorRGB96 GetPremultipliedAlpha()
         {
             return new ColorRGB96(this.red * this.alpha, this.green * this.alpha, this.blue * this.alpha);
@@ -355,6 +358,7 @@ namespace NSynth.Imaging
         /// Calculates a unique hash code for the current <see cref="ColorRGB"/> instance.
         /// </summary>
         /// <returns>A 32-bit signed integer that is the hash code for the current instance.</returns>
+        [Pure]
         public override int GetHashCode()
         {
             var prefix = (int)((this.Red - this.Green) * this.Blue);
