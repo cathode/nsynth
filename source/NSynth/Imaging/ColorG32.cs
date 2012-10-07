@@ -10,8 +10,10 @@ namespace NSynth.Imaging
     /// </summary>
     public struct ColorG32 : IColor
     {
+        #region Fields
         private float value;
-
+        #endregion
+        #region Properties
         float IColor.Red
         {
             get
@@ -59,5 +61,18 @@ namespace NSynth.Imaging
                 this.value = value;
             }
         }
+
+        public float Value
+        {
+            get
+            {
+                return this.value;
+            }
+            set
+            {
+                this.value = value;
+            }
+        }
+        #endregion
     }
 }

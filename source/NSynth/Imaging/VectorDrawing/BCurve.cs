@@ -98,5 +98,17 @@ namespace NSynth.Imaging.VectorDrawing
             Contract.Invariant(this.Order > 0);
         }
         #endregion
+
+        public float Thickness
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

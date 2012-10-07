@@ -64,6 +64,7 @@
     <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
     <CodeContractsDisjunctiveRequires>False</CodeContractsDisjunctiveRequires>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -122,10 +123,12 @@
     <Compile Include="Filters\Video\IgnoreAlphaFilter.cs" />
     <Compile Include="FrameBuffer.cs" />
     <Compile Include="FrameRenderContext.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IFFCodec.cs" />
     <Compile Include="IFFDecoder.cs" />
     <Compile Include="IFFEncoder.cs" />
     <Compile Include="IFrameSource.cs" />
+    <Compile Include="Imaging\BitmapG32.cs" />
     <Compile Include="Imaging\ColorG32.cs" />
     <Compile Include="Imaging\ColorG8.cs" />
     <Compile Include="EffectFilter.cs" />
@@ -151,8 +154,10 @@
     <Compile Include="Imaging\PNG\PNGSourceFilter.cs" />
     <Compile Include="Imaging\VectorDrawing\ControlVertex.cs" />
     <Compile Include="Imaging\VectorDrawing\ILine.cs" />
+    <Compile Include="Imaging\VectorDrawing\IVectorComponent.cs" />
     <Compile Include="Imaging\VectorDrawing\Line.cs" />
     <Compile Include="Imaging\VectorDrawing\Pointf.cs" />
+    <Compile Include="Imaging\VectorDrawing\Polygon.cs" />
     <Compile Include="Imaging\VectorDrawing\Shape.cs" />
     <Compile Include="Imaging\TGA\TGADecodeContext.cs" />
     <Compile Include="Imaging\TGA\TGADecoder.cs" />

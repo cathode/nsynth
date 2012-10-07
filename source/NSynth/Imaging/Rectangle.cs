@@ -26,22 +26,22 @@ namespace NSynth.Imaging
         /// <summary>
         /// Backing field for the <see cref="Rectangle.Left"/> property.
         /// </summary>
-        private int left;
+        private readonly int left;
 
         /// <summary>
         /// Backing field for the <see cref="Rectangle.Top"/> property.
         /// </summary>
-        private int top;
+        private readonly int top;
 
         /// <summary>
         /// Backing field for the <see cref="Rectangle.Bottom"/> property.
         /// </summary>
-        private int bottom;
+        private readonly int bottom;
 
         /// <summary>
         /// Backing field for the <see cref="Rectangle.Right"/> property.
         /// </summary>
-        private int right;
+        private readonly int right;
         #endregion
         #region Constructors
         /// <summary>
@@ -118,75 +118,66 @@ namespace NSynth.Imaging
         /// <summary>
         /// Gets or sets the position of the bottom edge of the <see cref="Rectangle"/>.
         /// </summary>
+        [Pure]
         public int Bottom
         {
             get
             {
                 return this.bottom;
             }
-            set
-            {
-                Contract.Requires(value >= this.Top);
-
-                this.bottom = value;
-            }
         }
 
         /// <summary>
         /// Gets or sets the position of the left edge of the <see cref="Rectangle"/>.
         /// </summary>
+        [Pure]
         public int Left
         {
             get
             {
                 return this.left;
             }
-            set
-            {
-                Contract.Requires(value <= this.Right);
-
-                this.left = value;
-            }
         }
 
         /// <summary>
         /// Gets or sets a <see cref="Point"/> that defines the upper-left corner of the <see cref="Rectangle"/>.
         /// </summary>
+        [Pure]
         public Point A
         {
             get
             {
                 return new Point(this.left, this.top);
             }
-            set
-            {
-                Contract.Requires(value.X <= this.Right);
-                Contract.Requires(value.Y <= this.Bottom);
-
-                this.left = value.X;
-                this.top = value.Y;
-            }
         }
 
         /// <summary>
         /// Gets or sets a <see cref="Point"/> that defines the lower-right corner of the <see cref="Rectangle"/>.
         /// </summary>
+        [Pure]
         public Point B
         {
             get
             {
                 return new Point(this.right, this.bottom);
             }
-            set
-            {
-                Contract.Requires(value.X >= this.Left);
-                Contract.Requires(value.Y >= this.Top);
-
-                this.right = value.X;
-                this.bottom = value.Y;
-            }
         }
 
+        /// <summary>
+        /// Gets a value that indicates if the current <see cref="Rectangle" is empty./>
+        /// </summary>
+        /// <remarks>
+        /// A rectangle is considered empty if it defines an area with zero width and/or zero height,
+        /// regardless of it's location or other properties.
+        /// </remarks>
+        [Pure]
+        public bool IsEmpty
+        {
+            get
+            {
+                return (this.Width == 0) || (this.Height == 0);
+            }
+        }
         /// <summary>
         /// Gets or sets the position of the right edge of the <see cref="Rectangle"/>.
         /// </summary>
@@ -195,12 +186,6 @@ namespace NSynth.Imaging
             get
             {
                 return this.right;
-            }
-            set
-            {
-                Contract.Requires(value >= this.Left);
-
-                this.right = value;
             }
         }
 
@@ -225,12 +210,7 @@ namespace NSynth.Imaging
             {
                 return this.top;
             }
-            set
-            {
-                Contract.Requires(value <= this.Bottom);
 
-                this.top = value;
-            }
         }
 
         /// <summary>
@@ -335,6 +315,20 @@ namespace NSynth.Imaging
         {
             return (p.X >= this.Left) && (p.X <= this.Right) && (p.Y >= this.Top) && (p.Y <= this.Bottom);
         }
+        
+        /// <summary>
+        /// Determines if the specified rectangle is fully contained within the current rectangle.
+        /// </summary>
+        /// <param name="r">The rectangle to check for containment.</param>
+        /// <returns>True if no parts of the specified rectangle extend beyond the bounds of the current rectangle; otherwise, false.</returns>
+        [Pure]
+        public bool Contains(Rectangle r)
+        {
+            return (this.Left <= r.Left) &&
+                (this.Top <= r.Top) &&
+                (this.Right >= r.Right) &&
+                (this.Bottom >= r.Bottom);
+        }
 
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
@@ -368,8 +362,8 @@ namespace NSynth.Imaging
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.left <= this.right);
-            Contract.Invariant(this.top <= this.bottom);
+            Contract.Invariant(this.Left <= this.Right);
+            Contract.Invariant(this.Top <= this.Bottom);
             Contract.Invariant(this.Width >= 0);
             Contract.Invariant(this.Height >= 0);
         }

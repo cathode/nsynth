@@ -75,7 +75,7 @@ namespace NSynthGraphStudio
 
             // TODO: Fix this!!!
             VideoTrack track = null; //this.filter.Clip.VideoTracks[0];
-
+            track = this.filter.Clip.VideoTracks[0];
             double dpi = 96.0;
 
             if (track.Format == ColorFormat.RGB24)
@@ -99,10 +99,9 @@ namespace NSynthGraphStudio
             //if (this.cachedBitmap != null)
             //    throw new NotImplementedException();
 
-            //var frame = this.filter.GetFrame(frameIndex);
-            //var frameBitmap = frame.Video;
+            var frame = this.filter.GetFrame(frameIndex);
 
-            //this.RefreshCachedBitmap(frameBitmap);
+            this.RefreshCachedBitmap(frame.Video[0]);
         }
 
         private unsafe void RefreshCachedBitmap(IBitmap frameBitmap)

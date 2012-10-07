@@ -9,6 +9,8 @@ namespace NSynth.Imaging.VectorDrawing
     [ContractClass(typeof(ContractsForILine))]
     public interface ILine
     {
+        float Thickness { get; set; }
+
         Pointf Sample(float t);
     }
 
@@ -26,6 +28,18 @@ namespace NSynth.Imaging.VectorDrawing
         private void _Invariants()
         {
 
+        }
+
+        public float Thickness
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 

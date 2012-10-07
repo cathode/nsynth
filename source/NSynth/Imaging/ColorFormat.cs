@@ -37,6 +37,14 @@ namespace NSynth.Imaging
             }
         }
 
+        public static ColorFormat G32
+        {
+            get
+            {
+                return ColorFormatG32.Instance;
+            }
+        }
+
         /// <summary>
         /// Gets the <see cref="ColorFormat"/> for 128-bit floating-point RGB color; 96-bit floating-point RGB plus 32-bit floating-point Alpha channel.
         /// </summary>
@@ -912,6 +920,68 @@ namespace NSynth.Imaging
                     result[0xC] = result[0xD] = result[0xE] = result[0xF] = 0xFF;
 
                 return result;
+            }
+            #endregion
+        }
+
+        internal sealed class ColorFormatG32 : ColorFormat
+        {
+            #region Fields
+            /// <summary>
+            /// Holds the singleton instance of the <see cref="ColorFormatG32"/> class.
+            /// </summary>
+            internal static readonly ColorFormatG32 Instance = new ColorFormatG32();
+            #endregion
+            #region Constructors
+            /// <summary>
+            /// Prevents a default instance of the <see cref="ColorFormatG32"/> class from being created.
+            /// </summary>
+            private ColorFormatG32()
+            {
+            }
+            #endregion
+            #region Properties
+            /// <summary>
+            /// Gets a value indicating the number of bits required to represent a pixel.
+            /// </summary>
+            public override int BitsPerPixel
+            {
+                get
+                {
+                    return 32;
+                }
+            }
+
+            public override ColorChannels Channels
+            {
+                get
+                {
+                    return ColorChannels.Black;
+                }
+            }
+            #endregion
+            #region Methods
+            public override int BitsPerChannel(ColorChannels channel)
+            {
+                if (channel == ColorChannels.Black)
+                    return 32;
+                else
+                    return 0;
+            }
+
+            public override IBitmap CreateBitmap(Size size)
+            {
+                return new BitmapG32(size);
+            }
+
+            public override IColor CreateColor(IColor original)
+            {
+                throw new NotImplementedException();
+            }
+
+            public override byte[] GetBitMask(ColorChannels channels)
+            {
+                throw new NotImplementedException();
             }
             #endregion
         }
