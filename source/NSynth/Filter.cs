@@ -240,7 +240,6 @@ namespace NSynth
             this.Render(frame, frameIndex);
 
             this.bufferedFrames.Add(frameIndex, frame);
-
         }
 
         public Frame GetFrame(long index)
@@ -302,10 +301,15 @@ namespace NSynth
                 this.Mutex.ReleaseMutex();
             }
         }
-        
+
         internal void UnbindConsumer(FilterInputSlot consumer)
         {
             Contract.Requires(consumer != null);
+        }
+
+        internal Frame GetPooledFrame()
+        {
+            
         }
         #endregion
     }

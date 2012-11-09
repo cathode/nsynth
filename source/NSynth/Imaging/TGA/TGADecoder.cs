@@ -454,11 +454,12 @@ namespace NSynth.Imaging.TGA
                     ColorRGB32 px = new ColorRGB32();
                     // Operate on a line-by-line basis; RLE packets will never wrap from one scanline to another.
                     var line = new ColorRGB32[w];
+                    var len = line.Length;
                     if (dc.PixelOrder == TGAPixelOrder.BottomLeft)
                     {
                         for (int y = h; y > 0; --y)
                         {
-                            for (int x = 0, e = 0; x < line.Length; ++x, --e)
+                            for (int x = 0, e = 0; x < len; ++x, --e)
                             {
                                 if (e == 0)
                                 {
