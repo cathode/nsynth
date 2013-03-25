@@ -81,6 +81,23 @@ namespace NSynth
                 return this.source != null;
             }
         }
+
+        
+        /// <summary>
+        /// Gets or sets a value that indicates how many frames before the current frame are necessary to be cached by the filter assigned to this input slot,
+        /// if the parent filter operates on multiple frames at once.
+        /// </summary>
+        public int FramesBefore
+        {
+            get;
+            set;
+        }
+
+        public int FramesAfter
+        {
+            get;
+            set;
+        }
         #endregion
         #region Methods
 

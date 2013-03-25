@@ -63,9 +63,8 @@ namespace NSynth
             Contract.Requires(contents.Length > 0);
             Contract.Ensures(this.Position == 0);
 
-            this.data = new byte[contents.Length];
+            this.data = contents;
             this.Mode = ByteOrder.System;
-            contents.CopyTo(this.data, 0);
         }
 
         /// <summary>
@@ -79,25 +78,8 @@ namespace NSynth
             Contract.Requires(contents.Length > 0);
             Contract.Ensures(this.Position == 0);
 
-            this.data = new byte[contents.Length];
+            this.data = contents;
             this.Mode = mode;
-            contents.CopyTo(this.data, 0);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DataBuffer"/> class.
-        /// </summary>
-        /// <param name="contents">The byte array to initialize the new instance with.</param>
-        /// <param name="capacity">The capacity of the new instance.</param>
-        public DataBuffer(byte[] contents, int capacity)
-        {
-            Contract.Requires(contents != null);
-            Contract.Requires(capacity > 0);
-            Contract.Ensures(this.Position == 0);
-
-            this.data = new byte[capacity];
-            this.Mode = ByteOrder.System;
-            contents.CopyTo(this.data, 0);
         }
         #endregion
         #region Properties
@@ -369,7 +351,9 @@ namespace NSynth
 
         public Guid ReadGuid()
         {
-            return new Guid(this.ReadInt32(), this.ReadInt16(), this.ReadInt16(), this.ReadBytes(8));
+            var bytes = this.ReadBytes(16);
+            var guid = new Guid(bytes);
+            return guid;
         }
 
         public Version ReadVersion()
@@ -531,7 +515,7 @@ namespace NSynth
         /// <param name="value">A 64-bit unsigned integer value to write to the buffer.</param>
         public void WriteUInt64(ulong value)
         {
-            
+
             if (this.Mode == ByteOrder.BigEndian)
             {
                 this.data[this.position + 0] = (byte)(value >> 56);
@@ -624,13 +608,9 @@ namespace NSynth
         public int WriteGuid(Guid id)
         {
             Contract.Ensures(this.Position == Contract.OldValue<int>(this.Position) + 16);
-            // Create a sub-buffer to decode the platform-specific result of Guid.ToByteArray()
-            DataBuffer db = new DataBuffer(id.ToByteArray(), ByteOrder.System);
 
-            this.WriteInt32(db.ReadInt32());
-            this.WriteInt16(db.ReadInt16());
-            this.WriteInt16(db.ReadInt16());
-            this.WriteBytes(db.ReadBytes(8));
+            var bytes = id.ToByteArray();
+            this.WriteBytes(bytes);
 
             return 16;
         }
@@ -642,6 +622,8 @@ namespace NSynth
         /// <returns>The number of bytes written, which is always 16 for this operation.</returns>
         public int WriteVersion(Version version)
         {
+            Contract.Requires(version != null);
+
             this.WriteInt32(version.Major);
             this.WriteInt32(version.Minor);
             this.WriteInt32(version.Build);

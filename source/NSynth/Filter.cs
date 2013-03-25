@@ -165,6 +165,16 @@ namespace NSynth
             }
         }
 
+        /// <summary>
+        /// Gets a collection of frame indexes that have been requested by upstream filters and have not yet been rendered.
+        /// </summary>
+        public IEnumerable<long> OutstandingFrames
+        {
+            get
+            {
+                yield return 0;
+            }
+        }
         #endregion
         #region Methods
         /// <summary>
@@ -252,6 +262,21 @@ namespace NSynth
             return this.bufferedFrames[index];
         }
 
+        /// <summary>
+        /// Determines if a frame is in scope, e.g. if any of it's consumers are currently processing a frame that requires the specified frame index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        protected bool IsFrameInScope(long index)
+        {
+            foreach (var consumer in this.consumers)
+            {
+
+            }
+
+            return false;
+        }
+
         protected virtual bool Render(Frame output, long index)
         {
             return false;
@@ -309,7 +334,7 @@ namespace NSynth
 
         internal Frame GetPooledFrame()
         {
-            
+            throw new NotImplementedException();
         }
         #endregion
     }
