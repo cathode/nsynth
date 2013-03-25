@@ -44,7 +44,10 @@ namespace NSynth
         {
             get
             {
-                return this.items[name];
+                if (this.items.ContainsKey(name.ToLowerInvariant()))
+                    return this.items[name.ToLowerInvariant()];
+
+                return null;
             }
         }
         #endregion
@@ -69,7 +72,7 @@ namespace NSynth
             Contract.Requires(name != null);
 
             if (!items.ContainsKey(name))
-                this.items.Add(name, new FilterInputSlot(name));
+                this.items.Add(name, new FilterInputSlot(this.owner, name));
         }
         internal void RemoveSlot(string name)
         {

@@ -14,18 +14,35 @@ namespace NSynth
     /// <summary>
     /// Provides a base filter type that applies an effect to frames coming from another filter.
     /// </summary>
-    public abstract class EffectFilter : SourceFilter
+    public abstract class EffectFilter : Filter
     {
         #region Fields
         #endregion
         #region Constructors
         protected EffectFilter()
         {
-            
+            this.Inputs.AddSlot("input");
+            this.Inputs.AddSlot("mask");
         }
         #endregion
         #region Properties
-       
+        /// <summary>
+        /// Gets the <see cref="FilterInputSlot"/> for the primary input of the effect filter.
+        /// </summary>
+        public FilterInputSlot Input
+        {
+            get
+            {
+                return this.Inputs["input"];
+            }
+        }
+        public FilterInputSlot Mask
+        {
+            get
+            {
+                return this.Inputs["mask"];
+            }
+        }
         #endregion
     }
 }

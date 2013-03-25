@@ -116,7 +116,13 @@ namespace NSynthGraphStudio
             sw.Start();
             var filter = new TGASourceFilter(path);
             filter.Initialize();
-            this.host.Filter = filter;
+
+            var blur = new BlurFilter();
+            blur.Input.Bind(filter);
+
+            blur.Initialize();
+            this.host.Filter = blur;
+            
             sw.Stop();
             this.Title = string.Format("NSynth Graph Studio -- Sample displayed in {0}ms", sw.ElapsedMilliseconds);
         }

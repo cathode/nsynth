@@ -27,12 +27,21 @@ namespace NSynth.Filters.Video
         protected override void OnInitializing(FilterInitializationEventArgs e)
         {
             base.OnInitializing(e);
-            /*
-            if (this.InputFrames.Filter == null)
+            
+            if (this.Input.Source == null)
                 this.Clip = new Clip();
             else
-                this.Clip = this.InputFrames.Filter.Clip;
-            */
+                this.Clip = this.Input.Source.Clip;
+            
+        }
+
+        protected override bool Render(Frame output, long index)
+        {
+            var frame = this.Input.Source.GetFrame(index);
+
+            var blurred = this.BoxBlur(frame.Video[0]);
+            output.Video[0] = blurred;
+            return true;
         }
 
         private BitmapRGB BoxBlur(IBitmap source)
@@ -60,9 +69,11 @@ namespace NSynth.Filters.Video
                     total.Red /= div;
                     total.Green /= div;
                     total.Blue /= div;
+                    total.Alpha = 1.0f;
                     pix[n++] = total;
                 }
             }
+
 
             return new BitmapRGB(source.Width, source.Height, pix);
         }

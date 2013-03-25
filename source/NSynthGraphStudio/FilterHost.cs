@@ -69,6 +69,8 @@ namespace NSynthGraphStudio
             if (this.filter == null)
                 return;
 
+            this.VisualBitmapScalingMode = BitmapScalingMode.NearestNeighbor;
+
             // TODO: Fix this!!!
             //if (this.filter.Clip.VideoTracks.Count == 0)
             //    return;

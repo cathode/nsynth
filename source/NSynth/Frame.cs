@@ -52,11 +52,19 @@ namespace NSynth
             this.audio = new FrameData<ISegment>(1);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Frame"/> class, using the specified track structure.
+        /// </summary>
+        /// <param name="tracks"></param>
         public Frame(params Track[] tracks)
             : this(new Clip(tracks))
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Frame"/> class.
+        /// </summary>
+        /// <param name="clip"></param>
         internal Frame(Clip clip)
             : this()
         {
@@ -125,6 +133,9 @@ namespace NSynth
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="Filter"/> that generated the current frame's contents.
+        /// </summary>
         public Filter Source
         {
             get
@@ -146,6 +157,9 @@ namespace NSynth
         }
         #endregion
         #region Methods
+        /// <summary>
+        /// Indicates that the frame is no longer being used and it's resources may be recycled (to reduce re-allocation of large bitmaps etc.).
+        /// </summary>
         public void Release()
         {
 

@@ -283,24 +283,16 @@ namespace NSynth
         }
 
         /// <summary>
-        /// Determines if a specified <see cref="Filter"/> is a direct or indirect parent of the current filter.
+        /// Determines if the current filter depends on the specified filter.
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public bool IsParent(Filter filter)
+        public bool DependsOn(Filter filter)
         {
-            Contract.Requires(filter != null);
-            /*
-            if (this.source == null)
-                return false; // Nothing to look in.
-            else if (this.source == filter)
-                return true; // Found!
-            else
-                foreach (var input in this.source.Inputs)
-                    if (input.IsInSubtree(filter))
-                        return true; // Found in a subtree
-            */
-            // Not found
+            foreach (var input in this.inputs.Where(f => f.Source != null))
+                if (input.Source == filter || input.Source.DependsOn(filter))
+                    return true;
+
             return false;
         }
 
@@ -330,6 +322,8 @@ namespace NSynth
         internal void UnbindConsumer(FilterInputSlot consumer)
         {
             Contract.Requires(consumer != null);
+
+            this.consumers.Remove(consumer);
         }
 
         internal Frame GetPooledFrame()

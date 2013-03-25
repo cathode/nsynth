@@ -93,6 +93,9 @@ namespace NSynth
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="Codec"/> which describes the decoder.
+        /// </summary>
         public abstract Codec Codec
         {
             get;

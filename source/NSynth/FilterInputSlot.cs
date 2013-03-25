@@ -32,17 +32,23 @@ namespace NSynth
         /// Backing field for the <see cref="FilterInputSlot.Source"/> property.
         /// </summary>
         private Filter source;
+
+        /// <summary>
+        /// Backing field for the <see cref="FilterInputSlot.Owner"/> property.
+        /// </summary>
+        private Filter owner;
         #endregion
         #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="FilterInputSlot"/> class.
         /// </summary>
         /// <param name="name"></param>
-        internal FilterInputSlot(string name)
+        internal FilterInputSlot(Filter owner, string name)
         {
+            Contract.Requires(owner != null);
             Contract.Requires(name != null);
             Contract.Requires(name != string.Empty);
-
+            this.owner = owner;
             this.name = name;
         }
         #endregion
@@ -59,6 +65,17 @@ namespace NSynth
         }
 
         /// <summary>
+        /// Gets the filter that owns this input slot.
+        /// </summary>
+        public Filter Owner
+        {
+            get
+            {
+                return this.owner;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the <see cref="Filter"/> that is assigned to the
         /// current input slot.
         /// </summary>
@@ -70,7 +87,10 @@ namespace NSynth
             }
             set
             {
-                this.source = value;
+                if (value == null)
+                    this.Unbind();
+                else
+                    this.Bind(value);
             }
         }
 
@@ -82,7 +102,7 @@ namespace NSynth
             }
         }
 
-        
+
         /// <summary>
         /// Gets or sets a value that indicates how many frames before the current frame are necessary to be cached by the filter assigned to this input slot,
         /// if the parent filter operates on multiple frames at once.
@@ -93,6 +113,10 @@ namespace NSynth
             set;
         }
 
+        /// <summary>
+        /// Gets or sets a value that indicates how many frames after the current frame are necessary to be cached by the filter assigned to this input slot,
+        /// if the parent filter operates on multiple frames at once.
+        /// </summary>
         public int FramesAfter
         {
             get;
@@ -103,7 +127,7 @@ namespace NSynth
 
         /// <summary>
         /// Binds the input slot to a filter, thereby establishing a link between the specified filter and the filter
-        /// to which this input slot belongs.
+        /// to which this input slot belongs. This is equivalent to setting the <see cref="Source"/> property.
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
@@ -116,41 +140,20 @@ namespace NSynth
             else
                 this.Unbind();
 
-
-            //if (!filter.IsInSubtree(this))
-            {
-
-            }
+            this.source = filter;
+            this.source.BindConsumer(this);
 
             return true;
         }
 
-
-        /// <summary>
-        /// Determines if a specified <see cref="Filter"/> is already bound as part of the subtree of the current input slot.
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <returns></returns>
-        public bool IsInSubtree(Filter filter)
-        {
-            Contract.Requires(filter != null);
-
-            if (this.source == null)
-                return false; // Nothing to look in.
-            else if (this.source == filter)
-                return true; // Found!
-            else
-                foreach (var input in this.source.Inputs)
-                    if (input.IsInSubtree(filter))
-                        return true; // Found in a subtree
-
-            // Not found
-            return false;
-        }
-
         public void Unbind()
         {
-            //this.source.
+            if (this.source != null)
+            {
+                var src = this.source;
+                this.source = null;
+                src.UnbindConsumer(this);
+            }
         }
         #endregion
     }
