@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 using System.Text;
 
-namespace NSynth.Filters.Internal.Video
+namespace NSynth.Filters.Video
 {
     [Flags]
     public enum FlipDirection

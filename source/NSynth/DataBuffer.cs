@@ -122,6 +122,7 @@ namespace NSynth
             set
             {
                 Contract.Requires(value <= this.Capacity);
+                Contract.Requires(value >= 0);
                 this.position = value;
             }
         }
@@ -161,6 +162,7 @@ namespace NSynth
         /// <returns>A new byte[] containing the bytes read from the buffer.</returns>
         public byte[] ReadBytes(int count)
         {
+            Contract.Requires(count > 0);
             Contract.Ensures(Contract.Result<byte[]>() != null);
 
             int n = Math.Min(count, this.Capacity - this.Position);

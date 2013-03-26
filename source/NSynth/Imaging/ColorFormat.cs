@@ -615,7 +615,7 @@ namespace NSynth.Imaging
             /// <returns>A new byte array that is the same number of bytes as required to represent a single pixel.</returns>
             public override byte[] GetBitMask(ColorChannels channels)
             {
-                var result = new byte[6];
+                var result = new byte[12];
                 if ((channels & ColorChannels.Red) == ColorChannels.Red)
                     result[0] = result[1] = result[2] = result[3] = 0xFF;
                 if ((channels & ColorChannels.Green) == ColorChannels.Green)
@@ -810,7 +810,7 @@ namespace NSynth.Imaging
             /// <returns>A new byte array that is the same number of bytes as required to represent a single pixel.</returns>
             public override byte[] GetBitMask(ColorChannels channels)
             {
-                var result = new byte[6];
+                var result = new byte[8];
                 if ((channels & ColorChannels.Red) == ColorChannels.Red)
                     result[0] = result[1] = 0xFF;
                 if ((channels & ColorChannels.Green) == ColorChannels.Green)

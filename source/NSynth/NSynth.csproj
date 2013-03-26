@@ -35,33 +35,33 @@
     <CodeContractsRuntimeThrowOnFailure>False</CodeContractsRuntimeThrowOnFailure>
     <CodeContractsRuntimeCallSiteRequires>True</CodeContractsRuntimeCallSiteRequires>
     <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
-    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
-    <CodeContractsNonNullObligations>False</CodeContractsNonNullObligations>
-    <CodeContractsBoundsObligations>False</CodeContractsBoundsObligations>
-    <CodeContractsArithmeticObligations>False</CodeContractsArithmeticObligations>
-    <CodeContractsEnumObligations>False</CodeContractsEnumObligations>
-    <CodeContractsRedundantAssumptions>False</CodeContractsRedundantAssumptions>
+    <CodeContractsRunCodeAnalysis>True</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
     <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
     <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
     <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
-    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsEmitXMLDocs>True</CodeContractsEmitXMLDocs>
     <CodeContractsCustomRewriterAssembly />
     <CodeContractsCustomRewriterClass />
     <CodeContractsLibPaths />
     <CodeContractsExtraRewriteOptions />
-    <CodeContractsExtraAnalysisOptions>-show progress -stats slowmethods -timeout 1 -maxWarnings 100000</CodeContractsExtraAnalysisOptions>
+    <CodeContractsExtraAnalysisOptions>-show progress -stats slowmethods -timeout 5 -maxWarnings 1000000</CodeContractsExtraAnalysisOptions>
     <CodeContractsBaseLineFile>..\..\baseline.xml</CodeContractsBaseLineFile>
     <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>Build</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>2</CodeContractsAnalysisWarningLevel>
-    <CodeContractsInferRequires>False</CodeContractsInferRequires>
-    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
-    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>True</CodeContractsInferEnsures>
+    <CodeContractsInferObjectInvariants>True</CodeContractsInferObjectInvariants>
     <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
     <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
     <CodeContractsSuggestEnsures>True</CodeContractsSuggestEnsures>
-    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestObjectInvariants>True</CodeContractsSuggestObjectInvariants>
     <CodeContractsDisjunctiveRequires>False</CodeContractsDisjunctiveRequires>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
@@ -121,6 +121,7 @@
     <Compile Include="FilterInputSlot.cs" />
     <Compile Include="FilterInputSlotCollection.cs" />
     <Compile Include="Filters\Video\ConvertFilter.cs" />
+    <Compile Include="Filters\Video\ConvolutionFilter.cs" />
     <Compile Include="Filters\Video\IgnoreAlphaFilter.cs" />
     <Compile Include="FrameBuffer.cs" />
     <Compile Include="FrameRenderContext.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="IFFDecoder.cs" />
     <Compile Include="IFFEncoder.cs" />
     <Compile Include="IFrameSource.cs" />
+    <Compile Include="Imaging\BitmapEdgeHandling.cs" />
     <Compile Include="Imaging\BitmapG32.cs" />
     <Compile Include="Imaging\ColorG32.cs" />
     <Compile Include="Imaging\ColorG8.cs" />
@@ -211,12 +213,12 @@
     <None Include="Filters\Video\CanvasFilter.cs">
       <SubType>Code</SubType>
     </None>
-    <None Include="Filters\Video\FlipDirection.cs">
+    <Compile Include="Filters\Video\FlipDirection.cs">
       <SubType>Code</SubType>
-    </None>
-    <None Include="Filters\Video\FlipFilter.cs">
+    </Compile>
+    <Compile Include="Filters\Video\FlipFilter.cs">
       <SubType>Code</SubType>
-    </None>
+    </Compile>
     <None Include="Filters\Video\GaussianBlurFilter.cs">
       <SubType>Code</SubType>
     </None>

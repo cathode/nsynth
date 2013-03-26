@@ -44,5 +44,16 @@ namespace NSynth
             }
         }
         #endregion
+
+        protected override void OnInitializing(FilterInitializationEventArgs e)
+        {
+            base.OnInitializing(e);
+
+            if (this.Input.Source != null)
+                this.Clip = this.Input.Source.Clip;
+            else
+                this.Clip = new Clip();
+
+        }
     }
 }

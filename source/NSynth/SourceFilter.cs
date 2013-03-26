@@ -16,6 +16,12 @@ namespace NSynth
     /// </summary>
     public abstract class SourceFilter : Filter
     {
-       
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SourceFilter"/> class.
+        /// </summary>
+        protected SourceFilter()
+        {
+
+        }
     }
 }
