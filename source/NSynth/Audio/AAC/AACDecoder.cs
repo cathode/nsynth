@@ -10,12 +10,24 @@ using System.Text;
 
 namespace NSynth.Audio.AAC
 {
+    /// <summary>
+    /// Provides a decoder implementation for the MPEG-4 Advanced Audio Coding (AAC) codec.
+    /// </summary>
     public sealed class AACDecoder : AudioDecoder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AACDecoder"/> class.
+        /// </summary>
+        public AACDecoder()
+        {
+
+        }
+
         public override bool Initialize()
         {
             throw new NotImplementedException();
         }
+
         public override Codec Codec
         {
             get

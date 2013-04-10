@@ -193,6 +193,8 @@ namespace NSynth
         /// <returns>true if everything went okay; otherwise false.</returns>
         public bool Initialize()
         {
+            Contract.Ensures(this.IsInitialized == true);
+
             var e = new FilterInitializationEventArgs();
 
             this.OnInitializing(e);
@@ -267,6 +269,7 @@ namespace NSynth
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
+        [Pure]
         protected bool IsFrameInScope(long index)
         {
             foreach (var consumer in this.consumers)
@@ -277,6 +280,7 @@ namespace NSynth
             return false;
         }
 
+        [Pure]
         protected virtual bool Render(Frame output, long index)
         {
             return false;
@@ -287,19 +291,22 @@ namespace NSynth
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
+        [Pure]
         public bool DependsOn(Filter filter)
         {
-            foreach (var input in this.inputs.Where(f => f.Source != null))
-                if (input.Source == filter || input.Source.DependsOn(filter))
-                    return true;
+            if (filter != null)
+                foreach (var input in this.inputs.Where(f => f.Source != null))
+                    if (input.Source == filter || input.Source.DependsOn(filter))
+                        return true;
 
             return false;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="consumer"></param>
+        public int GetFilterLevel()
+        {
+            return this.inputs.Where(s => s.Source != null).Select(s => s.Source.GetFilterLevel()).Max();
+        }
+
         internal void BindConsumer(FilterInputSlot consumer)
         {
             Contract.Requires(consumer != null);
@@ -326,10 +333,8 @@ namespace NSynth
             this.consumers.Remove(consumer);
         }
 
-        internal Frame GetPooledFrame()
-        {
-            throw new NotImplementedException();
-        }
+
+
         #endregion
     }
 }

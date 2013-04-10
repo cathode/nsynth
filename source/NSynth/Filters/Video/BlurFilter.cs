@@ -27,12 +27,12 @@ namespace NSynth.Filters.Video
         protected override void OnInitializing(FilterInitializationEventArgs e)
         {
             base.OnInitializing(e);
-            
+
             if (this.Input.Source == null)
                 this.Clip = new Clip();
             else
                 this.Clip = this.Input.Source.Clip;
-            
+
         }
 
         protected override bool Render(Frame output, long index)
@@ -50,12 +50,15 @@ namespace NSynth.Filters.Video
             int n = 0;
             ColorRGB[] pix = new ColorRGB[source.Width * source.Height];
             float div = (float)Math.Pow((radius * 2 + 1), 2);
+            var bmp = new BitmapRGB(source.Width, source.Height);
 
-            for (int y = 0; y < source.Height; y++)
+            for (int x = 0; x < source.Width; x++)
             {
-                for (int x = 0; x < source.Width; x++)
+                for (int y = 0; y < source.Height; y++)
                 {
+
                     ColorRGB total = new ColorRGB();
+                    div = 0;
                     for (int ky = -radius; ky <= radius; ky++)
                     {
                         for (int kx = -radius; kx <= radius; kx++)
@@ -64,18 +67,19 @@ namespace NSynth.Filters.Video
                             total.Red += p.Red;
                             total.Green += p.Green;
                             total.Blue += p.Blue;
+                            div += 1;
                         }
                     }
                     total.Red /= div;
                     total.Green /= div;
                     total.Blue /= div;
                     total.Alpha = 1.0f;
-                    pix[n++] = total;
+                    bmp[x, y] = total;
                 }
             }
 
 
-            return new BitmapRGB(source.Width, source.Height, pix);
+            return bmp;
         }
         #endregion
     }

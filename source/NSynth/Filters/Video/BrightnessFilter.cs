@@ -8,7 +8,7 @@ using NSynth.Imaging;
 
 namespace NSynth.Filters.Internal.Video
 {
-    public class BrightnessFilter : ProcessFilterBase
+    public class BrightnessFilter : EffectFilter
     {
         #region Fields
         private float adjustment;
@@ -37,9 +37,14 @@ namespace NSynth.Filters.Internal.Video
         }
         #endregion
         #region Methods
+        protected override bool Render(Frame output, long index)
+        {
+            
+        }
+
         protected override Frame RenderFrame(long frameIndex)
         {
-            Frame frame = this.Input.GetFrame(frameIndex);
+            Frame frame = this.Input.Source.GetFrame(frameIndex);
 
             foreach (var bitmap in frame.Video)
                 for (int y = 0; y < bitmap.Height; y++)

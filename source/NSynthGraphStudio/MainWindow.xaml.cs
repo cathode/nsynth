@@ -129,6 +129,7 @@ namespace NSynthGraphStudio
 
             flip.Initialize();
             this.host.Filter = flip;
+            //this.host.Filter = filter;
             
             sw.Stop();
             this.Title = string.Format("NSynth Graph Studio -- Sample displayed in {0}ms", sw.ElapsedMilliseconds);

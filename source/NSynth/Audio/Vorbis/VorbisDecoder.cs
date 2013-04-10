@@ -10,8 +10,20 @@ using System.Text;
 
 namespace NSynth.Audio.Vorbis
 {
+    /// <summary>
+    /// Provides a decoder implementation for the Vorbis audio codec.
+    /// </summary>
     public sealed class VorbisDecoder : AudioDecoder
     {
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VorbisDecoder"/> class.
+        /// </summary>
+        public VorbisDecoder()
+        {
+
+        }
+
         public override bool Initialize()
         {
             throw new NotImplementedException();
