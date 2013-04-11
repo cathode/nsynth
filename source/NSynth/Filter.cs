@@ -17,10 +17,24 @@ namespace NSynth
     /// Represents the base class used for all filters in the graph. This class is thread safe.
     /// Inherited classes should be thread safe as well.
     /// </summary>
-    public abstract class Filter : IDisposable, IFrameSource
+    public abstract class Filter : IDisposable
     {
         #region Fields
         protected readonly Mutex Mutex = new Mutex();
+
+        /// <summary>
+        /// Holds frames buffered for output.
+        /// </summary>
+        private readonly Dictionary<long, Frame> bufferedFrames;
+
+        /// <summary>
+        /// Backing field for the <see cref="Filter.Clip"/> property.
+        /// </summary>
+        private Clip clip;
+
+        private readonly List<FilterInputSlot> consumers;
+
+        private readonly FilterInputSlotCollection inputs;
 
         /// <summary>
         /// Backing field for the <see cref="Filter.IsDisposed"/> property.
@@ -38,23 +52,10 @@ namespace NSynth
         private string tag;
 
         /// <summary>
-        /// Holds frames buffered for output.
-        /// </summary>
-        private readonly Dictionary<long, Frame> bufferedFrames;
-
-        /// <summary>
         /// Holds the indices of frames that have been requested for rendering.
         /// </summary>
         private readonly Queue<long> requestedFrames;
 
-        private readonly FilterInputSlotCollection inputs;
-
-        private readonly List<FilterInputSlot> consumers;
-
-        /// <summary>
-        /// Backing field for the <see cref="Filter.Clip"/> property.
-        /// </summary>
-        private Clip clip;
         #endregion
         #region Constructors
         /// <summary>
@@ -229,8 +230,8 @@ namespace NSynth
             if (this.Initializing != null)
                 this.Initializing(this, e);
 
-            if (this.inputs.Default != null && this.inputs.Default.Source != null)
-                this.Clip = this.inputs.Default.Source.Clip;
+            if (this.inputs.Default != null && this.inputs.Default.Filter != null)
+                this.Clip = this.inputs.Default.Filter.Clip;
             else
                 this.Clip = new Clip();
         }
@@ -295,8 +296,8 @@ namespace NSynth
         public bool DependsOn(Filter filter)
         {
             if (filter != null)
-                foreach (var input in this.inputs.Where(f => f.Source != null))
-                    if (input.Source == filter || input.Source.DependsOn(filter))
+                foreach (var input in this.inputs.Where(f => f.Filter != null))
+                    if (input.Filter == filter || input.Filter.DependsOn(filter))
                         return true;
 
             return false;
@@ -304,7 +305,7 @@ namespace NSynth
 
         public int GetFilterLevel()
         {
-            return this.inputs.Where(s => s.Source != null).Select(s => s.Source.GetFilterLevel()).Max();
+            return this.inputs.Where(s => s.Filter != null).Select(s => s.Filter.GetFilterLevel()).Max();
         }
 
         internal void BindConsumer(FilterInputSlot consumer)

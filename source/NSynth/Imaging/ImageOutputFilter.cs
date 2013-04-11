@@ -57,7 +57,7 @@ namespace NSynth.Imaging
         #region Methods
         protected override bool Render(Frame output, long index)
         {
-            var inframe = this.Inputs.Default.Source.GetFrame(index);
+            var inframe = this.Inputs.Default.Filter.GetFrame(index);
             return true;
         }
 

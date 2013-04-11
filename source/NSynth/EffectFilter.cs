@@ -49,8 +49,8 @@ namespace NSynth
         {
             base.OnInitializing(e);
 
-            if (this.Input.Source != null)
-                this.Clip = this.Input.Source.Clip;
+            if (this.Input.Filter != null)
+                this.Clip = this.Input.Filter.Clip;
             else
                 this.Clip = new Clip();
 

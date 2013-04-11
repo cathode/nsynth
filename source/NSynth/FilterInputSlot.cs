@@ -29,7 +29,7 @@ namespace NSynth
         private string name;
 
         /// <summary>
-        /// Backing field for the <see cref="FilterInputSlot.Source"/> property.
+        /// Backing field for the <see cref="FilterInputSlot.Filter"/> property.
         /// </summary>
         private Filter source;
 
@@ -76,10 +76,9 @@ namespace NSynth
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="Filter"/> that is assigned to the
-        /// current input slot.
+        /// Gets or sets the <see cref="Filter"/> that is bound to the input slot.
         /// </summary>
-        public Filter Source
+        public Filter Filter
         {
             get
             {
@@ -127,7 +126,7 @@ namespace NSynth
 
         /// <summary>
         /// Binds the input slot to a filter, thereby establishing a link between the specified filter and the filter
-        /// to which this input slot belongs. This is equivalent to setting the <see cref="Source"/> property.
+        /// to which this input slot belongs. This is equivalent to setting the <see cref="Filter"/> property.
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>

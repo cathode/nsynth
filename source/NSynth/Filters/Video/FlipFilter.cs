@@ -20,7 +20,7 @@ namespace NSynth.Filters.Video
         protected override bool Render(Frame output, long index)
         {
             // Grab the original frame
-            var frame = this.Input.Source.GetFrame(index);
+            var frame = this.Input.Filter.GetFrame(index);
 
             bool h = (this.FlipDirection & FlipDirection.Horizontal) == FlipDirection.Horizontal;
             bool v = (this.FlipDirection & FlipDirection.Vertical) == FlipDirection.Vertical;

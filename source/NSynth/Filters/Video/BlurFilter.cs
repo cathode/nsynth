@@ -28,16 +28,16 @@ namespace NSynth.Filters.Video
         {
             base.OnInitializing(e);
 
-            if (this.Input.Source == null)
+            if (this.Input.Filter == null)
                 this.Clip = new Clip();
             else
-                this.Clip = this.Input.Source.Clip;
+                this.Clip = this.Input.Filter.Clip;
 
         }
 
         protected override bool Render(Frame output, long index)
         {
-            var frame = this.Input.Source.GetFrame(index);
+            var frame = this.Input.Filter.GetFrame(index);
 
             var blurred = this.BoxBlur(frame.Video[0]);
             output.Video[0] = blurred;

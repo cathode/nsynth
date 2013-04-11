@@ -244,15 +244,15 @@
     <None Include="Filters\Video\ReverseFilter.cs">
       <SubType>Code</SubType>
     </None>
-    <None Include="Filters\Video\RotateAngle.cs">
+    <Compile Include="Filters\Video\RotateAngle.cs">
       <SubType>Code</SubType>
-    </None>
-    <None Include="Filters\Video\RotateDirection.cs">
+    </Compile>
+    <Compile Include="Filters\Video\RotateDirection.cs">
       <SubType>Code</SubType>
-    </None>
-    <None Include="Filters\Video\RotateFilter.cs">
+    </Compile>
+    <Compile Include="Filters\Video\RotateFilter.cs">
       <SubType>Code</SubType>
-    </None>
+    </Compile>
     <None Include="Filters\Video\ScaleFilter.cs">
       <SubType>Code</SubType>
     </None>
