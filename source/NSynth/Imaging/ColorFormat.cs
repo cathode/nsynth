@@ -37,6 +37,9 @@ namespace NSynth.Imaging
             }
         }
 
+        /// <summary>
+        /// Gets the <see cref="ColorFormat"/> for 32-bit single channel greyscale color.
+        /// </summary>
         public static ColorFormat G32
         {
             get
