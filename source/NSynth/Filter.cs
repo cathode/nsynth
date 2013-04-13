@@ -373,65 +373,7 @@ namespace NSynth
         //}
     }
 
-    /// <summary>
-    /// Represents the frames used as inputs to a given render task for a filter.
-    /// </summary>
-    public class FilterInputFrames
-    {
-        private long currentIndex;
-        private Filter owner;
-        private Dictionary<string, Dictionary<long, Frame>> frames;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FilterInputFrames"/> class.
-        /// </summary>
-        /// <param name="owner">The filter that is rendering a frame to which the input frames will be used.</param>
-        /// <param name="currentIndex">The frame index being rendered.</param>
-        public FilterInputFrames(Filter owner, long currentIndex)
-        {
-            Contract.Requires(owner != null);
-
-            this.currentIndex = currentIndex;
-
-            this.frames = new Dictionary<string, Dictionary<long, Frame>>();
-
-            foreach (var slot in owner.Inputs)
-            {
-                var neededFrames = new Dictionary<long, Frame>();
-
-                // Build a list of indices of frames we need for each input slot.
-                foreach (var i in owner.GetInputFramesRequired(slot, currentIndex))
-                    neededFrames.Add(i, null);
-
-                this.frames.Add(slot.Name, neededFrames);
-            }
-        }
-
-        public EventHandler AllFramesReady;
-
-        public void SetFrame(string slot, long index, Frame frame)
-        {
-            Contract.Requires(frame != null);
-
-            if (!this.frames.ContainsKey(slot))
-                throw new NotImplementedException();
-            else if (!this.frames[slot].ContainsKey(index))
-                throw new NotImplementedException();
-            else if (this.frames[slot][index] != null)
-                throw new NotImplementedException();
-
-
-            this.frames[slot][index] = frame;
-
-            foreach (var s in this.frames)
-                foreach (var n in s.Value)
-                    if (n.Value == null)
-                        return; // not ready
-
-            // must be ready
-            this.AllFramesReady(this, EventArgs.Empty);
-        }
-    }
 
     public class AsyncResultEmpty : IAsyncResult
     {
