@@ -1,6 +1,6 @@
 ﻿/******************************************************************************
  * NSynth - A Managed Multimedia API - http://nsynth.gearedstudios.com/       *
- * Copyright © 2009-2012 William 'cathode' Shelley. All Rights Reserved.      *
+ * Copyright © 2009-2013 William 'cathode' Shelley. All Rights Reserved.      *
  *****************************************************************************/
 
 namespace NSynth
