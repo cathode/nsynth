@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics.Contracts;
+using System.Diagnostics.Contracts;
 
 namespace NSynth
 {
@@ -67,19 +68,6 @@ namespace NSynth
         }
         #endregion
         #region Methods
-        internal void AddSlot(string name)
-        {
-            Contract.Requires(name != null);
-
-            if (!items.ContainsKey(name))
-                this.items.Add(name, new FilterInputSlot(this.owner, name));
-        }
-        internal void RemoveSlot(string name)
-        {
-            this.items.Remove(name);
-        }
-        #endregion
-
         public IEnumerator<FilterInputSlot> GetEnumerator()
         {
             return this.items.Values.GetEnumerator();
@@ -89,5 +77,29 @@ namespace NSynth
         {
             return this.GetEnumerator();
         }
+        internal void AddSlot(string name)
+        {
+            Contract.Requires(name != null);
+            Contract.Requires(name != string.Empty);
+
+            if (!items.ContainsKey(name))
+                this.items.Add(name, new FilterInputSlot(this.owner, name));
+        }
+        internal void RemoveSlot(string name)
+        {
+            Contract.Requires(name != null);
+
+            this.items.Remove(name);
+        }
+
+        [ContractInvariantMethod]
+        private void Invariants()
+        {
+            Contract.Invariant(this.items != null);
+            Contract.Invariant(this.owner != null);
+        }
+        #endregion
+
+
     }
 }

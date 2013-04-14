@@ -34,6 +34,7 @@ namespace NSynth
         internal ClipData(Clip clip)
         {
             Contract.Requires(clip != null);
+            Contract.Ensures(this.Clip == clip);
 
             this.clip = clip;
             this.tracks = new List<T>();
@@ -69,10 +70,14 @@ namespace NSynth
         {
             get
             {
+                Contract.Requires(index >= 0);
+
                 return this.tracks[index];
             }
             set
             {
+                Contract.Requires(index >= 0);
+
                 this.tracks[index] = value;
             }
         }
@@ -86,7 +91,6 @@ namespace NSynth
         public void Add(T track)
         {
             Contract.Requires(track != null);
-            Contract.Requires(!this.Clip.IsLocked);
 
             if (this.tracks.Contains(track))
                 throw new InvalidOperationException("Cannot add the same track twice.");
@@ -103,12 +107,22 @@ namespace NSynth
 
         public IEnumerator<T> GetEnumerator()
         {
-            return this.tracks.GetEnumerator();
+            foreach (var t in this.tracks)
+                yield return t;
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return this.tracks.GetEnumerator();
+            return this.GetEnumerator();
+        }
+
+        [ContractInvariantMethod]
+        private void Invariants()
+        {
+            Contract.Invariant(this.clip != null);
+            Contract.Invariant(this.tracks != null);
+            Contract.Invariant(Contract.ForAll(this.tracks, t => t != null));
+
         }
         #endregion
     }

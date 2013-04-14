@@ -49,11 +49,6 @@ namespace NSynth
         /// Backing field for the <see cref="Clip.FrameCount"/> property.
         /// </summary>
         private long frameCount;
-
-        /// <summary>
-        /// Backing field for the <see cref="Clip.IsLocked"/> property.
-        /// </summary>
-        private bool isLocked;
         #endregion
         #region Constructors
         /// <summary>
@@ -61,7 +56,6 @@ namespace NSynth
         /// </summary>
         public Clip()
         {
-            this.isLocked = false;
             this.audioTracks = new ClipData<AudioTrack>(this);
             this.navigationTracks = new ClipData<NavigationTrack>(this);
             this.subtitleTracks = new ClipData<SubtitleTrack>(this);
@@ -78,6 +72,8 @@ namespace NSynth
         public Clip(params Track[] tracks)
             : this()
         {
+            Contract.Requires(tracks != null);
+
             foreach (var t in tracks)
             {
                 if (t is AudioTrack)
@@ -128,7 +124,7 @@ namespace NSynth
         /// <summary>
         /// Gets the subtitle tracks in the current <see cref="Clip"/>.
         /// </summary>
-        public ClipData<SubtitleTrack> SubtitleTrack
+        public ClipData<SubtitleTrack> SubtitleTracks
         {
             get
             {
@@ -148,24 +144,7 @@ namespace NSynth
             }
             internal set
             {
-                Contract.Requires(!this.IsLocked);
-
                 this.frameCount = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the configuration of the clip is locked. A locked clip can't have tracks added or removed, or any other metadata changed.
-        /// </summary>
-        public bool IsLocked
-        {
-            get
-            {
-                return this.isLocked;
-            }
-            internal set
-            {
-                this.isLocked = value;
             }
         }
         #endregion
@@ -219,20 +198,39 @@ namespace NSynth
             }
             return result;
         }
-
-        public void LockConfiguration()
-        {
-            this.isLocked = true;
-        }
-
         internal void Reclaim(Frame frame)
         {
+            Contract.Requires(frame != null);
+            //Contract.Requires(this.inUseFrames.Contains(frame) || this.freeFrames.Contains(frame));
+            Contract.Ensures(this.freeFrames.Contains(frame));
             lock (this.framePoolLock)
             {
                 frame.IsReclaimed = true;
 
                 this.freeFrames.AddLast(frame);
             }
+        }
+
+        [ContractInvariantMethod]
+        private void Invariants()
+        {
+            Contract.Invariant(this.audioTracks != null);
+            Contract.Invariant(this.navigationTracks != null);
+            Contract.Invariant(this.subtitleTracks != null);
+            Contract.Invariant(this.videoTracks != null);
+            Contract.Invariant(this.freeFrames != null);
+            Contract.Invariant(this.inUseFrames != null);
+
+            Contract.Invariant(Contract.ForAll(this.freeFrames, f => f != null));
+            Contract.Invariant(Contract.ForAll(this.inUseFrames, f => f != null));
+
+            // Do we need these?
+            Contract.Invariant(this.audioTracks.Clip == this);
+            Contract.Invariant(this.navigationTracks.Clip == this);
+            Contract.Invariant(this.subtitleTracks.Clip == this);
+            Contract.Invariant(this.videoTracks.Clip == this);
+
+
         }
         #endregion
     }

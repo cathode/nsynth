@@ -22,6 +22,8 @@ namespace NSynth
         #region Fields
         protected readonly Mutex Mutex = new Mutex();
 
+        private readonly object sync = new object();
+
         /// <summary>
         /// Holds frames buffered for output.
         /// </summary>
@@ -257,12 +259,10 @@ namespace NSynth
 
         public Frame GetFrame(long index)
         {
-            if (this.bufferedFrames.ContainsKey(index))
-                return this.bufferedFrames[index];
-            else
-                this.RequestFrame(index);
+            var result = this.BeginGetFrame(null, index);
+            var frame = this.EndGetFrame(result);
 
-            return this.bufferedFrames[index];
+            return frame;
         }
 
         public IAsyncResult BeginGetFrame(AsyncCallback callback, long index)
@@ -290,7 +290,7 @@ namespace NSynth
             return false;
         }
 
-        [Pure]
+        
         protected virtual bool Render(Frame output, long index)
         {
             return false;
@@ -312,6 +312,16 @@ namespace NSynth
             return false;
         }
 
+        /// <summary>
+        /// For a given input slot on the current filter, determines which frame indices are required from that slot
+        /// for the current filter to render the specified frame index.
+        /// </summary>
+        /// <remarks>
+        /// The default behavior is to go by the FramesBefore and FramesAfter values that have been assigned to the slot.
+        /// </remarks>
+        /// <param name="slot"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public IEnumerable<long> GetInputFramesRequired(string slot, long index)
         {
             if (!this.inputs.Any(s => s.Name == slot))
@@ -320,6 +330,16 @@ namespace NSynth
             return this.GetInputFramesRequired(this.Inputs[slot], index);
         }
 
+        /// <summary>
+        /// For a given input slot on the current filter, determines which frame indices are required from that slot
+        /// for the current filter to render the specified frame index.
+        /// </summary>
+        /// <remarks>
+        /// The default behavior is to go by the FramesBefore and FramesAfter values that have been assigned to the slot.
+        /// </remarks>
+        /// <param name="slot"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public virtual IEnumerable<long> GetInputFramesRequired(FilterInputSlot slot, long index)
         {
             Contract.Requires(slot.Owner == this);
@@ -335,9 +355,13 @@ namespace NSynth
                 yield return i;
         }
 
-        public int GetFilterLevel()
+        /// <summary>
+        /// Calculates the depth of the current filter.
+        /// </summary>
+        /// <returns></returns>
+        public int GetFilterDepth()
         {
-            return this.inputs.Where(s => s.Filter != null).Select(s => s.Filter.GetFilterLevel()).Max();
+            return this.inputs.Where(s => s.Filter != null).Select(s => s.Filter.GetFilterDepth()).Max();
         }
 
         internal void BindConsumer(FilterInputSlot consumer)
@@ -375,192 +399,7 @@ namespace NSynth
 
 
 
-    public class AsyncResultEmpty : IAsyncResult
-    {
-        private readonly AsyncCallback callback;
-        private readonly object asyncState;
-        private const int StatePending = 0;
-        private const int StateCompletedSynchronously = 1;
-        private const int StateCompletedAsynchronously = 2;
-        private int completionState = AsyncResultEmpty.StatePending;
+    
 
-        private ManualResetEvent waitHandle;
-
-        private Exception innerException;
-
-        private object owner;
-
-        private string operationId;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AsyncResultEmpty"/> class.
-        /// </summary>
-        /// <param name="callback"></param>
-        /// <param name="state"></param>
-        /// <param name="owner"></param>
-        /// <param name="operationId"></param>
-        protected AsyncResultEmpty(AsyncCallback callback, object state, object owner, string operationId)
-        {
-            Contract.Requires(callback != null);
-            Contract.Requires(owner != null);
-
-            this.callback = callback;
-            this.asyncState = state;
-            this.owner = owner;
-            this.operationId = operationId ?? string.Empty;
-        }
-
-        internal virtual void Process()
-        {
-
-        }
-
-        protected bool Complete(Exception ex, bool completedSynchronously = false)
-        {
-            bool result = false;
-
-            var newState = completedSynchronously
-                ? AsyncResultEmpty.StateCompletedSynchronously
-                : AsyncResultEmpty.StateCompletedAsynchronously;
-            var prevState = Interlocked.Exchange(ref this.completionState, newState);
-
-            if (prevState == AsyncResultEmpty.StatePending)
-            {
-                this.innerException = ex;
-
-                this.Completing(ex, completedSynchronously);
-
-                if (this.waitHandle != null)
-                    this.waitHandle.Set();
-
-                this.MakeCallback(this.callback, this);
-
-                this.Completed(ex, completedSynchronously);
-
-                result = true;
-            }
-            return result;
-        }
-
-        private void Completed(Exception ex, bool completedSynchronously)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void MakeCallback(AsyncCallback asyncCallback, AsyncResultEmpty asyncResultEmpty)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void CheckUsage(object owner, string operationId)
-        {
-            Contract.Requires<InvalidOperationException>(owner == this.owner, "End was called on a different object than Begin");
-            Contract.Requires<InvalidOperationException>(null != this.operationId, "End was called multiple times for this operation.");
-            Contract.Requires<InvalidOperationException>(operationId == this.operationId, "End operation type was different than Begin.");
-
-            // cleanup
-            this.operationId = null;
-        }
-
-        public static void End(IAsyncResult result, object owner, string operationId)
-        {
-            Contract.Requires<ArgumentException>(result is AsyncResultEmpty, "Unsupported IAsyncResult implementation");
-
-            var r = (AsyncResultEmpty)result;
-
-            r.CheckUsage(owner, operationId);
-
-            if (!r.IsCompleted)
-            {
-                r.AsyncWaitHandle.WaitOne();
-                r.AsyncWaitHandle.Close();
-                r.waitHandle = null;
-            }
-
-            if (null != r.innerException)
-                throw r.innerException;
-        }
-
-        protected virtual void Completing(Exception ex, bool completedSynchronously)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object AsyncState
-        {
-            get
-            {
-                return this.asyncState;
-            }
-        }
-
-        public WaitHandle AsyncWaitHandle
-        {
-            get
-            {
-                if (this.waitHandle == null)
-                {
-                    var done = this.IsCompleted;
-                    var reset = new ManualResetEvent(done);
-                    if (Interlocked.CompareExchange(ref this.waitHandle, reset, null) != null)
-                        reset.Close();
-                    else
-                        if (!done && this.IsCompleted)
-                            this.waitHandle.Set();
-                }
-
-                return this.waitHandle;
-            }
-        }
-
-        public bool CompletedSynchronously
-        {
-            get
-            {
-                return Thread.VolatileRead(ref this.completionState) == AsyncResultEmpty.StateCompletedSynchronously;
-            }
-        }
-
-        public bool IsCompleted
-        {
-            get
-            {
-                return Thread.VolatileRead(ref this.completionState) != AsyncResultEmpty.StatePending;
-            }
-        }
-    }
-
-    public class AsyncResult<TResult> : AsyncResultEmpty
-    {
-        private TResult value = default(TResult);
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AsyncResult"/> class.
-        /// </summary>
-        /// <param name="callback"></param>
-        /// <param name="state"></param>
-        /// <param name="owner"></param>
-        /// <param name="operationId"></param>
-        protected AsyncResult(AsyncCallback callback, object state, object owner, string operationId)
-            : base(callback, state, owner, operationId)
-        {
-        }
-
-        new public static TResult End(IAsyncResult result, object owner, string operationId)
-        {
-            Contract.Requires(result is AsyncResult<TResult>);
-            var r = (AsyncResult<TResult>)result;
-
-            AsyncResultEmpty.End(r, owner, operationId);
-
-            return r.value;
-        }
-
-        protected void SetResult(TResult value)
-        {
-            this.value = value;
-        }
-
-
-    }
+   
 }

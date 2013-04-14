@@ -225,6 +225,7 @@ namespace NSynth
 
             return track;
         }
+        
         protected abstract Track CreateDeepClone();
         #endregion
     }
