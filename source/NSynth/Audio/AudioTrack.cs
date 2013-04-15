@@ -5,6 +5,8 @@
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
 using System;
+using System.Diagnostics.Contracts;
+
 namespace NSynth.Audio
 {
     /// <summary>
@@ -41,6 +43,8 @@ namespace NSynth.Audio
         /// <param name="channels">The number of audio channels in the new <see cref="AudioTrack"/>.</param>
         public AudioTrack(int channels)
         {
+            Contract.Requires(channels > 0);
+
             this.channels = new AudioChannel[channels];
             this.channelMap = new ChannelMap(channels);
         }
@@ -55,6 +59,8 @@ namespace NSynth.Audio
         /// </remarks>
         public AudioTrack(ChannelMap channelMap)
         {
+            Contract.Requires(channelMap != null);
+
             this.channelMap = channelMap;
             this.channels = new AudioChannel[channelMap.ChannelCount];
         }

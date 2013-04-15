@@ -52,6 +52,8 @@ namespace NSynth.Imaging
         {
             Contract.Requires(pixels != null);
             Contract.Requires(pixels.Length == size.Elements);
+            Contract.Ensures(this.width == size.Width);
+            Contract.Ensures(this.height == size.Height);
 
             this.width = size.Width;
             this.height = size.Height;
@@ -289,9 +291,11 @@ namespace NSynth.Imaging
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.Width >= 0);
-            Contract.Invariant(this.Height >= 0);
+            Contract.Invariant(this.pixels != null);
+            Contract.Invariant(this.width >= 0);
+            Contract.Invariant(this.height >= 0);
             Contract.Invariant(this.Format != null);
+            Contract.Invariant(this.width * this.height == this.pixels.Length);
         }
         #endregion
     }

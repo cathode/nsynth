@@ -49,6 +49,8 @@ namespace NSynth.Imaging
         {
             get
             {
+                Contract.Ensures(Contract.Result<int>() >= 0);
+
                 return this.height;
             }
             set
@@ -66,6 +68,8 @@ namespace NSynth.Imaging
         {
             get
             {
+                Contract.Ensures(Contract.Result<int>() >= 0);
+
                 return this.width;
             }
             set
@@ -83,6 +87,7 @@ namespace NSynth.Imaging
         {
             get
             {
+                Contract.Ensures(Contract.Result<int>() >= 0);
                 return this.width * this.height;
             }
         }

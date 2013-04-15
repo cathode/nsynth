@@ -261,14 +261,6 @@ namespace NSynth.Imaging
         /// </summary>
         public void Clamp()
         {
-            Contract.Ensures(this.Red >= 0.0f);
-            Contract.Ensures(this.Red <= 1.0f);
-            Contract.Ensures(this.Green >= 0.0f);
-            Contract.Ensures(this.Green <= 1.0f);
-            Contract.Ensures(this.Blue >= 0.0f);
-            Contract.Ensures(this.Blue <= 1.0f);
-            Contract.Ensures(this.Alpha >= 0.0f);
-            Contract.Ensures(this.Alpha <= 1.0f);
             Contract.Ensures(this.IsNormalized == true);
 
             this.red = (this.red > 1.0f) ? 1.0f : ((this.red < 0.0f) ? 0.0f : this.red);
@@ -282,14 +274,6 @@ namespace NSynth.Imaging
         /// </summary>
         public void Normalize()
         {
-            Contract.Ensures(this.Red >= 0.0f);
-            Contract.Ensures(this.Red <= 1.0f);
-            Contract.Ensures(this.Green >= 0.0f);
-            Contract.Ensures(this.Green <= 1.0f);
-            Contract.Ensures(this.Blue >= 0.0f);
-            Contract.Ensures(this.Blue <= 1.0f);
-            Contract.Ensures(this.Alpha >= 0.0f);
-            Contract.Ensures(this.Alpha <= 1.0f);
             Contract.Ensures(this.IsNormalized == true);
 
             var shift = (this.red < 0.0f) ? this.red : 0.0f;

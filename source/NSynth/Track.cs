@@ -225,8 +225,35 @@ namespace NSynth
 
             return track;
         }
-        
+
         protected abstract Track CreateDeepClone();
         #endregion
+    }
+
+    /// <summary>
+    /// Contains code contracts for the <see cref="Track"/> class. This class cannot be instantiated.
+    /// </summary>
+    public sealed class _ContractsForTrack : Track
+    {
+
+        internal _ContractsForTrack()
+        {
+
+        }
+
+        public override TrackKind Kind
+        {
+            get
+            {
+                return default(TrackKind);
+            }
+        }
+
+        protected override Track CreateDeepClone()
+        {
+            Contract.Ensures(Contract.Result<Track>() != null);
+
+            return default(Track);
+        }
     }
 }

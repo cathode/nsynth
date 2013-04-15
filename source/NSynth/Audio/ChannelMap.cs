@@ -4,6 +4,7 @@
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Audio
 {
@@ -17,6 +18,7 @@ namespace NSynth.Audio
         /// Holds the channel mapping data.
         /// </summary>
         private readonly Speaker[] speakers;
+        private readonly int channels;
         #endregion
         #region Constructors
         /// <summary>
@@ -25,6 +27,11 @@ namespace NSynth.Audio
         /// <param name="channels">The number of channels to map.</param>
         public ChannelMap(int channels)
         {
+            Contract.Requires(channels > 0);
+            Contract.Ensures(this.channels == channels);
+            Contract.Ensures(this.speakers.Length == this.channels);
+
+            this.channels = channels;
             this.speakers = new Speaker[channels];
         }
         #endregion
@@ -105,7 +112,7 @@ namespace NSynth.Audio
         {
             get
             {
-                return this.speakers.Length;
+                return this.channels;
             }
         }
         #endregion
@@ -119,13 +126,27 @@ namespace NSynth.Audio
         {
             get
             {
+                Contract.Requires(index >= 0);
+                Contract.Requires(index < this.ChannelCount);
+
                 return this.speakers[index];
             }
             set
             {
+                Contract.Requires(index >= 0);
+                Contract.Requires(index < this.ChannelCount);
+
                 this.speakers[index] = value;
             }
         }
         #endregion
+
+        [ContractInvariantMethod]
+        private void Invariants()
+        {
+            Contract.Invariant(this.speakers != null);
+            Contract.Invariant(this.channels > 0);
+            Contract.Invariant(this.speakers.Length == this.channels);
+        }
     }
 }
