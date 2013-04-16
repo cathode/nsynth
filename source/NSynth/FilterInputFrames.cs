@@ -22,6 +22,7 @@ namespace NSynth
         private Filter owner;
         private Dictionary<string, Dictionary<long, Frame>> frames;
         private readonly object locker;
+        private bool isReady = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FilterInputFrames"/> class.
@@ -31,6 +32,7 @@ namespace NSynth
         public FilterInputFrames(Filter owner, long currentIndex)
         {
             Contract.Requires(owner != null);
+            Contract.Requires(currentIndex >= 0);
 
             this.locker = new object();
             this.currentIndex = currentIndex;
@@ -50,34 +52,51 @@ namespace NSynth
         }
 
         /// <summary>
-        /// Raised when all the frames needed have been rendered.
+        /// Raised when all the prerequisite frames needed have been rendered.
         /// </summary>
-        public EventHandler AllFramesReady;
+        public EventHandler InputFramesReady;
 
-        public void SetFrame(string slot, long index, Frame frame)
+        public void SetFrame(string slot, long offset, Frame frame)
         {
             Contract.Requires(frame != null);
+            Contract.Requires(slot != null);
 
             lock (this.locker)
             {
                 if (!this.frames.ContainsKey(slot))
                     throw new NotImplementedException();
-                else if (!this.frames[slot].ContainsKey(index))
+                else if (!this.frames[slot].ContainsKey(offset))
                     throw new NotImplementedException();
-                else if (this.frames[slot][index] != null)
+                else if (this.frames[slot][offset] != null)
                     throw new NotImplementedException();
 
 
-                this.frames[slot][index] = frame;
+                this.frames[slot][offset] = frame;
 
                 foreach (var s in this.frames)
                     foreach (var n in s.Value)
                         if (n.Value == null)
                             return; // not ready
 
+                this.isReady = true;
             }
+
+
             // must be ready
-            this.AllFramesReady(this, EventArgs.Empty);
+            if (this.isReady)
+                this.InputFramesReady(this, EventArgs.Empty);
+        }
+
+        public Frame GetFrame(string slot, int offset = 0)
+        {
+            Contract.Ensures(Contract.Result<Frame>() != null);
+            return this.frames[slot][offset];
+        }
+
+        [ContractInvariantMethod]
+        private void Invariants()
+        {
+            Contract.Invariant(this.frames != null);
         }
     }
 }

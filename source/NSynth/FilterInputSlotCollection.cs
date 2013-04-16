@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics.Contracts;
-using System.Diagnostics.Contracts;
 
 namespace NSynth
 {
@@ -30,6 +29,7 @@ namespace NSynth
         internal FilterInputSlotCollection(Filter owner)
         {
             Contract.Requires(owner != null);
+            Contract.Ensures(this.Owner == owner);
 
             this.owner = owner;
             this.items = new Dictionary<string, FilterInputSlot>();
@@ -45,10 +45,13 @@ namespace NSynth
         {
             get
             {
+                Contract.Requires(!string.IsNullOrEmpty(name));
+                Contract.Ensures(Contract.Result<FilterInputSlot>().Owner == this.Owner);
+
                 if (this.items.ContainsKey(name.ToLowerInvariant()))
                     return this.items[name.ToLowerInvariant()];
-
-                return null;
+                else
+                    throw new NotImplementedException();
             }
         }
         #endregion
@@ -64,6 +67,14 @@ namespace NSynth
                     this.AddSlot(FilterInputSlot.DefaultName);
 
                 return this[FilterInputSlot.DefaultName];
+            }
+        }
+
+        public Filter Owner
+        {
+            get
+            {
+                return this.owner;
             }
         }
         #endregion

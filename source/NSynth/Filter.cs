@@ -20,8 +20,14 @@ namespace NSynth
     public abstract class Filter : IDisposable
     {
         #region Fields
+        /// <summary>
+        /// 
+        /// </summary>
         protected readonly Mutex Mutex = new Mutex();
 
+        /// <summary>
+        /// Thread-safety helper.
+        /// </summary>
         private readonly object sync = new object();
 
         /// <summary>
@@ -34,6 +40,10 @@ namespace NSynth
         /// </summary>
         private Clip clip;
 
+        /// <summary>
+        /// Contains references to each <see cref="FilterInputSlot"/> which belong to other filters that
+        /// use the current filter as an input to one or more of their slots.
+        /// </summary>
         private readonly List<FilterInputSlot> consumers;
 
         private readonly FilterInputSlotCollection inputs;
@@ -290,7 +300,7 @@ namespace NSynth
             return false;
         }
 
-        
+
         protected virtual bool Render(Frame output, long index)
         {
             return false;
@@ -305,8 +315,8 @@ namespace NSynth
         public bool DependsOn(Filter filter)
         {
             if (filter != null)
-                foreach (var input in this.inputs.Where(f => f.Filter != null))
-                    if (input.Filter == filter || input.Filter.DependsOn(filter))
+                foreach (var input in this.inputs.Where(f => f.Filter != null).Select(f => f.Filter))
+                    if (input == filter || input.DependsOn(filter))
                         return true;
 
             return false;
@@ -326,8 +336,9 @@ namespace NSynth
         {
             if (!this.inputs.Any(s => s.Name == slot))
                 throw new NotImplementedException();
-
-            return this.GetInputFramesRequired(this.Inputs[slot], index);
+            var sl = this.inputs[slot];
+            Contract.Assume(sl.Owner == this);
+            return this.GetInputFramesRequired(sl, index);
         }
 
         /// <summary>
@@ -342,14 +353,17 @@ namespace NSynth
         /// <returns></returns>
         public virtual IEnumerable<long> GetInputFramesRequired(FilterInputSlot slot, long index)
         {
+            Contract.Requires(slot != null);
             Contract.Requires(slot.Owner == this);
+            Contract.Requires(index >= 0);
 
             if (!slot.IsBound)
                 yield break;
 
             // default behavior should be acceptable for almost all filter implementations.
-            long start = Math.Max(index - slot.FramesBefore, 0);
-            long end = Math.Min(index + slot.FramesAfter, slot.Filter.FrameCount);
+            long start = Math.Max(0 - slot.FramesBefore, 0);
+            long end = slot.FramesAfter;
+            // TODO: Fix end so we don't overflow the clip.
 
             for (long i = start; i <= end; ++i)
                 yield return i;
@@ -389,17 +403,15 @@ namespace NSynth
 
             this.consumers.Remove(consumer);
         }
+
+        [ContractInvariantMethod]
+        private void Invariants()
+        {
+            Contract.Invariant(this.consumers != null);
+            Contract.Invariant(this.requestedFrames != null);
+            Contract.Invariant(this.inputs != null);
+            Contract.Invariant(this.inputs.Owner == this);
+        }
         #endregion
-
-        //public class FrameRenderAsyncResult : AsyncResult<Frame>
-        //{
-
-        //}
     }
-
-
-
-    
-
-   
 }
