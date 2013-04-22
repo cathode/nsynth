@@ -261,18 +261,27 @@ namespace NSynth
 
             // HACK: Perform blocking render.
 
-            var frame = new Frame(this.Clip);
-            this.Render(frame, frameIndex);
+            var frame = this.GetFrame(frameIndex);
 
             this.bufferedFrames.Add(frameIndex, frame);
         }
 
         public Frame GetFrame(long index)
         {
-            var result = this.BeginGetFrame(null, index);
-            var frame = this.EndGetFrame(result);
 
-            return frame;
+            Contract.Ensures(Contract.Result<Frame>() != null);
+
+            var context = new FilterProcessingContext(this, index);
+
+            foreach (var slot in this.inputs.Where(i => i.Filter != null))
+                foreach (var offset in this.GetInputFramesRequired(slot, index))
+                    context.SetFrame(slot.Name, offset, slot.Filter.GetFrame(index + offset));
+
+            var outputFrame = this.clip.IssueFrame();
+
+            this.DoProcessing(context, outputFrame);
+
+            return outputFrame;
         }
 
         public IAsyncResult BeginGetFrame(AsyncCallback callback, long index)
@@ -300,10 +309,9 @@ namespace NSynth
             return false;
         }
 
-
-        protected virtual bool Render(Frame output, long index)
+        protected virtual void DoProcessing(FilterProcessingContext context, Frame outputFrame)
         {
-            return false;
+            // Do nothing.
         }
 
         /// <summary>
@@ -332,8 +340,11 @@ namespace NSynth
         /// <param name="slot"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public IEnumerable<long> GetInputFramesRequired(string slot, long index)
+        public IEnumerable<int> GetInputFramesRequired(string slot, long index)
         {
+            Contract.Requires(!string.IsNullOrEmpty(slot));
+            Contract.Requires(index >= 0);
+
             if (!this.inputs.Any(s => s.Name == slot))
                 throw new NotImplementedException();
             var sl = this.inputs[slot];
@@ -351,7 +362,7 @@ namespace NSynth
         /// <param name="slot"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public virtual IEnumerable<long> GetInputFramesRequired(FilterInputSlot slot, long index)
+        public virtual IEnumerable<int> GetInputFramesRequired(FilterInputSlot slot, long index)
         {
             Contract.Requires(slot != null);
             Contract.Requires(slot.Owner == this);
@@ -361,11 +372,11 @@ namespace NSynth
                 yield break;
 
             // default behavior should be acceptable for almost all filter implementations.
-            long start = Math.Max(0 - slot.FramesBefore, 0);
-            long end = slot.FramesAfter;
+            int start = Math.Max(0 - slot.FramesBefore, 0);
+            int end = slot.FramesAfter;
             // TODO: Fix end so we don't overflow the clip.
 
-            for (long i = start; i <= end; ++i)
+            for (int i = start; i <= end; ++i)
                 yield return i;
         }
 
@@ -407,11 +418,44 @@ namespace NSynth
         [ContractInvariantMethod]
         private void Invariants()
         {
+            Contract.Invariant(this.clip != null);
             Contract.Invariant(this.consumers != null);
             Contract.Invariant(this.requestedFrames != null);
             Contract.Invariant(this.inputs != null);
             Contract.Invariant(this.inputs.Owner == this);
         }
         #endregion
+
+    }
+
+    public class FilterProcessAsyncResult : AsyncResult<Frame>
+    {
+        /// <summary>
+        /// Index of the frame currently being processed.
+        /// </summary>
+        public long Index
+        {
+            get;
+            set;
+        }
+
+        public FilterProcessingContext Inputs
+        {
+            get;
+            set;
+        }
+
+        public FilterProcessAsyncResult(long index, FilterProcessingContext inputs, AsyncCallback callback, object state, object owner, string operationId)
+            : base(callback, state, owner, operationId)
+        {
+            this.Index = index;
+            this.Inputs = inputs;
+        }
+
+        protected override void Process()
+        {
+
+            base.Process();
+        }
     }
 }

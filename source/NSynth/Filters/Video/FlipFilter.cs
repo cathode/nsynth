@@ -17,6 +17,11 @@ namespace NSynth.Filters.Video
     public class FlipFilter : EffectFilter
     {
         #region Methods
+        protected override void DoProcessing(NSynth.FilterProcessingContext inputFrames, NSynth.Frame outputFrame)
+        {
+            base.DoProcessing(inputFrames, outputFrame);
+        }
+        
         protected override bool Render(Frame output, long index)
         {
             // Grab the original frame
@@ -80,6 +85,7 @@ namespace NSynth.Filters.Video
             }
             return true;
         }
+        
         #endregion
         #region Properties
         /// <summary>

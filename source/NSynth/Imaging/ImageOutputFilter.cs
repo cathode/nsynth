@@ -55,12 +55,6 @@ namespace NSynth.Imaging
         }
         #endregion
         #region Methods
-        protected override bool Render(Frame output, long index)
-        {
-            var inframe = this.Inputs.Default.Filter.GetFrame(index);
-            return true;
-        }
-
         protected abstract ImageEncoder GetEncoder(Stream bitstream);
         #endregion
     }

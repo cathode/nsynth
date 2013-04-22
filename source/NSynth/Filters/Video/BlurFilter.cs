@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NSynth.Imaging;
+using System.Diagnostics.Contracts;
 
 namespace NSynth.Filters.Video
 {
@@ -35,14 +36,37 @@ namespace NSynth.Filters.Video
 
         }
 
-        protected override bool Render(Frame output, long index)
+        protected override void DoProcessing(FilterProcessingContext context, Frame outputFrame)
         {
-            var frame = this.Input.Filter.GetFrame(index);
+            var src = context.GetFrame("source");
+            var sbmp = src.Video[0];
 
-            var blurred = this.BoxBlur(frame.Video[0]);
-            output.Video[0] = blurred;
-            return true;
+            if (sbmp is BitmapRGB32)
+            {
+                this.BoxBlurRGB32(sbmp as BitmapRGB32, outputFrame.Video[0] as BitmapRGB32);
+            }
+            //var mask = context.GetFrame("mask");
         }
+
+        private void BoxBlurRGB32(BitmapRGB32 input, BitmapRGB32 output, BitmapRGB32 mask = null)
+        {
+            Contract.Assume(input.Size == output.Size);
+
+        }
+
+        private void BoxBlurRGB24(BitmapRGB24 input, BitmapRGB24 output, BitmapRGB32 mask = null)
+        {
+
+        }
+
+        //protected override bool Render(Frame output, long index)
+        //{
+        //    var frame = this.Input.Filter.GetFrame(index);
+
+        //    var blurred = this.BoxBlur(frame.Video[0]);
+        //    output.Video[0] = blurred;
+        //    return true;
+        //}
 
         private BitmapRGB BoxBlur(IBitmap source)
         {

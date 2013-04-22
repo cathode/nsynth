@@ -16,32 +16,52 @@ namespace NSynth
     /// <summary>
     /// Represents the frames used as inputs to a given render task for a filter.
     /// </summary>
-    public class FilterInputFrames
+    public class FilterProcessingContext
     {
         private long currentIndex;
         private Filter owner;
-        private Dictionary<string, Dictionary<long, Frame>> frames;
-        private readonly object locker;
-        private bool isReady = false;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FilterInputFrames"/> class.
+        /// Holds the frames that are necessary for rendering.
+        /// </summary>
+        private readonly Dictionary<string, Dictionary<int, Frame>> frames;
+
+        /// <summary>
+        /// Thread safety object.
+        /// </summary>
+        private readonly object sync;
+
+        /// <summary>
+        /// Holds a value indicating whether the instance contains all the frames necessary to proceed with rendering.
+        /// </summary>
+        private bool isReady = false;
+
+        public long FrameIndex
+        {
+            get
+            {
+                return this.currentIndex;
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FilterProcessingContext"/> class.
         /// </summary>
         /// <param name="owner">The filter that is rendering a frame to which the input frames will be used.</param>
         /// <param name="currentIndex">The frame index being rendered.</param>
-        public FilterInputFrames(Filter owner, long currentIndex)
+        public FilterProcessingContext(Filter owner, long currentIndex)
         {
             Contract.Requires(owner != null);
             Contract.Requires(currentIndex >= 0);
 
-            this.locker = new object();
+            this.sync = new object();
             this.currentIndex = currentIndex;
             this.owner = owner;
-            this.frames = new Dictionary<string, Dictionary<long, Frame>>();
+            this.frames = new Dictionary<string, Dictionary<int, Frame>>();
 
             foreach (var slot in owner.Inputs)
             {
-                var neededFrames = new Dictionary<long, Frame>();
+                var neededFrames = new Dictionary<int, Frame>();
 
                 // Build a list of indices of frames we need for each input slot.
                 foreach (var i in owner.GetInputFramesRequired(slot, currentIndex))
@@ -54,14 +74,14 @@ namespace NSynth
         /// <summary>
         /// Raised when all the prerequisite frames needed have been rendered.
         /// </summary>
-        public EventHandler InputFramesReady;
+        public event EventHandler InputFramesReady;
 
-        public void SetFrame(string slot, long offset, Frame frame)
+        public void SetFrame(string slot, int offset, Frame frame)
         {
             Contract.Requires(frame != null);
             Contract.Requires(slot != null);
 
-            lock (this.locker)
+            lock (this.sync)
             {
                 if (!this.frames.ContainsKey(slot))
                     throw new NotImplementedException();
@@ -91,6 +111,20 @@ namespace NSynth
         {
             Contract.Ensures(Contract.Result<Frame>() != null);
             return this.frames[slot][offset];
+        }
+
+        /// <summary>
+        /// Gets the frames that need to be rendered.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Tuple<string, int>> GetRemainingFrames()
+        {
+            foreach (var kp in this.frames)
+            {
+                foreach (var kp2 in kp.Value)
+                    if (kp2.Value == null)
+                        yield return new Tuple<string, int>(kp.Key, kp2.Key);
+            }
         }
 
         [ContractInvariantMethod]

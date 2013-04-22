@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using NSynth.Filters;
 using NSynth.Video;
+using NSynth;
 
 namespace NSynth.Imaging.TGA
 {
@@ -37,62 +38,55 @@ namespace NSynth.Imaging.TGA
         #region Methods
         protected override void OnInitializing(FilterInitializationEventArgs e)
         {
-            try
+            base.OnInitializing(e);
+
+            using (var stream = this.OpenStreamForFrame(0))
             {
-                this.Mutex.WaitOne();
-
-                base.OnInitializing(e);
-
-                using (var stream = this.OpenStreamForFrame(0))
+                using (var decoder = new TGADecoder(stream))
                 {
-                    using (var decoder = new TGADecoder())
+                    decoder.Initialize();
+                    var context = decoder.DecodeHeader();
+                    var header = context.Header;
+                    var track = new VideoTrack()
                     {
-                        decoder.Bitstream = stream;
-                        decoder.Initialize();
-                        var frame = new Frame();
-                        decoder.Decode(frame);
+                        SampleCount = 1,
+                        SamplesPerFrame = 1,
+                        Width = header.Width,
+                        Height = header.Height,
+                    };
 
-                        var bitmap = frame.Video[0];
-                        if (bitmap != null)
-                        {
-                            var track = new VideoTrack();
-                            track.SampleCount = 1;
-                            track.Width = bitmap.Width;
-                            track.Height = bitmap.Height;
-                            track.Format = bitmap.Format;
-                            track.SamplesPerFrame = 1;
-                            track.Options = TrackOptions.Infinite;
+                    //track.Format = 
+                    if (header.BitsPerPixel == 24)
+                        track.Format = ColorFormat.RGB24;
+                    else
+                        track.Format = ColorFormat.RGB32;
+                    /*
+                    var track = new VideoTrack();
+                    track.SampleCount = 1;
+                    track.Width = bitmap.Width;
+                    track.Height = bitmap.Height;
+                    track.Format = bitmap.Format;
+                    track.SamplesPerFrame = 1;
+                    track.Options = TrackOptions.Infinite;
+                    */
 
-                            this.Clip = new Clip(track);
-                        }
-                    }
+                    this.Clip = new Clip(track);
                 }
-            }
-            finally
-            {
-                this.Mutex.ReleaseMutex();
             }
         }
 
-        protected override bool Render(Frame output, long index)
+        protected override void DoProcessing(FilterProcessingContext inputFrames, Frame outputFrame)
         {
-            try
+            Console.WriteLine("decoding tga frame");
+
+            using (var stream = this.OpenStreamForFrame(0))
             {
-                using (var stream = this.OpenStreamForFrame(0))
+                using (var decoder = new TGADecoder(stream))
                 {
-                    using (var decoder = new TGADecoder(stream))
-                    {
-                        decoder.Initialize();
-                        decoder.Decode(output);
-                    }
+                    decoder.Initialize();
+                    decoder.Decode(outputFrame);
                 }
             }
-            catch
-            {
-                return false;
-            }
-            
-            return true;
         }
         #endregion
     }

@@ -82,7 +82,7 @@ namespace NSynth.Imaging.TGA
         /// <summary>
         /// Decodes the header information from the TGA bitstream.
         /// </summary>
-        internal void DecodeHeader()
+        internal TGADecodeContext DecodeHeader()
         {
             if (this.context.Stage < TGADecodeStage.Initialized)
                 this.InitContext();
@@ -118,6 +118,8 @@ namespace NSynth.Imaging.TGA
             this.context.PixelDataOffset = 18 + header.IdLength + header.ColorMapLength;
             this.context.PixelOrder = (TGAPixelOrder)header.ImageDescriptor;
             this.context.Stage = TGADecodeStage.HeaderDecoded;
+
+            return this.context;
         }
 
         private void DecodeFooter(TGADecodeContext dc)

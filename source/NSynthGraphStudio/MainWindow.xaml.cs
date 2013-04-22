@@ -120,16 +120,16 @@ namespace NSynthGraphStudio
             //var blur = new BlurFilter();
             //blur.Input.Bind(filter);
 
-            var flip = new FlipFilter()
-            {
-                FlipDirection = FlipDirection.Horizontal
-            };
-            flip.Input.Bind(filter);
+            //var flip = new FlipFilter()
+            //{
+            //    FlipDirection = FlipDirection.Horizontal
+            //};
+            ////flip.Input.Bind(filter);
             //blur.Initialize();
 
-            flip.Initialize();
-            this.host.Filter = flip;
-            //this.host.Filter = filter;
+            //flip.Initialize();
+            //this.host.Filter = flip;
+            this.host.Filter = filter;
             
             sw.Stop();
             this.Title = string.Format("NSynth Graph Studio -- Sample displayed in {0}ms", sw.ElapsedMilliseconds);
