@@ -22,7 +22,8 @@ namespace NSynth.Filters.Video
             base.DoProcessing(inputFrames, outputFrame);
         }
         
-        protected override bool Render(Frame output, long index)
+        
+        protected bool Render(Frame output, long index)
         {
             // Grab the original frame
             var frame = this.Input.Filter.GetFrame(index);

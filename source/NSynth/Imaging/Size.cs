@@ -39,6 +39,8 @@ namespace NSynth.Imaging
                 
             this.height = height;
             this.width = width;
+
+            
         }
         #endregion
         #region Properties
