@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading;
 using NSynth;
 using System.Diagnostics.Contracts;
+using NSynth.Imaging;
 
 namespace NSynth
 {

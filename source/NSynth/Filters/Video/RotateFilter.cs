@@ -48,7 +48,7 @@ namespace NSynth.Filters.Internal.Video
 
         protected  Frame RenderFrame(long frameIndex)
         {
-            var frame = this.Input.Filter.GetFrame(frameIndex);
+            var frame = this.Source.Filter.GetFrame(frameIndex);
 
             var bitmap = frame.Video[0];
             var output = new NSynth.Imaging.BitmapRGB(bitmap.Height, bitmap.Width); // invert order of width and height.

@@ -17,8 +17,18 @@ namespace NSynth.Filters.Video
     /// </summary>
     public class BlurFilter : EffectFilter
     {
+        public BlurFilter(int radius = 1)
+        {
+            this.Radius = radius;
+        }
+
         #region Properties
         public BlurAlgorithm Algorithm
+        {
+            get;
+            set;
+        }
+        public int Radius
         {
             get;
             set;
@@ -29,10 +39,10 @@ namespace NSynth.Filters.Video
         {
             base.OnInitializing(e);
 
-            if (this.Input.Filter == null)
+            if (this.Source.Filter == null)
                 this.Clip = new Clip();
             else
-                this.Clip = this.Input.Filter.Clip;
+                this.Clip = this.Source.Filter.Clip;
 
         }
 
@@ -42,68 +52,60 @@ namespace NSynth.Filters.Video
             var sbmp = src.Video[0];
 
             if (sbmp is BitmapRGB32)
-            {
                 this.BoxBlurRGB32(sbmp as BitmapRGB32, outputFrame.Video[0] as BitmapRGB32);
-            }
-            //var mask = context.GetFrame("mask");
+            else if (sbmp is BitmapRGB24)
+                this.BoxBlurRGB24(sbmp as BitmapRGB24, outputFrame.Video[0] as BitmapRGB24);
         }
 
         private void BoxBlurRGB32(BitmapRGB32 input, BitmapRGB32 output, BitmapRGB32 mask = null)
         {
-            Contract.Assume(input.Size == output.Size);
+            Contract.Requires(input != null);
+            Contract.Requires(output != null);
 
         }
 
         private void BoxBlurRGB24(BitmapRGB24 input, BitmapRGB24 output, BitmapRGB32 mask = null)
         {
+            Contract.Requires(input != null);
+            Contract.Requires(output != null);
+            Contract.Requires(input.Width == output.Width);
+            Contract.Requires(input.Height == output.Height);
 
-        }
-
-        //protected override bool Render(Frame output, long index)
-        //{
-        //    var frame = this.Input.Filter.GetFrame(index);
-
-        //    var blurred = this.BoxBlur(frame.Video[0]);
-        //    output.Video[0] = blurred;
-        //    return true;
-        //}
-
-        private BitmapRGB BoxBlur(IBitmap source)
-        {
             int radius = 1;
             int n = 0;
-            ColorRGB[] pix = new ColorRGB[source.Width * source.Height];
-            float div = (float)Math.Pow((radius * 2 + 1), 2);
-            var bmp = new BitmapRGB(source.Width, source.Height);
+            int w = input.Width;
+            int h = input.Height;
+            var bmp = output;
 
-            for (int x = 0; x < source.Width; x++)
+            var pix = bmp.Pixels;
+            float div = (float)Math.Pow((radius * 2 + 1), 2);
+
+
+            for (int x = 0; x < w; x++)
             {
-                for (int y = 0; y < source.Height; y++)
+                for (int y = 0; y < h; y++)
                 {
 
-                    ColorRGB total = new ColorRGB();
+                    ColorRGB24 total = new ColorRGB24();
                     div = 0;
                     for (int ky = -radius; ky <= radius; ky++)
                     {
                         for (int kx = -radius; kx <= radius; kx++)
                         {
-                            var p = source[Math.Max(Math.Min(x + kx, source.Width - 1), 0), Math.Max(Math.Min(y + ky, source.Height - 1), 0)];
+                            var p = input[Math.Max(Math.Min(x + kx, w - 1), 0), Math.Max(Math.Min(y + ky, h - 1), 0)];
                             total.Red += p.Red;
                             total.Green += p.Green;
                             total.Blue += p.Blue;
                             div += 1;
                         }
                     }
-                    total.Red /= div;
-                    total.Green /= div;
-                    total.Blue /= div;
-                    total.Alpha = 1.0f;
+                    total.Red = (byte)(total.Red / div);
+                    total.Green = (byte)(total.Green / div);
+                    total.Blue = (byte)(total.Blue / div);
+                    //total.Alpha = 1.0f;
                     bmp[x, y] = total;
                 }
             }
-
-
-            return bmp;
         }
         #endregion
     }

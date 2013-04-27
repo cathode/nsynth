@@ -21,7 +21,7 @@ namespace NSynth
         #region Constructors
         protected EffectFilter()
         {
-            this.Inputs.AddSlot("input");
+            this.Inputs.AddSlot("source");
             this.Inputs.AddSlot("mask");
         }
         #endregion
@@ -29,11 +29,11 @@ namespace NSynth
         /// <summary>
         /// Gets the <see cref="FilterInputSlot"/> for the primary input of the effect filter.
         /// </summary>
-        public FilterInputSlot Input
+        public FilterInputSlot Source
         {
             get
             {
-                return this.Inputs["input"];
+                return this.Inputs["source"];
             }
         }
         public FilterInputSlot Mask
@@ -49,8 +49,8 @@ namespace NSynth
         {
             base.OnInitializing(e);
 
-            if (this.Input.Filter != null)
-                this.Clip = this.Input.Filter.Clip;
+            if (this.Source.Filter != null)
+                this.Clip = this.Source.Filter.Clip;
             else
                 this.Clip = new Clip();
 

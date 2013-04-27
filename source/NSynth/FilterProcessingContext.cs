@@ -104,7 +104,8 @@ namespace NSynth
 
             // must be ready
             if (this.isReady)
-                this.InputFramesReady(this, EventArgs.Empty);
+                if (this.InputFramesReady != null)
+                    this.InputFramesReady(this, EventArgs.Empty);
         }
 
         public Frame GetFrame(string slot, int offset = 0)

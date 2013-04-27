@@ -114,11 +114,11 @@ namespace NSynthGraphStudio
 
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
-            var filter = new TGASourceFilter(path);
-            filter.Initialize();
+            var tgaSource = new TGASourceFilter(path);
+            tgaSource.Initialize();
 
-            //var blur = new BlurFilter();
-            //blur.Input.Bind(filter);
+            var blur = new BlurFilter(0);
+            blur.Source.Bind(tgaSource);
 
             //var flip = new FlipFilter()
             //{
@@ -129,8 +129,8 @@ namespace NSynthGraphStudio
 
             //flip.Initialize();
             //this.host.Filter = flip;
-            this.host.Filter = filter;
-            
+            this.host.Filter = blur;
+
             sw.Stop();
             this.Title = string.Format("NSynth Graph Studio -- Sample displayed in {0}ms", sw.ElapsedMilliseconds);
         }
