@@ -71,8 +71,7 @@ namespace NSynth.Filters.Video
             Contract.Requires(input.Width == output.Width);
             Contract.Requires(input.Height == output.Height);
 
-            int radius = 1;
-            int n = 0;
+            int radius = this.Radius;
             int w = input.Width;
             int h = input.Height;
             var bmp = output;
@@ -80,30 +79,30 @@ namespace NSynth.Filters.Video
             var pix = bmp.Pixels;
             float div = (float)Math.Pow((radius * 2 + 1), 2);
 
-
             for (int x = 0; x < w; x++)
             {
                 for (int y = 0; y < h; y++)
                 {
+                    var tr = 0.0;
+                    var tg = 0.0;
+                    var tb = 0.0;
 
-                    ColorRGB24 total = new ColorRGB24();
-                    div = 0;
                     for (int ky = -radius; ky <= radius; ky++)
                     {
                         for (int kx = -radius; kx <= radius; kx++)
                         {
-                            var p = input[Math.Max(Math.Min(x + kx, w - 1), 0), Math.Max(Math.Min(y + ky, h - 1), 0)];
-                            total.Red += p.Red;
-                            total.Green += p.Green;
-                            total.Blue += p.Blue;
-                            div += 1;
+                            var px = Math.Max(Math.Min(x + kx, w - 1), 0);
+                            var py = Math.Max(Math.Min(y + ky, h - 1), 0);
+                            var p = input[px, py];
+                            tr += p.Red;
+                            tg += p.Green;
+                            tb += p.Blue;
+                            //div += 1;
                         }
                     }
-                    total.Red = (byte)(total.Red / div);
-                    total.Green = (byte)(total.Green / div);
-                    total.Blue = (byte)(total.Blue / div);
                     //total.Alpha = 1.0f;
-                    bmp[x, y] = total;
+                    bmp[x, y] = new ColorRGB24((byte)(tr / 255.0 * (255.0 / div)),
+                        (byte)(tg / 255.0 * (255.0 / div)), (byte)(tb / 255.0 * (255.0 / div)));
                 }
             }
         }

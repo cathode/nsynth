@@ -117,7 +117,7 @@ namespace NSynthGraphStudio
             var tgaSource = new TGASourceFilter(path);
             tgaSource.Initialize();
 
-            var blur = new BlurFilter(0);
+            var blur = new BlurFilter(1);
             blur.Source.Bind(tgaSource);
 
             //var flip = new FlipFilter()
