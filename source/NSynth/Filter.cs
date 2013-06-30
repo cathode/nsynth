@@ -55,9 +55,9 @@ namespace NSynth
         private bool isDisposed;
 
         /// <summary>
-        /// Backing field for the <see cref="Filter.IsInitialized"/> property.
+        /// Backing field for the <see cref="Filter.IsClipInitialized"/> property.
         /// </summary>
-        private bool isInitialized;
+        private bool isClipInitialized;
 
         /// <summary>
         /// Backing field for the <see cref="Filter.Tag"/> property.
@@ -80,6 +80,8 @@ namespace NSynth
             this.requestedFrames = new Queue<long>();
             this.inputs = new FilterInputSlotCollection(this);
             this.consumers = new List<FilterInputSlot>();
+
+            this.Inputs.AddSlot("source");
         }
 
         /// <summary>
@@ -103,6 +105,13 @@ namespace NSynth
 
         #endregion
         #region Properties
+        public FilterInputSlot Source
+        {
+            get
+            {
+                return this.Inputs["source"];
+            }
+        }
         /// <summary>
         /// Gets or sets a value indicating whether the current <see cref="Filter"/> is disposed.
         /// </summary>
@@ -121,11 +130,11 @@ namespace NSynth
         /// <summary>
         /// Gets a value indicating whether the current <see cref="Filter"/> is initialized.
         /// </summary>
-        public bool IsInitialized
+        public bool IsClipInitialized
         {
             get
             {
-                return this.isInitialized;
+                return this.isClipInitialized;
             }
         }
 
@@ -171,6 +180,9 @@ namespace NSynth
         {
             get
             {
+                if (this.clip == null)
+                    this.InitializeClip();
+
                 return this.clip;
             }
             set
@@ -205,18 +217,18 @@ namespace NSynth
         /// Readies the filter for use.
         /// </summary>
         /// <returns>true if everything went okay; otherwise false.</returns>
-        public bool Initialize()
+        public bool InitializeClip()
         {
-            Contract.Ensures(this.IsInitialized == true);
+            Contract.Ensures(this.IsClipInitialized == true);
 
             var e = new FilterInitializationEventArgs();
 
-            this.OnInitializing(e);
+            this.OnClipInitializing(e);
 
             if (e.Succeeded)
-                this.isInitialized = true;
+                this.isClipInitialized = true;
 
-            return this.IsInitialized;
+            return this.IsClipInitialized;
         }
 
         /// <summary>
@@ -238,7 +250,7 @@ namespace NSynth
         /// Raises the <see cref="Filter.Initializing"/> event.
         /// </summary>
         /// <param name="e">Event data associated with the event.</param>
-        protected virtual void OnInitializing(FilterInitializationEventArgs e)
+        protected virtual void OnClipInitializing(FilterInitializationEventArgs e)
         {
             if (this.Initializing != null)
                 this.Initializing(this, e);
@@ -250,23 +262,10 @@ namespace NSynth
         }
 
         /// <summary>
-        /// Requests that a single frame should be rendered.
+        /// Gets the <see cref="Frame"/> from this filter with the specified index.
         /// </summary>
-        /// <param name="frameIndex">The index of the frame to render.</param>
-        public void RequestFrame(long frameIndex)
-        {
-            //if (!this.requestedFrames.Contains(frameIndex))
-            //    this.requestedFrames.Enqueue(frameIndex);
-
-            // TODO: Ensure that request queue is being processed by the worker thread.
-
-            // HACK: Perform blocking render.
-
-            var frame = this.GetFrame(frameIndex);
-
-            this.bufferedFrames.Add(frameIndex, frame);
-        }
-
+        /// <param name="index"></param>
+        /// <returns></returns>
         public Frame GetFrame(long index)
         {
 
@@ -278,18 +277,29 @@ namespace NSynth
                 foreach (var offset in this.GetInputFramesRequired(slot, index))
                     context.SetFrame(slot.Name, offset, slot.Filter.GetFrame(index + offset));
 
-            var outputFrame = this.clip.IssueFrame();
+            var outputFrame = this.Clip.IssueFrame();
 
             this.DoProcessing(context, outputFrame);
 
             return outputFrame;
         }
 
+        /// <summary>
+        /// Begins an asynchronous request for a frame from the current filter.
+        /// </summary>
+        /// <param name="callback"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public IAsyncResult BeginGetFrame(AsyncCallback callback, long index)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Ends an asynchronous request for a frame from the current filter.
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
         public Frame EndGetFrame(IAsyncResult result)
         {
             throw new NotImplementedException();
@@ -310,6 +320,12 @@ namespace NSynth
             return false;
         }
 
+        /// <summary>
+        /// When overridden in a derived class, performs the appropriate processing work and writes the results to
+        /// the <paramref name="outputFrame"/>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="outputFrame"></param>
         protected virtual void DoProcessing(FilterProcessingContext context, Frame outputFrame)
         {
             // Do nothing.
@@ -416,6 +432,9 @@ namespace NSynth
             this.consumers.Remove(consumer);
         }
 
+        /// <summary>
+        /// Defines invariant code contracts for the <see cref="Filter"/> class.
+        /// </summary>
         [ContractInvariantMethod]
         private void Invariants()
         {
@@ -440,7 +459,7 @@ namespace NSynth
             set;
         }
 
-        public FilterProcessingContext Inputs
+        public FilterProcessingContext Context
         {
             get;
             set;
@@ -450,7 +469,7 @@ namespace NSynth
             : base(callback, state, owner, operationId)
         {
             this.Index = index;
-            this.Inputs = inputs;
+            this.Context = inputs;
         }
 
         protected override void Process()

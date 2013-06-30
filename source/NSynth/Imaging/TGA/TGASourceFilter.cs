@@ -36,9 +36,9 @@ namespace NSynth.Imaging.TGA
         #region Properties
         #endregion
         #region Methods
-        protected override void OnInitializing(FilterInitializationEventArgs e)
+        protected override void OnClipInitializing(FilterInitializationEventArgs e)
         {
-            base.OnInitializing(e);
+            base.OnClipInitializing(e);
 
             using (var stream = this.OpenStreamForFrame(0))
             {
@@ -60,6 +60,10 @@ namespace NSynth.Imaging.TGA
                         track.Format = ColorFormat.RGB24;
                     else
                         track.Format = ColorFormat.RGB32;
+
+                    track.SamplesPerFrame = 1;
+                    track.SampleCount = 1;
+
                     /*
                     var track = new VideoTrack();
                     track.SampleCount = 1;

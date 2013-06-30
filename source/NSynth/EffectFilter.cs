@@ -45,9 +45,9 @@ namespace NSynth
         }
         #endregion
 
-        protected override void OnInitializing(FilterInitializationEventArgs e)
+        protected override void OnClipInitializing(FilterInitializationEventArgs e)
         {
-            base.OnInitializing(e);
+            base.OnClipInitializing(e);
 
             if (this.Source.Filter != null)
                 this.Clip = this.Source.Filter.Clip;

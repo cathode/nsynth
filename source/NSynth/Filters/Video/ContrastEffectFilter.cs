@@ -33,9 +33,9 @@ namespace NSynth.Filters.Video
 
         #endregion
         #region Methods
-        protected override void OnInitializing(FilterInitializationEventArgs e)
+        protected override void OnClipInitializing(FilterInitializationEventArgs e)
         {
-            base.OnInitializing(e);
+            base.OnClipInitializing(e);
 
         }
         private BitmapRGB24 ApplyEffectRGB24(BitmapRGB24 input)

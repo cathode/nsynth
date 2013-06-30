@@ -20,19 +20,16 @@ namespace NSynthRunner
     {
         internal static void Main(string[] args)
         {
-            var input = new TGASourceFilter(@"C:\NSynth\source\lost{0:000000}.tga");
+            var input = new TGASourceFilter(@"P:\nsynth\framedumps\avatar\avatar{0:000000}.tga");
             input.MultiFrame = true;
-            
-            input.Initialize();
+            input.ImageCount = 70;
+            //input.FrameCount = 70000;
+            input.InitializeClip();
 
-            var frames = new Frame[16];
+            var writer = new TGAOutputFilter(@"C:\Temp\nsynth\avatar_out\avatar{0:000000}.tga");
+            writer.Source.Bind(input);
 
-            for (int i = 0; i < frames.Length; ++i)
-            {
-                frames[i] = input.GetFrame(i);
-                //frames[i].Video[0][0, 0] = new ColorRGB24(255, 255, 255);
-            }
-           
+            writer.GetFrame(0);
             Console.WriteLine(GC.GetTotalMemory(true));
             Console.ReadLine();
         }

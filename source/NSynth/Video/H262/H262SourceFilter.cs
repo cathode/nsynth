@@ -13,9 +13,9 @@ namespace NSynth.Video.H262
     public sealed class H262SourceFilter : SourceFilter
     {
         #region Methods
-        protected override void OnInitializing(FilterInitializationEventArgs e)
+        protected override void OnClipInitializing(FilterInitializationEventArgs e)
         {
-            base.OnInitializing(e);
+            base.OnClipInitializing(e);
         }
 
 

@@ -13,9 +13,9 @@ namespace NSynth.Imaging.PNG
         {
         }
 
-        protected override void OnInitializing(FilterInitializationEventArgs e)
+        protected override void OnClipInitializing(FilterInitializationEventArgs e)
         {
-            base.OnInitializing(e);
+            base.OnClipInitializing(e);
 
             using (var stream = this.OpenStreamForFrame(0))
             {

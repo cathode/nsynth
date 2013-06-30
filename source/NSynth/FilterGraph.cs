@@ -50,7 +50,7 @@ namespace NSynth
         public bool Initialize()
         {
             foreach (var f in this.Filters)
-                if (!f.Initialize())
+                if (!f.InitializeClip())
                     return false;
 
             return true;

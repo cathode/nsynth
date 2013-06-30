@@ -22,11 +22,8 @@ namespace NSynth.Imaging
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageSourceFilter"/> class.
         /// </summary>
-        protected ImageSourceFilter()
-        {
-            this.Path = string.Empty;
-        }
-        protected ImageSourceFilter(string path)
+        /// <param name="path"></param>
+        protected ImageSourceFilter(string path = "")
         {
             this.Path = path;
         }
@@ -59,6 +56,18 @@ namespace NSynth.Imaging
             set
             {
                 this.multiFrame = value;
+            }
+        }
+
+        public long ImageCount
+        {
+            get
+            {
+                return this.Clip.VideoTracks[0].SampleCount;
+            }
+            set
+            {
+                this.Clip.VideoTracks[0].SampleCount = value;
             }
         }
         #endregion

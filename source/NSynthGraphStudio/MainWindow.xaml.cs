@@ -114,11 +114,12 @@ namespace NSynthGraphStudio
 
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
-            var tgaSource = new TGASourceFilter(path);
-            tgaSource.Initialize();
+            var tgaSource = new TGASourceFilter(@"C:\Temp\NSynth\avatar\avatar{0:000000}.tga");
+            tgaSource.MultiFrame = true;
+            tgaSource.InitializeClip();
 
-            var blur = new BlurFilter(1);
-            blur.Source.Bind(tgaSource);
+            //var blur = new BlurFilter(1);
+            //blur.Source.Bind(tgaSource);
 
             //var flip = new FlipFilter()
             //{
@@ -129,7 +130,16 @@ namespace NSynthGraphStudio
 
             //flip.Initialize();
             //this.host.Filter = flip;
-            this.host.Filter = blur;
+            this.host.Filter = tgaSource;
+            int n = 300;
+
+            
+            for (int i = 80; i < 100; ++i)
+            {
+
+                this.host.DisplayFrame(i);
+                //System.Threading.Thread.Sleep(100);
+            }
 
             sw.Stop();
             this.Title = string.Format("NSynth Graph Studio -- Sample displayed in {0}ms", sw.ElapsedMilliseconds);
@@ -143,7 +153,7 @@ namespace NSynthGraphStudio
             sw.Start();
 
             var filter = new NSynth.Imaging.PNG.PNGSourceFilter(path);
-            filter.Initialize();
+            filter.InitializeClip();
             this.host.Filter = filter;
 
             sw.Stop();

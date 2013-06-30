@@ -35,9 +35,9 @@ namespace NSynth.Filters.Video
         }
         #endregion
         #region Methods
-        protected override void OnInitializing(FilterInitializationEventArgs e)
+        protected override void OnClipInitializing(FilterInitializationEventArgs e)
         {
-            base.OnInitializing(e);
+            base.OnClipInitializing(e);
 
             if (this.Source.Filter == null)
                 this.Clip = new Clip();

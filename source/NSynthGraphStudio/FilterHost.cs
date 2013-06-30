@@ -71,8 +71,8 @@ namespace NSynthGraphStudio
 
             this.VisualBitmapScalingMode = BitmapScalingMode.NearestNeighbor;
 
-            if (!this.filter.IsInitialized)
-                this.filter.Initialize();
+            if (!this.filter.IsClipInitialized)
+                this.filter.InitializeClip();
 
             // TODO: Fix this!!!
             if (this.filter.Clip.VideoTracks.Count == 0)
@@ -107,27 +107,31 @@ namespace NSynthGraphStudio
             var frame = this.filter.GetFrame(frameIndex);
 
             this.RefreshCachedBitmap(frame.Video[0]);
+
+            //this.bitmap.re
+
+            frame.Release();
         }
 
         private unsafe void RefreshCachedBitmap(IBitmap frameBitmap)
         {
             this.bitmap.Lock();
-            
+
             if (frameBitmap is BitmapRGB24)
             {
                 var bmp24 = frameBitmap as BitmapRGB24;
-                
+
                 fixed (void* ptr = &bmp24.Pixels[0])
                 {
                     IntPtr buffer = new IntPtr(ptr);
                     this.bitmap.WritePixels(new Int32Rect(0, 0, bmp24.Width, bmp24.Height), buffer, bmp24.Pixels.Length * 3, bmp24.Width * 3);
                 }
-               
+
             }
             else if (frameBitmap is BitmapRGB32)
             {
                 var bmp32 = frameBitmap as BitmapRGB32;
-                
+
                 fixed (void* ptr = &bmp32.Pixels[0])
                 {
                     IntPtr buffer = new IntPtr(ptr);

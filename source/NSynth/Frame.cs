@@ -30,7 +30,7 @@ namespace NSynth
         /// <summary>
         /// Backing field for the <see cref="Frame.Source"/> property.
         /// </summary>
-        private Filter source;
+        private Filter owner;
 
         /// <summary>
         /// Backing field for the <see cref="Frame.IsReclaimed"/> property.
@@ -140,11 +140,11 @@ namespace NSynth
         {
             get
             {
-                return this.source;
+                return this.owner;
             }
             internal set
             {
-                this.source = value;
+                this.owner = value;
             }
         }
 
@@ -162,7 +162,7 @@ namespace NSynth
         /// </summary>
         public void Release()
         {
-
+            this.clip.Reclaim(this);
         }
         #endregion
     }

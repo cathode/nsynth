@@ -13,9 +13,9 @@ namespace NSynth.Audio.WAV
 {
     public class WAVInputFilter : SourceFilter
     {
-        protected override void OnInitializing(FilterInitializationEventArgs e)
+        protected override void OnClipInitializing(FilterInitializationEventArgs e)
         {
-            base.OnInitializing(e);
+            base.OnClipInitializing(e);
         }
     }
 }
