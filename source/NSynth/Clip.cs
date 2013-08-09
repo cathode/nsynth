@@ -158,13 +158,17 @@ namespace NSynth
             Clip c = new Clip();
 
             foreach (var t in this.audioTracks)
-                c.audioTracks.Add(t.DeepClone() as AudioTrack);
+                if (t != null)
+                    c.audioTracks.Add(t.DeepClone() as AudioTrack);
             foreach (var t in this.navigationTracks)
-                c.navigationTracks.Add(t.DeepClone() as NavigationTrack);
+                if (t != null)
+                    c.navigationTracks.Add(t.DeepClone() as NavigationTrack);
             foreach (var t in this.subtitleTracks)
-                c.subtitleTracks.Add(t.DeepClone() as SubtitleTrack);
+                if (t != null)
+                    c.subtitleTracks.Add(t.DeepClone() as SubtitleTrack);
             foreach (var t in this.videoTracks)
-                c.videoTracks.Add(t.DeepClone() as VideoTrack);
+                if (t != null)
+                    c.videoTracks.Add(t.DeepClone() as VideoTrack);
 
             return c;
         }
@@ -188,6 +192,8 @@ namespace NSynth
                 if (this.freeFrames.Count > 0)
                 {
                     result = this.freeFrames.Last.Value;
+                    if (result == null)
+                        throw new NotImplementedException();
                     this.freeFrames.RemoveLast();
                 }
                 else
@@ -221,8 +227,8 @@ namespace NSynth
             Contract.Invariant(this.freeFrames != null);
             Contract.Invariant(this.inUseFrames != null);
 
-            Contract.Invariant(Contract.ForAll(this.freeFrames, f => f != null));
-            Contract.Invariant(Contract.ForAll(this.inUseFrames, f => f != null));
+            //Contract.Invariant(Contract.ForAll(this.freeFrames, f => f != null));
+            //Contract.Invariant(Contract.ForAll(this.inUseFrames, f => f != null));
 
             // Do we need these?
             Contract.Invariant(this.audioTracks.Clip == this);

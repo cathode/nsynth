@@ -341,8 +341,9 @@ namespace NSynth
         {
             if (filter != null)
                 foreach (var input in this.inputs.Where(f => f.Filter != null).Select(f => f.Filter))
-                    if (input == filter || input.DependsOn(filter))
-                        return true;
+                    if (input != null)
+                        if (input == filter || input.DependsOn(filter))
+                            return true;
 
             return false;
         }
@@ -443,6 +444,7 @@ namespace NSynth
             Contract.Invariant(this.requestedFrames != null);
             Contract.Invariant(this.inputs != null);
             Contract.Invariant(this.inputs.Owner == this);
+            Contract.Invariant(this.Mutex != null);
         }
         #endregion
 

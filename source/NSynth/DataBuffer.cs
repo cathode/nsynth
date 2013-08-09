@@ -110,7 +110,7 @@ namespace NSynth
         }
 
         /// <summary>
-        /// Gets or sets the position within the buffer where the next decode or encode will start.
+        /// Gets the position within the buffer where the next decode or encode will start.
         /// </summary>
         public int Position
         {
@@ -118,12 +118,6 @@ namespace NSynth
             {
                 Contract.Ensures(Contract.Result<int>() <= this.data.Length);
                 return this.position;
-            }
-            set
-            {
-                Contract.Requires(value <= this.Capacity);
-                Contract.Requires(value >= 0);
-                this.position = value;
             }
         }
 
@@ -139,6 +133,11 @@ namespace NSynth
         }
         #endregion
         #region Methods
+
+        public void Seek(long offset)
+        {
+
+        }
 
         public byte[] GetUnderlyingByteArray()
         {
@@ -279,6 +278,7 @@ namespace NSynth
         public ushort ReadUInt16()
         {
             Contract.Ensures(this.Position == Contract.OldValue<long>(this.Position) + 2);
+
             // No bitshift operators for ushort, have to use int and cast when returning.
             int result;
 
