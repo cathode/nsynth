@@ -242,6 +242,9 @@ namespace NSynth.Imaging
         /// <returns></returns>
         public static Rectangle Intersect(Rectangle a, Rectangle b)
         {
+            if (a == null || b == null)
+                return Rectangle.Empty;
+
             var x = Math.Abs(b.Left - a.Left);
             var y = Math.Abs(b.Top - a.Top);
             var w = Math.Abs(a.Right - b.Left);
@@ -281,7 +284,13 @@ namespace NSynth.Imaging
         [Pure]
         public static bool Equals(Rectangle r1, Rectangle r2)
         {
-            if (object.ReferenceEquals(r1, r2))
+            if (object.ReferenceEquals(r1, null) && object.ReferenceEquals(r2, null))
+                return true;
+            else if (object.ReferenceEquals(r1, null))
+                return false;
+            else if (object.ReferenceEquals(r2, null))
+                return false;
+            else if (object.ReferenceEquals(r1, r2))
                 return true;
             else
                 return r1.Left == r2.Left && r1.Top == r2.Top && r1.Right == r2.Right && r1.Bottom == r2.Bottom;
@@ -313,7 +322,7 @@ namespace NSynth.Imaging
         {
             return (p.X >= this.Left) && (p.X <= this.Right) && (p.Y >= this.Top) && (p.Y <= this.Bottom);
         }
-        
+
         /// <summary>
         /// Determines if the specified rectangle is fully contained within the current rectangle.
         /// </summary>
@@ -322,10 +331,13 @@ namespace NSynth.Imaging
         [Pure]
         public bool Contains(Rectangle r)
         {
-            return (this.Left <= r.Left) &&
-                (this.Top <= r.Top) &&
-                (this.Right >= r.Right) &&
-                (this.Bottom >= r.Bottom);
+            if (r == null)
+                return false;
+            else
+                return (this.Left <= r.Left) &&
+                    (this.Top <= r.Top) &&
+                    (this.Right >= r.Right) &&
+                    (this.Bottom >= r.Bottom);
         }
 
         /// <summary>

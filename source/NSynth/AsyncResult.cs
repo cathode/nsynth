@@ -27,6 +27,8 @@ namespace NSynth
         protected AsyncResult(AsyncCallback callback, object state, object owner, string operationId)
             : base(callback, state, owner, operationId)
         {
+            Contract.Requires(callback != null);
+            Contract.Requires(owner != null);
         }
 
         new public static TResult End(IAsyncResult result, object owner, string operationId)
