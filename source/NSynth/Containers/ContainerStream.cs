@@ -6,16 +6,19 @@
  *****************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.IO;
 
 namespace NSynth.Containers
 {
-    public abstract class ContainerEncoder : MediaEncoder
+    public abstract class ContainerStream : Stream
     {
-        public ContainerEncoder(Stream bitstream)
-            : base(bitstream)
+        public int TrackId
         {
+            get;
+            protected set;
         }
     }
 }

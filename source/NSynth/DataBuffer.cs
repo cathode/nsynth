@@ -119,6 +119,10 @@ namespace NSynth
                 Contract.Ensures(Contract.Result<int>() <= this.data.Length);
                 return this.position;
             }
+            set
+            {
+                this.position = value;
+            }
         }
 
         /// <summary>

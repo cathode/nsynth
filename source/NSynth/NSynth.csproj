@@ -124,7 +124,12 @@
     <Compile Include="BitDecoder.cs" />
     <Compile Include="BitBuffer.cs" />
     <Compile Include="BitstreamInputFilter.cs" />
+    <Compile Include="Containers\ContainerStream.cs" />
+    <Compile Include="Containers\IContainer.cs" />
+    <Compile Include="Containers\MPEG4\Box.cs" />
+    <Compile Include="Containers\MPEG4\ElementaryStreamDescriptor.cs" />
     <Compile Include="Containers\MPEG4\MPEG4Container.cs" />
+    <Compile Include="Containers\MPEG4\MPEG4ContainerStream.cs" />
     <Compile Include="FilterProcessingContext.cs" />
     <Compile Include="FilterInputSlot.cs" />
     <Compile Include="FilterInputSlotCollection.cs" />
@@ -327,10 +332,7 @@
     <Compile Include="SubsamplingMode.cs" />
     <Compile Include="Codecs.cs" />
     <Compile Include="Containers\AVI\AVIContainer.cs" />
-    <Compile Include="Containers\AVI\AVIDecoder.cs" />
     <Compile Include="Containers\ContainerCodec.cs" />
-    <Compile Include="Containers\ContainerDecoder.cs" />
-    <Compile Include="Containers\ContainerEncoder.cs" />
     <Compile Include="Containers\MKV\MKVAttachment.cs" />
     <Compile Include="Containers\MKV\MKVContainer.cs" />
     <Compile Include="Containers\MKV\MKVHeader.cs" />
