@@ -12,9 +12,9 @@ namespace NSynth.Containers.MPEG4
     public class Box
     {
 
-        public Box()
+        public Box(int type)
         {
-
+            this.Type = type;
         }
 
         public int Type
@@ -35,7 +35,7 @@ namespace NSynth.Containers.MPEG4
 
     public class FullBox : Box
     {
-        public FullBox(int boxType, byte version, int flags) 
+        public FullBox(int boxType, byte version, int flags)
         {
             this.Version = version;
             this.Flags = flags;
@@ -56,6 +56,19 @@ namespace NSynth.Containers.MPEG4
 
     public class FileTypeBox : Box
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileTypeBox"/> class.
+        /// </summary>
+        public FileTypeBox()
+        {
+
+
+        }
+
+        public FileTypeBox(int majorBrand, int minorVersion)
+        {
+
+        }
         public int MajorBrand
         {
             get;

@@ -127,6 +127,7 @@
     <Compile Include="Containers\ContainerStream.cs" />
     <Compile Include="Containers\IContainer.cs" />
     <Compile Include="Containers\MPEG4\Box.cs" />
+    <Compile Include="Containers\MPEG4\BoxTypes.cs" />
     <Compile Include="Containers\MPEG4\ElementaryStreamDescriptor.cs" />
     <Compile Include="Containers\MPEG4\MPEG4Container.cs" />
     <Compile Include="Containers\MPEG4\MPEG4ContainerStream.cs" />
