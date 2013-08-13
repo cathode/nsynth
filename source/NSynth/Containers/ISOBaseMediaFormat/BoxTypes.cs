@@ -8,15 +8,54 @@ namespace NSynth.Containers.ISOBaseMediaFormat
 {
     public static class BoxTypes
     {
+        /// <summary>
+        /// 'ftyp'
+        /// </summary>
         public const uint FileType = 'f' << 24 | 't' << 16 | 'y' << 8 | 'p';
+
+        /// <summary>
+        /// 'pdin'
+        /// </summary>
         public const uint ProgressiveDownloadInformation = 'p' << 24 | 'd' << 16 | 'i' << 8 | 'n';
+
+        /// <summary>
+        /// 'trak'
+        /// </summary>
         public const uint Track = 't' << 24 | 'r' << 16 | 'a' << 8 | 'k';
+
+        /// <summary>
+        /// 'moov'
+        /// </summary>
         public const uint Movie = 'm' << 24 | 'o' << 16 | 'o' << 8 | 'v';
+
+        /// <summary>
+        /// 'mhdr'
+        /// </summary>
         public const uint MovieHeader = 'm' << 24 | 'h' << 16 | 'd' << 8 | 'r';
+
+        /// <summary>
+        /// 'tkhd'
+        /// </summary>
         public const uint TrackHeader = 't' << 24 | 'k' << 16 | 'h' << 8 | 'd';
+
+        /// <summary>
+        /// 'tref'
+        /// </summary>
         public const uint TrackReference = 0x74725666; // 'tref'
+
+        /// <summary>
+        /// 'trgr'
+        /// </summary>
         public const uint TrackGrouping = 0x74726772; // 'trgr'
+
+        /// <summary>
+        /// 'edts'
+        /// </summary>
         public const uint EditListContainer = 0x65647473; // 'edts'
+
+        /// <summary>
+        /// 'elst'
+        /// </summary>
         public const uint EditList = 0x656C7374; // 'elst'
         public const uint TrackMediaInformationContainer = 0x6D646961; // 'mdia'
         public const uint MediaHeader = 0x6D646864; // 'mdhd'

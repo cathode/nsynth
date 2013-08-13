@@ -42,7 +42,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
 
     public class FullBox : Box
     {
-        public FullBox(uint boxType, byte version, int flags)
+        public FullBox(uint boxType, byte version, int flags = 0)
             : base(boxType)
         {
             this.Version = version;
@@ -59,6 +59,15 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         {
             get;
             set;
+        }
+    }
+
+    public class HintBox : Box
+    {
+        public HintBox()
+            : base(BoxTypes.HintMediaHeader)
+        {
+
         }
     }
 
@@ -115,12 +124,24 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         }
     }
 
-    public class ProgressiveDownloadInformationBox : Box
+    public class ProgressiveDownloadInformationBox : FullBox
     {
         public ProgressiveDownloadInformationBox()
-            : base(0)
+            : base(BoxTypes.ProgressiveDownloadInformation, 0)
         {
 
+        }
+
+        public ProgressiveDownloadInfoChunk[] Data
+        {
+            get;
+            set;
+        }
+
+        public struct ProgressiveDownloadInfoChunk
+        {
+            public uint Rate;
+            public uint InitialDelay;
         }
     }
 
