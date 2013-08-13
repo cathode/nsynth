@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSynth.Win32", "NSynth.Win3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderNode", "RenderNode\RenderNode.csproj", "{BFC50973-23EB-40BF-A57A-D22213BC67C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{BFC50973-23EB-40BF-A57A-D22213BC67C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFC50973-23EB-40BF-A57A-D22213BC67C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFC50973-23EB-40BF-A57A-D22213BC67C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

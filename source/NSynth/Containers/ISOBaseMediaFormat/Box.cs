@@ -20,13 +20,19 @@ namespace NSynth.Containers.ISOBaseMediaFormat
             this.Type = type;
         }
 
-        public uint Type
+        public Box(uint type, Guid userType)
+        {
+            this.Type = type;
+            this.UserType = userType;
+        }
+        public uint Size
         {
             get;
             set;
         }
 
-        public uint Size
+
+        public uint Type
         {
             get;
             set;
@@ -37,7 +43,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
             get;
             set;
         }
-
+        public Guid UserType { get; set; }
     }
 
     public class FullBox : Box
