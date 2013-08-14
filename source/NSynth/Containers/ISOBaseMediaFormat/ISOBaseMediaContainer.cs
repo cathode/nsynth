@@ -19,6 +19,17 @@ namespace NSynth.Containers.ISOBaseMediaFormat
     public class ISOBaseMediaContainer
     {
         private string path;
+        private static readonly Dictionary<uint, Type> registeredBoxes = new Dictionary<uint, Type>();
+
+
+
+        static ISOBaseMediaContainer()
+        {
+            Register<TrackBox>(BoxTypes.Track);
+            Register<TrackHeaderBox>(BoxTypes.TrackHeader);
+            Register<MediaHeaderBox>(BoxTypes.MediaHeader);
+        }
+
         public ISOBaseMediaContainer(string path)
         {
             this.path = path;
@@ -38,6 +49,32 @@ namespace NSynth.Containers.ISOBaseMediaFormat
 
                 }
             }
+        }
+
+        public static bool Register<TBox>(uint boxType) where TBox : Box
+        {
+            if (!ISOBaseMediaContainer.registeredBoxes.ContainsKey(boxType) && !ISOBaseMediaContainer.registeredBoxes.ContainsValue(typeof(TBox)))
+            {
+                ISOBaseMediaContainer.registeredBoxes.Add(boxType, typeof(TBox));
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public static void Unregister(uint boxType)
+        {
+            registeredBoxes.Remove(boxType);
+        }
+
+        public static Box Create(uint boxType)
+        {
+            return ISOBaseMediaContainer.Create<Box>(boxType);
+        }
+
+        public static TBox Create<TBox>(uint boxType) where TBox : Box
+        {
+            return Activator.CreateInstance(registeredBoxes[boxType]) as TBox;
         }
     }
 }

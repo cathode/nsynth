@@ -69,33 +69,6 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         public const uint DataReference = 'd' << 24 | 'r' << 16 | 'e' << 8 | 'f';
         public const uint SampleTable = 's' << 24 | 't' << 16 | 'b' << 8 | 'l';
 
-        private static readonly Dictionary<uint, Type> registeredBoxes = new Dictionary<uint, Type>();
 
-
-        public static bool Register<TBox>(uint boxType) where TBox : Box
-        {
-            if (!BoxTypes.registeredBoxes.ContainsKey(boxType) && !BoxTypes.registeredBoxes.ContainsValue(typeof(TBox)))
-            {
-                BoxTypes.registeredBoxes.Add(boxType, typeof(TBox));
-                return true;
-            }
-            else
-                return false;
-        }
-
-        public static void Unregister(uint boxType)
-        {
-            registeredBoxes.Remove(boxType);
-        }
-
-        public static Box Create(uint boxType)
-        {
-            return BoxTypes.Create<Box>(boxType);
-        }
-
-        public static TBox Create<TBox>(uint boxType) where TBox : Box
-        {
-            return Activator.CreateInstance(registeredBoxes[boxType]) as TBox;
-        }
     }
 }
