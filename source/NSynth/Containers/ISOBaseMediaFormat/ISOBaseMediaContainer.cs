@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Reflection;
 
 namespace NSynth.Containers.ISOBaseMediaFormat
 {
@@ -18,16 +19,23 @@ namespace NSynth.Containers.ISOBaseMediaFormat
     /// </summary>
     public class ISOBaseMediaContainer
     {
+
+
+        /// <summary>
+        /// Globally registered types of iso file format data boxes.
+        /// </summary>
+        private static readonly Dictionary<uint, Type> _globalReg = new Dictionary<uint, Type>();
+
+
         private string path;
-        private static readonly Dictionary<uint, Type> registeredBoxes = new Dictionary<uint, Type>();
-
-
 
         static ISOBaseMediaContainer()
         {
-            Register<TrackBox>(BoxTypes.Track);
-            Register<TrackHeaderBox>(BoxTypes.TrackHeader);
-            Register<MediaHeaderBox>(BoxTypes.MediaHeader);
+            GlobalRegister<TrackBox>();
+            GlobalRegister<TrackHeaderBox>();
+            GlobalRegister<MediaHeaderBox>();
+            GlobalRegister<EditListBox>();
+            GlobalRegister<TrackGroupingIndicatorBox>();
         }
 
         public ISOBaseMediaContainer(string path)
@@ -51,30 +59,50 @@ namespace NSynth.Containers.ISOBaseMediaFormat
             }
         }
 
-        public static bool Register<TBox>(uint boxType) where TBox : Box
+        public static void GlobalRegister<TBox>() where TBox : Box
         {
-            if (!ISOBaseMediaContainer.registeredBoxes.ContainsKey(boxType) && !ISOBaseMediaContainer.registeredBoxes.ContainsValue(typeof(TBox)))
+            var t = typeof(TBox);
+            var attr = t.GetCustomAttribute<BoxTypeAttribute>(false);
+
+            if (attr != null)
             {
-                ISOBaseMediaContainer.registeredBoxes.Add(boxType, typeof(TBox));
-                return true;
+                uint boxType = attr.Type;
+
+                if (!ISOBaseMediaContainer._globalReg.ContainsKey(boxType) && !ISOBaseMediaContainer._globalReg.ContainsValue(t))
+                    ISOBaseMediaContainer._globalReg.Add(boxType, t);
             }
-            else
-                return false;
         }
 
-        public static void Unregister(uint boxType)
+        public static void GlobalUnregister(uint boxType)
         {
-            registeredBoxes.Remove(boxType);
+            _globalReg.Remove(boxType);
         }
 
         public static Box Create(uint boxType)
         {
-            return ISOBaseMediaContainer.Create<Box>(boxType);
+            if (ISOBaseMediaContainer._globalReg.ContainsKey(boxType))
+            {
+                var t = ISOBaseMediaContainer._globalReg[boxType];
+                if (t != null)
+                    return Activator.CreateInstance(_globalReg[boxType]) as Box;
+            }
+
+            throw new NotImplementedException();
         }
 
-        public static TBox Create<TBox>(uint boxType) where TBox : Box
+        public static TBox Create<TBox>() where TBox : Box
         {
-            return Activator.CreateInstance(registeredBoxes[boxType]) as TBox;
+            var t = typeof(TBox);
+            var attr = t.GetCustomAttribute<BoxTypeAttribute>(false);
+
+            if (attr != null)
+            {
+                uint boxType = attr.Type;
+
+                return Activator.CreateInstance(_globalReg[boxType]) as TBox;
+            }
+            else
+                throw new NotImplementedException();
         }
     }
 }

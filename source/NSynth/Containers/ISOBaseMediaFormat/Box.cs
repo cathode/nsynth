@@ -46,6 +46,20 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         public Guid UserType { get; set; }
     }
 
+    public sealed class BoxTypeAttribute : Attribute
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BoxTypeAttribute"/> class.
+        /// </summary>
+        /// <param name="type"></param>
+        public BoxTypeAttribute(uint type)
+        {
+            this.Type = type;
+        }
+
+        public uint Type { get; private set; }
+    }
+
     public class FullBox : Box
     {
         public FullBox(uint boxType, byte version, int flags = 0)
@@ -68,6 +82,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         }
     }
 
+    //[BoxType(BoxTypes.Hint)]
     public class HintBox : Box
     {
         public HintBox()
@@ -77,6 +92,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         }
     }
 
+    [BoxType(BoxTypes.FileType)]
     public class FileTypeBox : Box
     {
         /// <summary>
@@ -112,7 +128,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
             set;
         }
     }
-
+    [BoxType(BoxTypes.Movie)]
     public class MovieBox : Box
     {
         public MovieBox()
@@ -121,7 +137,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
 
         }
     }
-
+    [BoxType(BoxTypes.MovieHeader)]
     public class MovieHeaderBox : Box
     {
         public MovieHeaderBox()
@@ -130,6 +146,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         }
     }
 
+    [BoxType(BoxTypes.ProgressiveDownloadInformation)]
     public class ProgressiveDownloadInformationBox : FullBox
     {
         public ProgressiveDownloadInformationBox()
@@ -151,6 +168,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         }
     }
 
+    [BoxType(BoxTypes.Track)]
     public class TrackBox : Box
     {
         public TrackBox()
@@ -159,6 +177,8 @@ namespace NSynth.Containers.ISOBaseMediaFormat
 
         }
     }
+
+    [BoxType(BoxTypes.TrackHeader)]
     public class TrackHeaderBox : Box
     {
         public TrackHeaderBox()
@@ -194,7 +214,6 @@ namespace NSynth.Containers.ISOBaseMediaFormat
             set;
         }
 
-
         public short Layer
         {
             get;
@@ -220,6 +239,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         }
     }
 
+    //[BoxType(BoxTypes.TrackReference
     public class TrackReferenceContainerBox : Box
     {
         public TrackReferenceContainerBox()
@@ -239,15 +259,24 @@ namespace NSynth.Containers.ISOBaseMediaFormat
 
     }
 
+    [BoxType(BoxTypes.EditList)]
     public class EditListBox : Box
     {
         public EditListBox()
-            : base(0)
+            : base(BoxTypes.EditList)
         {
 
         }
     }
 
+    [BoxType(BoxTypes.EditListContainer)]
+    public class EditListContainerBox : Box
+    {
+        public EditListContainerBox() : base(BoxTypes.EditListContainer) { }
+
+    }
+
+    //[BoxType(BoxTypes.MediaInformation
     public class MediaInformationBox : Box
     {
         public MediaInformationBox()

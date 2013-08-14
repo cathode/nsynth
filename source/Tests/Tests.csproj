@@ -8,8 +8,8 @@
     <ProjectGuid>{9AEF89FC-DA00-4A53-AB74-4CBD59DB37D0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tests</RootNamespace>
-    <AssemblyName>Tests</AssemblyName>
+    <RootNamespace>NSynth</RootNamespace>
+    <AssemblyName>NSynth_Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -46,6 +46,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Containers.ISOBaseMediaFormat\ISOBaseMediaContainerTests.cs" />
     <Compile Include="NSynth.Media.Imaging\ColorRGB96Tests.cs" />
     <None Include="NSynth.Media.Imaging\ColorRGBTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
