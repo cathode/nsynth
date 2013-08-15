@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace NSynth.Containers.ISOBaseMediaFormat
 {
-    //[BoxType(BoxTypes.MediaInformation
-    public class MediaInformationBox : Box
+    public class VideoMediaHeaderBox : FullBox
     {
-        public MediaInformationBox()
-            : base(BoxTypes.MediaInformation)
+        public VideoMediaHeaderBox()
+            : base(BoxTypes.VideoMediaHeader, 0)
         {
         }
     }

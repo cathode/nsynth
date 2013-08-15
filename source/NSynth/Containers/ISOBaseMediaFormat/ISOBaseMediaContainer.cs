@@ -37,13 +37,15 @@ namespace NSynth.Containers.ISOBaseMediaFormat
             GlobalRegister<TrackBox>();
             GlobalRegister<TrackHeaderBox>();
             
-
-            GlobalRegister<TrackHeaderBox>();
-            GlobalRegister<MediaHeaderBox>();
+            
             GlobalRegister<EditListBox>();
             GlobalRegister<TrackGroupingIndicatorBox>();
-            GlobalRegister<TrackReferenceContainerBox>();
+            GlobalRegister<TrackReferenceBox>();
             GlobalRegister<EditListContainerBox>();
+
+            // Media
+            GlobalRegister<MediaBox>();
+            GlobalRegister<MediaHeaderBox>();
             GlobalRegister<MediaInformationBox>();
 
             // Video

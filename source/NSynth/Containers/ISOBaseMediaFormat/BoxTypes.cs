@@ -54,10 +54,14 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         /// 'elst'
         /// </summary>
         public const uint EditList = 0x656C7374; // 'elst'
-        public const uint TrackMediaInformationContainer = 0x6D646961; // 'mdia'
+        public const uint Media = 0x6D646961; // 'mdia'
         public const uint MediaHeader = 0x6D646864; // 'mdhd'
         public const uint MediaHandler = 0x68646c72; // 'hdlr'
-        public const uint MediaInformationContainer = 'm' << 24 | 'i' << 16 | 'n' << 8 | 'f';
+
+        /// <summary>
+        /// 'minf'
+        /// </summary>
+        public const uint MediaInformation = 'm' << 24 | 'i' << 16 | 'n' << 8 | 'f';
         public const uint VideoMediaHeader = 'v' << 24 | 'm' << 16 | 'h' << 8 | 'd';
         public const uint SoundMediaHeader = 's' << 24 | 'm' << 16 | 'h' << 8 | 'd';
         public const uint HintMediaHeader = 'h' << 24 | 'm' << 16 | 'h' << 8 | 'd';

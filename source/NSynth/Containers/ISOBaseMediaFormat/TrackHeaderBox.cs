@@ -16,7 +16,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
     public class TrackHeaderBox : Box
     {
         public TrackHeaderBox()
-            : base(0)
+            : base(BoxTypes.TrackHeader)
         {
 
         }
@@ -71,5 +71,11 @@ namespace NSynth.Containers.ISOBaseMediaFormat
             get;
             set;
         }
+
+        public int[] UnityMatrix { get; set; }
+
+        public uint Width { get; set; }
+
+        public uint Height { get; set; }
     }
 }

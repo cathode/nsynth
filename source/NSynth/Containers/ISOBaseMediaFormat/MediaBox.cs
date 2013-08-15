@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace NSynth.Containers.ISOBaseMediaFormat
 {
-    //[BoxType(BoxTypes.MediaInformation
-    public class MediaInformationBox : Box
+    [BoxType(BoxTypes.Media)]
+    public class MediaBox : Box
     {
-        public MediaInformationBox()
-            : base(BoxTypes.MediaInformation)
+        public MediaBox()
+            : base(BoxTypes.Media)
         {
         }
     }

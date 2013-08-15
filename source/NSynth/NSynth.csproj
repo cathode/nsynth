@@ -128,6 +128,7 @@
     <Compile Include="Containers\ContainerStream.cs" />
     <Compile Include="Containers\IContainer.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\Box.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\BoxFieldAttribute.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\BoxTypeAttribute.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\BoxTypes.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\EditListBox.cs" />
@@ -137,15 +138,18 @@
     <Compile Include="Containers\ISOBaseMediaFormat\FullBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\HintBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\ISOBaseMediaContainer.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\MediaBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\MediaHeaderBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\MediaInformationBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\MovieBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\MovieHeaderBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\ProgressiveDownloadInformationBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\TrackBox.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\TrackGroupBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\TrackGroupingIndicatorBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\TrackHeaderBox.cs" />
-    <Compile Include="Containers\ISOBaseMediaFormat\TrackReferenceContainerBox.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\TrackReferenceBox.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\VideoMediaHeaderBox.cs" />
     <Compile Include="FilterProcessingContext.cs" />
     <Compile Include="FilterInputSlot.cs" />
     <Compile Include="FilterInputSlotCollection.cs" />
