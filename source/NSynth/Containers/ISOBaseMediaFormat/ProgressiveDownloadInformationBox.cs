@@ -12,11 +12,25 @@ using System.Threading.Tasks;
 
 namespace NSynth.Containers.ISOBaseMediaFormat
 {
-    public enum ElementaryStreamDescriptor
+    [BoxType(BoxTypes.ProgressiveDownloadInformation)]
+    public class ProgressiveDownloadInformationBox : FullBox
     {
-        Id,
-        StreamDependenceFlag,
-        UrlFlag,
+        public ProgressiveDownloadInformationBox()
+            : base(BoxTypes.ProgressiveDownloadInformation, 0)
+        {
 
+        }
+
+        public ProgressiveDownloadInfoChunk[] Data
+        {
+            get;
+            set;
+        }
+
+        public struct ProgressiveDownloadInfoChunk
+        {
+            public uint Rate;
+            public uint InitialDelay;
+        }
     }
 }

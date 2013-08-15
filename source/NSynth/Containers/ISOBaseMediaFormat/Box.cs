@@ -146,27 +146,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         }
     }
 
-    [BoxType(BoxTypes.ProgressiveDownloadInformation)]
-    public class ProgressiveDownloadInformationBox : FullBox
-    {
-        public ProgressiveDownloadInformationBox()
-            : base(BoxTypes.ProgressiveDownloadInformation, 0)
-        {
 
-        }
-
-        public ProgressiveDownloadInfoChunk[] Data
-        {
-            get;
-            set;
-        }
-
-        public struct ProgressiveDownloadInfoChunk
-        {
-            public uint Rate;
-            public uint InitialDelay;
-        }
-    }
 
     [BoxType(BoxTypes.Track)]
     public class TrackBox : Box
@@ -178,66 +158,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         }
     }
 
-    [BoxType(BoxTypes.TrackHeader)]
-    public class TrackHeaderBox : Box
-    {
-        public TrackHeaderBox()
-            : base(0)
-        {
-
-        }
-
-        // Version 1
-
-
-        public ulong CreationTime
-        {
-            get;
-            set;
-        }
-
-        public ulong ModificationTime
-        {
-            get;
-            set;
-        }
-
-        public uint TrackId
-        {
-            get;
-            set;
-        }
-
-        public ulong Duration
-        {
-            get;
-            set;
-        }
-
-        public short Layer
-        {
-            get;
-            set;
-        }
-
-        public short AlternateGroup
-        {
-            get;
-            set;
-        }
-
-        public short Volume
-        {
-            get;
-            set;
-        }
-
-        public ushort Reserved
-        {
-            get;
-            set;
-        }
-    }
+ 
 
     //[BoxType(BoxTypes.TrackReference
     public class TrackReferenceContainerBox : Box
@@ -269,28 +190,10 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         }
     }
 
-    [BoxType(BoxTypes.EditListContainer)]
-    public class EditListContainerBox : Box
-    {
-        public EditListContainerBox() : base(BoxTypes.EditListContainer) { }
+   
 
-    }
+ 
 
-    //[BoxType(BoxTypes.MediaInformation
-    public class MediaInformationBox : Box
-    {
-        public MediaInformationBox()
-            : base(0)
-        {
-        }
-    }
-
-    public class MediaHeaderBox : Box
-    {
-        public MediaHeaderBox()
-            : base(0)
-        {
-        }
-    }
+    
 }
 

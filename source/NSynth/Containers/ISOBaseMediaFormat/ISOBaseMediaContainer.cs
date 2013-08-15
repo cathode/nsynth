@@ -31,11 +31,26 @@ namespace NSynth.Containers.ISOBaseMediaFormat
 
         static ISOBaseMediaContainer()
         {
+            // Basic boxes
+            GlobalRegister<FileTypeBox>();
+            GlobalRegister<HintBox>();
             GlobalRegister<TrackBox>();
+            GlobalRegister<TrackHeaderBox>();
+            
+
             GlobalRegister<TrackHeaderBox>();
             GlobalRegister<MediaHeaderBox>();
             GlobalRegister<EditListBox>();
             GlobalRegister<TrackGroupingIndicatorBox>();
+            GlobalRegister<TrackReferenceContainerBox>();
+            GlobalRegister<EditListContainerBox>();
+            GlobalRegister<MediaInformationBox>();
+
+            // Video
+            GlobalRegister<MovieBox>();
+            GlobalRegister<MovieHeaderBox>();
+
+            // Audio
         }
 
         public ISOBaseMediaContainer(string path)

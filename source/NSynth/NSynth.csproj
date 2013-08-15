@@ -129,8 +129,13 @@
     <Compile Include="Containers\IContainer.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\Box.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\BoxTypes.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\EditListContainerBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\ElementaryStreamDescriptor.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\ISOBaseMediaContainer.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\MediaHeaderBox.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\MediaInformationBox.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\ProgressiveDownloadInformationBox.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\TrackHeaderBox.cs" />
     <Compile Include="FilterProcessingContext.cs" />
     <Compile Include="FilterInputSlot.cs" />
     <Compile Include="FilterInputSlotCollection.cs" />

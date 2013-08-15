@@ -13,10 +13,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         /// </summary>
         public const uint FileType = 'f' << 24 | 't' << 16 | 'y' << 8 | 'p';
 
-        /// <summary>
-        /// 'pdin'
-        /// </summary>
-        public const uint ProgressiveDownloadInformation = 'p' << 24 | 'd' << 16 | 'i' << 8 | 'n';
+      
 
         /// <summary>
         /// 'trak'
@@ -68,6 +65,15 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         public const uint DataInformation = 'd' << 24 | 'i' << 16 | 'n' << 8 | 'f';
         public const uint DataReference = 'd' << 24 | 'r' << 16 | 'e' << 8 | 'f';
         public const uint SampleTable = 's' << 24 | 't' << 16 | 'b' << 8 | 'l';
+
+
+        public const uint MediaData = 'm' << 24 | 'd' << 16 | 'a' << 8 | 't';
+        public const uint FreeBox = 'f' << 24 | 'r' << 16 | 'e' << 8 | 'e';
+
+        /// <summary>
+        /// 'pdin'
+        /// </summary>
+        public const uint ProgressiveDownloadInformation = 'p' << 24 | 'd' << 16 | 'i' << 8 | 'n';
 
 
     }
