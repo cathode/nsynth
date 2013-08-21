@@ -12,12 +12,15 @@ using System.Threading.Tasks;
 
 namespace NSynth.Containers.ISOBaseMediaFormat
 {
-    //[BoxType(BoxTypes.MediaInformation
-    public class MediaInformationBox : Box
+    public class SoundMediaHeaderBox : FullBox
     {
-        public MediaInformationBox()
-            : base(BoxTypes.MediaInformation)
+        public SoundMediaHeaderBox()
+            : base(BoxTypes.SoundMediaHeader, 0, 0)
         {
         }
+
+        public short Balance { get; set; }
+
+        public ushort Reserved { get; set; }
     }
 }

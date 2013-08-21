@@ -33,7 +33,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         {
             // Basic boxes
             GlobalRegister<FileTypeBox>();
-            GlobalRegister<HintBox>();
+            GlobalRegister<HintMediaHeaderBox>();
             GlobalRegister<TrackBox>();
             GlobalRegister<TrackHeaderBox>();
             

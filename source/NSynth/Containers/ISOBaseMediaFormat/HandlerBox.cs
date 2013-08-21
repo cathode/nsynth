@@ -12,12 +12,22 @@ using System.Threading.Tasks;
 
 namespace NSynth.Containers.ISOBaseMediaFormat
 {
-    //[BoxType(BoxTypes.MediaInformation
-    public class MediaInformationBox : Box
+    public class HandlerBox : FullBox
     {
-        public MediaInformationBox()
-            : base(BoxTypes.MediaInformation)
+        
+        public HandlerBox()
+            : base(BoxTypes.Handler, 0, 0)
         {
+            
         }
+
+
+        public uint PreDefined { get; set; }
+
+        public uint HandlerType { get; set; }
+
+        // Reserve 12 bytes here.
+
+        public string Name { get; set; }
     }
 }

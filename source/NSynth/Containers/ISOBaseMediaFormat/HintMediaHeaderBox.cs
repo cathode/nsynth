@@ -12,12 +12,23 @@ using System.Threading.Tasks;
 
 namespace NSynth.Containers.ISOBaseMediaFormat
 {
-    //[BoxType(BoxTypes.MediaInformation
-    public class MediaInformationBox : Box
+    //[BoxType(BoxTypes.Hint)]
+    public class HintMediaHeaderBox : Box
     {
-        public MediaInformationBox()
-            : base(BoxTypes.MediaInformation)
+        public HintMediaHeaderBox()
+            : base(BoxTypes.HintMediaHeader)
         {
+
         }
+
+        public ushort MaxPDUSize { get; set; }
+
+        public ushort AvgPDUSize { get; set; }
+
+        public uint MaxBitrate { get; set; }
+
+        public uint AvgBitrate { get; set; }
+
+        public uint Reserved { get; set; }
     }
 }
