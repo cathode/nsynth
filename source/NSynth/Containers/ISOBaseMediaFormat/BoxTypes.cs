@@ -1,4 +1,10 @@
-﻿using System;
+﻿/******************************************************************************
+ * NSynth - A Managed Multimedia API - http://nsynth.gearedstudios.com/       *
+ * Copyright © 2009-2013 William 'cathode' Shelley. All Rights Reserved.      *
+ * This software is released under the terms and conditions of the MIT/X11    *
+ * license; see the included 'license.txt' file for the full text.            *
+ *****************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +18,6 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         /// 'ftyp'
         /// </summary>
         public const uint FileType = 'f' << 24 | 't' << 16 | 'y' << 8 | 'p';
-
-      
 
         /// <summary>
         /// 'trak'
@@ -38,25 +42,37 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         /// <summary>
         /// 'tref'
         /// </summary>
-        public const uint TrackReference = 0x74725666; // 'tref'
+        public const uint TrackReference = 't' << 24 | 'r' << 16 | 'e' << 8 | 'f';
 
         /// <summary>
         /// 'trgr'
         /// </summary>
-        public const uint TrackGrouping = 0x74726772; // 'trgr'
+        public const uint TrackGrouping = 't' << 24 | 'r' << 16 | 'g' << 8 | 'r';
 
         /// <summary>
         /// 'edts'
         /// </summary>
-        public const uint EditListContainer = 0x65647473; // 'edts'
+        public const uint EditListContainer = 'e' << 24 | 'd' << 16 | 't' << 8 | 's';
 
         /// <summary>
         /// 'elst'
         /// </summary>
         public const uint EditList = 0x656C7374; // 'elst'
+
+        /// <summary>
+        /// 'mdia'
+        /// </summary>
         public const uint Media = 0x6D646961; // 'mdia'
+
+        /// <summary>
+        /// 'mdhd'
+        /// </summary>
         public const uint MediaHeader = 0x6D646864; // 'mdhd'
-        public const uint MediaHandler = 0x68646c72; // 'hdlr'
+
+        /// <summary>
+        /// 'hdlr'
+        /// </summary>
+        public const uint Handler = 0x68646c72; // 'hdlr'
 
         /// <summary>
         /// 'minf'

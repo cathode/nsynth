@@ -136,7 +136,8 @@
     <Compile Include="Containers\ISOBaseMediaFormat\ElementaryStreamDescriptor.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\FileTypeBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\FullBox.cs" />
-    <Compile Include="Containers\ISOBaseMediaFormat\HintBox.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\HandlerBox.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\HintMediaHeaderBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\ISOBaseMediaContainer.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\MediaBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\MediaHeaderBox.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Containers\ISOBaseMediaFormat\MovieBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\MovieHeaderBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\ProgressiveDownloadInformationBox.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\SoundMediaHeaderBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\TrackBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\TrackGroupBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\TrackGroupingIndicatorBox.cs" />

@@ -19,6 +19,8 @@ namespace NSynth.Containers.ISOBaseMediaFormat
     /// </summary>
     public class ISOBaseMediaContainer
     {
+
+
         /// <summary>
         /// Globally registered types of iso file format data boxes.
         /// </summary>
@@ -31,7 +33,7 @@ namespace NSynth.Containers.ISOBaseMediaFormat
         {
             // Basic boxes
             GlobalRegister<FileTypeBox>();
-            GlobalRegister<HintBox>();
+            GlobalRegister<HintMediaHeaderBox>();
             GlobalRegister<TrackBox>();
             GlobalRegister<TrackHeaderBox>();
             
