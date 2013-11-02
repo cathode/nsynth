@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RenderNode
+namespace NSynth.Clustering
 {
-    public class ClusterWorker
+    public class ClusterManager
     {
 
     }

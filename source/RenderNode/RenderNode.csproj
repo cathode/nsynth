@@ -106,8 +106,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClusterManager.cs" />
-    <Compile Include="ClusterWorker.cs" />
     <Compile Include="DistributedDatastore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

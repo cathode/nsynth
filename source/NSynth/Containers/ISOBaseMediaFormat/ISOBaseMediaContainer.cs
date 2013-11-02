@@ -19,8 +19,6 @@ namespace NSynth.Containers.ISOBaseMediaFormat
     /// </summary>
     public class ISOBaseMediaContainer
     {
-
-
         /// <summary>
         /// Globally registered types of iso file format data boxes.
         /// </summary>
