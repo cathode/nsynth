@@ -137,6 +137,7 @@
     <Compile Include="Containers\ISOBaseMediaFormat\FileTypeBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\FullBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\HandlerBox.cs" />
+    <Compile Include="Containers\ISOBaseMediaFormat\HintBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\HintMediaHeaderBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\ISOBaseMediaContainer.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\MediaBox.cs" />
