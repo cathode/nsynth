@@ -209,6 +209,10 @@
     <Compile Include="SourceFilter.cs" />
     <Compile Include="SubtitleTrack.cs" />
     <Compile Include="Video\H264\H264Decoder.cs" />
+    <Compile Include="Video\H265\H265Codec.cs" />
+    <Compile Include="Video\H265\H265Decoder.cs" />
+    <Compile Include="Video\H265\H265Encoder.cs" />
+    <Compile Include="Video\H265\H265SourceFilter.cs" />
     <Compile Include="Video\PictureKind.cs" />
     <Compile Include="ZlibStream.cs" />
     <None Include="cathode.public.snk" />
