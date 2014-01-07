@@ -153,6 +153,7 @@
     <Compile Include="Containers\ISOBaseMediaFormat\TrackHeaderBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\TrackReferenceBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\VideoMediaHeaderBox.cs" />
+    <Compile Include="FilterManager.cs" />
     <Compile Include="FilterProcessingContext.cs" />
     <Compile Include="FilterInputSlot.cs" />
     <Compile Include="FilterInputSlotCollection.cs" />

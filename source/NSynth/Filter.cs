@@ -227,6 +227,8 @@ namespace NSynth
 
             if (e.Succeeded)
                 this.isClipInitialized = true;
+            else
+                throw new NotImplementedException();
 
             return this.IsClipInitialized;
         }

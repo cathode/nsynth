@@ -55,6 +55,8 @@ namespace NSynth.Video
         /// <param name="bitmap"></param>
         public VideoTrack(IBitmap bitmap)
         {
+            Contract.Requires(bitmap != null);
+
             this.dimensions = new Size(bitmap.Width, bitmap.Height);
             this.format = bitmap.Format;
         }
