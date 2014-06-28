@@ -125,8 +125,8 @@
     <Compile Include="BitDecoder.cs" />
     <Compile Include="BitBuffer.cs" />
     <Compile Include="BitstreamInputFilter.cs" />
+    <Compile Include="Containers\Container.cs" />
     <Compile Include="Containers\ContainerStream.cs" />
-    <Compile Include="Containers\IContainer.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\Box.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\BoxFieldAttribute.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\BoxTypeAttribute.cs" />
