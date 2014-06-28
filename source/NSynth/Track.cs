@@ -207,6 +207,11 @@ namespace NSynth
                 this.samplesPerFrame = value;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the id of the track relative to the container the track exists in (if applicable).
+        /// </summary>
+        public int ContainerTrackId { get; set; }
         #endregion
         #region Methods
         public virtual Track DeepClone()
