@@ -125,6 +125,12 @@
     <Compile Include="BitDecoder.cs" />
     <Compile Include="BitBuffer.cs" />
     <Compile Include="BitstreamInputFilter.cs" />
+    <Compile Include="Containers\AVI\AviChunk.cs" />
+    <Compile Include="Containers\AVI\AviChunks.cs" />
+    <Compile Include="Containers\AVI\AviHeader.cs" />
+    <Compile Include="Containers\AVI\AviHeaderFlags.cs" />
+    <Compile Include="Containers\AVI\AviList.cs" />
+    <Compile Include="Containers\AVI\AviStreamHeader.cs" />
     <Compile Include="Containers\ContainerStream.cs" />
     <Compile Include="Containers\IContainer.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\Box.cs" />
