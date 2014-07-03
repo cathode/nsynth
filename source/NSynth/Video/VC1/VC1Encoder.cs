@@ -13,8 +13,7 @@ namespace NSynth.Video.VC1
 {
     public sealed class VC1Encoder : VideoEncoder
     {
-        public VC1Encoder(Stream bitstream)
-            : base(bitstream)
+        public VC1Encoder()
         {
         }
         public override bool CanSuspend
@@ -26,16 +25,6 @@ namespace NSynth.Video.VC1
         }
 
         public override void EncodeFrame(Frame frame)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Open()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Close()
         {
             throw new NotImplementedException();
         }

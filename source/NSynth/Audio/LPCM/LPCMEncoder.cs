@@ -13,10 +13,6 @@ namespace NSynth.Audio.LPCM
 {
     public sealed class LPCMEncoder : AudioEncoder
     {
-        public LPCMEncoder(Stream bitstream)
-            : base(bitstream)
-        {
-        }
         public override bool CanSuspend
         {
             get
@@ -26,16 +22,6 @@ namespace NSynth.Audio.LPCM
         }
 
         public override void EncodeFrame(Frame frame)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Open()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Close()
         {
             throw new NotImplementedException();
         }

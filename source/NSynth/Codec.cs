@@ -70,7 +70,7 @@ namespace NSynth
         /// </summary>
         /// <param name="output">The <see cref="Stream"/> to be encoded to.</param>
         /// <returns>A new <see cref="MediaEncoder"/>.</returns>
-        public abstract MediaEncoder CreateEncoder(Stream output);
+        public abstract MediaEncoder CreateEncoder();
 
         /// <summary>
         /// Creates and returns a <see cref="MediaEncoder"/> suitable for encoding to the file at the specified path.
@@ -79,7 +79,7 @@ namespace NSynth
         /// <returns>A new <see cref="MediaEncoder"/>.</returns>
         public virtual MediaEncoder CreateEncoder(string outputPath)
         {
-            return this.CreateEncoder(File.OpenWrite(outputPath));
+            return this.CreateEncoder();
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace NSynth
         /// </summary>
         /// <param name="input">The <see cref="Stream"/> to be decoded from.</param>
         /// <returns>A new <see cref="MediaDecoder"/> that is initialized and ready to decode frames.</returns>
-        public abstract MediaDecoder CreateDecoder(Stream input);
+        public abstract MediaDecoder CreateDecoder();
 
         /// <summary>
         /// Creates and returns a <see cref="MediaDecoder"/> suitable for decoding from the file at the specified path.
@@ -96,7 +96,7 @@ namespace NSynth
         /// <returns>A new <see cref="MediaDecoder"/> that is initialized and ready to decode frames.</returns>
         public virtual MediaDecoder CreateDecoder(string inputPath)
         {
-            return this.CreateDecoder(File.OpenRead(inputPath));
+            return this.CreateDecoder();
         }
         #endregion
     }

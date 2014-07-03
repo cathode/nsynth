@@ -13,28 +13,15 @@ namespace NSynth.Imaging.JPEG
 {
     public sealed class JPEGEncoder : ImageEncoder
     {
-        public JPEGEncoder(Stream bitstream) : base(bitstream)
-        {
-        }
         public override bool CanSuspend
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
             }
         }
 
         public override void EncodeFrame(Frame frame)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Open()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Close()
         {
             throw new NotImplementedException();
         }

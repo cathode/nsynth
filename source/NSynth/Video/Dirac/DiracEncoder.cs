@@ -19,7 +19,7 @@ namespace NSynth.Video.Dirac
         /// Initializes a new instance of the <see cref="DiracEncoder"/> class.
         /// </summary>
         /// <param name="bitstream"></param>
-        public DiracEncoder(Stream bitstream) : base(bitstream)
+        public DiracEncoder()
         {
         }
         #endregion
@@ -53,16 +53,6 @@ namespace NSynth.Video.Dirac
         /// </summary>
         /// <param name="frame">A <see cref="Frame"/> containing video data to encode.</param>
         public override void EncodeFrame(Frame frame)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Open()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Close()
         {
             throw new NotImplementedException();
         }

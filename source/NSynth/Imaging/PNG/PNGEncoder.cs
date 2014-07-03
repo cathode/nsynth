@@ -13,10 +13,7 @@ namespace NSynth.Imaging.PNG
 {
     public sealed class PNGEncoder : ImageEncoder
     {
-        public PNGEncoder(Stream bitstream)
-            : base(bitstream)
-        {
-        }
+
         public override bool CanSuspend
         {
             get
@@ -26,11 +23,6 @@ namespace NSynth.Imaging.PNG
         }
 
         public override void EncodeFrame(Frame frame)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Close()
         {
             throw new NotImplementedException();
         }
@@ -46,11 +38,6 @@ namespace NSynth.Imaging.PNG
             {
                 throw new NotImplementedException();
             }
-        }
-
-        public override bool Open()
-        {
-            throw new NotImplementedException();
         }
     }
 }

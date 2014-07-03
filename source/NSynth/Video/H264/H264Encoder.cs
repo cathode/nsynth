@@ -13,7 +13,7 @@ namespace NSynth.Video.H264
 {
     public class H264Encoder : VideoEncoder
     {
-        public H264Encoder(Stream bitstream) : base(bitstream)
+        public H264Encoder()
         {
         }
         public override bool CanSuspend
@@ -26,16 +26,6 @@ namespace NSynth.Video.H264
 
 
         public override void EncodeFrame(Frame frame)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Open()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Close()
         {
             throw new NotImplementedException();
         }

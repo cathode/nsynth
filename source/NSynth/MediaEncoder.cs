@@ -33,14 +33,6 @@ namespace NSynth
         private bool isOpen;
         #endregion
         #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MediaEncoder"/> class.
-        /// </summary>
-        /// <param name="bitstream">The <see cref="Stream"/> which encoded frames will be written to.</param>
-        protected MediaEncoder(Stream bitstream)
-        {
-            this.bitstream = bitstream;
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaEncoder"/> class.
@@ -71,13 +63,6 @@ namespace NSynth
             get
             {
                 return this.bitstream;
-            }
-            set
-            {
-                if (this.IsOpen)
-                    this.Close();
-                this.bitstream = value;
-
             }
         }
 
@@ -167,10 +152,21 @@ namespace NSynth
         {
 
         }
+
         public abstract void EncodeFrame(Frame frame);
 
-        public abstract bool Open();
-        public abstract bool Close();
+        public void Open(Stream bitstream)
+        {
+            if (this.IsOpen)
+                return;
+
+            this.OnOpening(EventArgs.Empty);
+        }
+
+        public void Close()
+        {
+            this.OnClosing(EventArgs.Empty);
+        }
 
         /// <summary>
         /// Releases all resources held by the <see cref="MediaEncoder"/>.

@@ -18,18 +18,6 @@ namespace NSynth.Imaging.TGA
         #region Fields
         private TGAEncodeContext context;
         #endregion
-        #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TGAEncoder"/> class.
-        /// </summary>
-        /// <param name="bitstream">The stream that the encoded data will be written to.</param>
-        public TGAEncoder(Stream bitstream)
-            : base(bitstream)
-        {
-            if (this.Bitstream == null || !this.Bitstream.CanSeek || !this.Bitstream.CanWrite)
-                throw new NotImplementedException();
-        }
-        #endregion
         #region Properties
         /// <summary>
         /// Gets the codec of the current <see cref="MediaEncoder"/>.
@@ -46,27 +34,27 @@ namespace NSynth.Imaging.TGA
         /// <summary>
         /// Prepares the stream for encoding.
         /// </summary>
-        /// <returns></returns>
-        public override bool Open()
+        protected override void OnOpening(EventArgs e)
         {
+            base.OnOpening(e);
+
             this.context = new TGAEncodeContext();
             this.context.Header = new TGABitstreamHeader();
 
             this.WriteHeader(this.context.Header);
-
-            return true;
         }
 
-        public override bool Close()
+        protected override void OnClosing(EventArgs e)
         {
-            this.WriteHeader(this.context.Header);
+            base.OnClosing(e);
 
-            return true;
+            this.WriteHeader(this.context.Header);
         }
 
         public unsafe override void EncodeImage(Image image)
         {
-            this.Open();
+            //this.Open();
+
             this.Bitstream.Seek(TGABitstreamHeader.Length, System.IO.SeekOrigin.Begin);
 
             var tga = image as TGAImage;

@@ -93,12 +93,12 @@ namespace NSynth.Video.H262
             }
         }
 
-        public override MediaEncoder CreateEncoder(Stream output)
+        public override MediaEncoder CreateEncoder()
         {
             throw new NotSupportedException();
         }
 
-        public override MediaDecoder CreateDecoder(Stream input)
+        public override MediaDecoder CreateDecoder()
         {
             throw new NotImplementedException();
         }

@@ -103,12 +103,12 @@ namespace NSynth.Audio.WAV
             }
         }
 
-        public override MediaEncoder CreateEncoder(Stream output)
+        public override MediaEncoder CreateEncoder()
         {
             throw new System.NotImplementedException();
         }
 
-        public override MediaDecoder CreateDecoder(Stream input)
+        public override MediaDecoder CreateDecoder()
         {
             throw new System.NotImplementedException();
         }

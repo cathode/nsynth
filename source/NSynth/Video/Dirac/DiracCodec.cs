@@ -109,14 +109,14 @@ namespace NSynth.Video.Dirac
         }
         #endregion
         #region Methods
-        public override MediaEncoder CreateEncoder(Stream output)
+        public override MediaEncoder CreateEncoder()
         {
-            return new DiracEncoder(output);
+            return new DiracEncoder();
         }
 
-        public override MediaDecoder CreateDecoder(Stream input)
+        public override MediaDecoder CreateDecoder()
         {
-            return new DiracDecoder(input);
+            return new DiracDecoder();
         }
         #endregion
     }

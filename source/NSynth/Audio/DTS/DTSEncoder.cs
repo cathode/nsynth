@@ -21,8 +21,7 @@ namespace NSynth.Audio.DTS
         /// Initializes a new instance of the <see cref="DTSEncoder"/> class.
         /// </summary>
         /// <param name="bitstream"></param>
-        public DTSEncoder(Stream bitstream)
-            : base(bitstream)
+        public DTSEncoder()
         {
         }
         #endregion
@@ -47,17 +46,6 @@ namespace NSynth.Audio.DTS
         {
             throw new NotImplementedException();
         }
-
-        public override bool Open()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Close()
-        {
-            throw new NotImplementedException();
-        }
         #endregion
-
     }
 }

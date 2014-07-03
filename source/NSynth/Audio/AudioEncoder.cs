@@ -17,10 +17,7 @@ namespace NSynth.Audio
     public abstract class AudioEncoder : MediaEncoder
     {
         #region Constructors
-        protected AudioEncoder(Stream bitstream)
-            : base(bitstream)
-        {
-        }
+     
         #endregion
     }
 }

@@ -13,10 +13,6 @@ namespace NSynth.Audio.WAV
 {
     public sealed class WAVEncoder : AudioEncoder
     {
-        public WAVEncoder(Stream bitstream)
-            : base(bitstream)
-        {
-        }
         public override bool CanSuspend
         {
             get
@@ -26,16 +22,6 @@ namespace NSynth.Audio.WAV
         }
 
         public override void EncodeFrame(Frame frame)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Open()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Close()
         {
             throw new NotImplementedException();
         }

@@ -17,9 +17,8 @@ namespace NSynth.Audio.DTS
     public sealed class DTSDecoder : AudioDecoder
     {
         #region Constructors
-        public DTSDecoder(Stream bitstream)
+        public DTSDecoder()
         {
-
         }
         #endregion
         #region Properties
