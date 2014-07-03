@@ -24,11 +24,6 @@ namespace NSynth.Audio.Vorbis
 
         }
 
-        public override bool Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
         public override Codec Codec
         {
             get

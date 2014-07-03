@@ -31,12 +31,6 @@ namespace NSynth.Audio.DTS
         }
         #endregion
         #region Methods
-        public override bool Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
-
         /// <summary>
         /// Syncs the decoder to the bitstream.
         /// </summary>

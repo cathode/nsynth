@@ -21,9 +21,10 @@ namespace NSynth.Imaging.PNG
             {
                 using (var decoder = new PNGDecoder())
                 {
-                    decoder.Bitstream = stream;
-                    decoder.Initialize();
+                    decoder.Open(stream);
+
                     var frame = decoder.Decode();
+
                     if (frame == null)
                         return;
                     else if (frame.Video != null)

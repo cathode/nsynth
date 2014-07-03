@@ -12,12 +12,6 @@ namespace NSynth.Video.VP8
 {
     public sealed class VP8Decoder : VideoDecoder
     {
-        public override bool Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
-
         public override Codec Codec
         {
             get

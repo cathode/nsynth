@@ -25,15 +25,6 @@ namespace NSynth.Video.Dirac
         public DiracDecoder()
         {
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DiracDecoder"/> class.
-        /// </summary>
-        /// <param name="bitstream"></param>
-        public DiracDecoder(Stream bitstream)
-        {
-            this.Bitstream = bitstream;
-        }
         #endregion
         #region Properties
         /// <summary>
@@ -52,11 +43,11 @@ namespace NSynth.Video.Dirac
         /// Initializes the current <see cref="DiracDecoder"/>.
         /// </summary>
         /// <returns>true if the initialization was successful; otherwise false.</returns>
-        public override bool Initialize()
+        protected override void OnOpen(EventArgs e)
         {
-            if (this.Bitstream == null)
-                return false;
-
+            base.OnOpen(e);
+       
+          
             this.Bitstream.Seek(0, SeekOrigin.Begin);
 
             long sequenceOffset = this.Synchronize();
@@ -66,8 +57,6 @@ namespace NSynth.Video.Dirac
                 Console.WriteLine("DiracSequence found at {0:X8}", sequenceOffset);
                 sequenceOffset = this.Synchronize();
             }
-
-            return true;
         }
 
         /// <summary>

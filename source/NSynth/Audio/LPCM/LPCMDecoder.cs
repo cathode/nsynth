@@ -12,11 +12,6 @@ namespace NSynth.Audio.LPCM
 {
     public sealed class LPCMDecoder : AudioDecoder
     {
-        public override bool Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
         public override Codec Codec
         {
             get

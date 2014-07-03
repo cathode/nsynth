@@ -27,10 +27,6 @@ namespace NSynth.Imaging.TGA
         public TGADecoder()
         {
         }
-        public TGADecoder(Stream bitstream)
-        {
-            this.Bitstream = bitstream;
-        }
         #endregion
         #region Properties
         /// <summary>
@@ -60,14 +56,12 @@ namespace NSynth.Imaging.TGA
         /// Overridden. Initializes the current <see cref="TGADecoder"/>.
         /// </summary>
         /// <returns></returns>
-        public override bool Initialize()
+        protected override void OnOpen(EventArgs e)
         {
-            if (!base.Initialize())
-                throw new NotImplementedException();
-
+            base.OnOpen(e);
+     
             this.InitContext();
             this.DecodeHeader();
-            return true;
         }
 
         /// <summary>

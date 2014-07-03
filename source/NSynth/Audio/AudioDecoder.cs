@@ -17,10 +17,6 @@ namespace NSynth.Audio
         protected AudioDecoder()
         {
         }
-        protected AudioDecoder(Stream bitstream)
-            : base(bitstream)
-        {
-        }
         #endregion
     }
 }

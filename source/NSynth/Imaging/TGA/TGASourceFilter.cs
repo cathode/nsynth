@@ -42,9 +42,10 @@ namespace NSynth.Imaging.TGA
 
             using (var stream = this.OpenStreamForFrame(0))
             {
-                using (var decoder = new TGADecoder(stream))
+                using (var decoder = new TGADecoder())
                 {
-                    decoder.Initialize();
+                    decoder.Open(stream);
+
                     var context = decoder.DecodeHeader();
                     var header = context.Header;
                     var track = new VideoTrack()
@@ -85,9 +86,9 @@ namespace NSynth.Imaging.TGA
 
             using (var stream = this.OpenStreamForFrame(0))
             {
-                using (var decoder = new TGADecoder(stream))
+                using (var decoder = new TGADecoder())
                 {
-                    decoder.Initialize();
+                    decoder.Open(stream);
                     decoder.Decode(outputFrame);
                 }
             }
