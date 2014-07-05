@@ -19,13 +19,30 @@ namespace NSynth.Containers
         }
         #endregion
         #region Events
+        /// <summary>
+        /// Raised when the container is opened and has it's header and/or other metadata read.
+        /// </summary>
         public event EventHandler Opening;
-        public event EventHandler Closing;
+
+        /// <summary>
+        /// Raised when the container is closed.
+        /// </summary>
+        public event EventHandler<ContainerClosingEventArgs> Closing;
         #endregion
         public Stream Bitstream { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="Container"/> has been opened.
+        /// </summary>
         public bool IsOpen { get; private set; }
 
-        public void Open(Stream stream)
+        public ContainerOpenMode Mode { get; private set; }
+
+        /// <summary>
+        /// Opens the container and associated multimedia content which is encoded in the specified stream.
+        /// </summary>
+        /// <param name="stream"></param>
+        public void Open(Stream stream, ContainerOpenMode mode)
         {
             if (this.IsOpen)
                 if (this.Bitstream == stream)
@@ -34,8 +51,8 @@ namespace NSynth.Containers
                     throw new NotImplementedException();
 
             //TODO: Add validation logic to ensure stream supports the operations we need.
-            
-            var args = new BitstreamOpeningEventArgs(stream);
+
+            var args = new ContainerOpeningEventArgs(stream, mode);
 
             this.OnOpening(args);
 
@@ -49,25 +66,45 @@ namespace NSynth.Containers
 
         public abstract ContainerStream GetStreamForTrack(int trackId);
 
-        protected virtual void OnOpening(BitstreamOpeningEventArgs e)
+        protected virtual void OnOpening(ContainerOpeningEventArgs e)
         {
             if (this.Opening != null)
                 this.Opening(this, e);
 
             if (e.Result)
+            {
                 this.Bitstream = e.Bitstream;
+                this.Mode = e.Mode;
+            }
         }
     }
 
-    public class BitstreamOpeningEventArgs : EventArgs
+    public class ContainerClosingEventArgs : EventArgs
     {
-        public BitstreamOpeningEventArgs(Stream bitstream)
+        public ContainerClosingEventArgs()
+        {
+
+        }
+    }
+
+    public class ContainerOpeningEventArgs : EventArgs
+    {
+        public ContainerOpeningEventArgs(Stream bitstream, ContainerOpenMode mode)
         {
             this.Bitstream = bitstream;
             this.Result = false;
+            this.Mode = mode;
         }
 
         public Stream Bitstream { get; set; }
+        public ContainerOpenMode Mode { get; set; }
         public bool Result { get; set; }
+    }
+
+    public enum ContainerOpenMode
+    {
+        Read,
+        Write,
+        MetadataOnly,
     }
 }

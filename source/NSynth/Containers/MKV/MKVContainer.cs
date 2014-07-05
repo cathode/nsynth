@@ -26,10 +26,5 @@ namespace NSynth.Containers.MKV
         {
             throw new NotImplementedException();
         }
-
-        protected override void OpenUnderlyingStream()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

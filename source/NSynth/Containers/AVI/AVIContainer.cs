@@ -32,10 +32,5 @@ namespace NSynth.Containers.AVI
         {
             throw new NotImplementedException();
         }
-
-        protected override void OpenUnderlyingStream()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
