@@ -9,7 +9,7 @@ namespace NSynth
 {
     /// <summary>
     /// Represents a multimedia encoding format, allowing bitstreams in a specific format
-    /// to be converted to/from meaningful API objects.
+    /// to be converted to/from meaningful media objects.
     /// </summary>
     public abstract class Codec
     {
@@ -63,6 +63,14 @@ namespace NSynth
         {
             get;
         }
+
+        /// <summary>
+        /// Gets an array of four-character-code values in order of preference that identify a payload using the current codec.
+        /// </summary>
+        public virtual string[] FourCCs
+        {
+            get { return new string[0]; }
+        }
         #endregion
         #region Methods
         /// <summary>
@@ -70,34 +78,21 @@ namespace NSynth
         /// </summary>
         /// <param name="output">The <see cref="Stream"/> to be encoded to.</param>
         /// <returns>A new <see cref="MediaEncoder"/>.</returns>
-        public abstract MediaEncoder CreateEncoder();
-
-        /// <summary>
-        /// Creates and returns a <see cref="MediaEncoder"/> suitable for encoding to the file at the specified path.
-        /// </summary>
-        /// <param name="outputPath">The path to the file to encode to.</param>
-        /// <returns>A new <see cref="MediaEncoder"/>.</returns>
-        public virtual MediaEncoder CreateEncoder(string outputPath)
+        public virtual MediaEncoder CreateEncoder()
         {
-            return this.CreateEncoder();
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Creates and returns a <see cref="MediaDecoder"/> suitable for decoding from the specified <see cref="Stream"/>.
         /// </summary>
         /// <param name="input">The <see cref="Stream"/> to be decoded from.</param>
-        /// <returns>A new <see cref="MediaDecoder"/> that is initialized and ready to decode frames.</returns>
-        public abstract MediaDecoder CreateDecoder();
-
-        /// <summary>
-        /// Creates and returns a <see cref="MediaDecoder"/> suitable for decoding from the file at the specified path.
-        /// </summary>
-        /// <param name="inputPath">The path to the file to decode from.</param>
-        /// <returns>A new <see cref="MediaDecoder"/> that is initialized and ready to decode frames.</returns>
-        public virtual MediaDecoder CreateDecoder(string inputPath)
+        /// <returns>A new <see cref="MediaDecoder"/>.</returns>
+        public virtual MediaDecoder CreateDecoder()
         {
-            return this.CreateDecoder();
+            throw new NotImplementedException();
         }
+
         #endregion
     }
 }

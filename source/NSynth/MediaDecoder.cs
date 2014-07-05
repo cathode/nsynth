@@ -48,6 +48,10 @@ namespace NSynth
             this.Dispose(false);
         }
         #endregion
+        #region Events
+        public event EventHandler Opening;
+        public event EventHandler Closing;
+        #endregion
         #region Properties
         /// <summary>
         /// Gets or sets the <see cref="Stream"/> that multimedia data is decoded from.
@@ -164,14 +168,24 @@ namespace NSynth
                     this.Bitstream.Dispose();
         }
 
+        /// <summary>
+        /// Raises the <see cref="MediaDecoder.Opening"/> event.
+        /// </summary>
+        /// <param name="e"></param>
         protected virtual void OnOpen(EventArgs e)
         {
-
+            if (this.Opening != null)
+                this.Opening(this, e);
         }
 
+        /// <summary>
+        /// Raises the <see cref="MediaDecoder.Closing"/> event.
+        /// </summary>
+        /// <param name="e"></param>
         protected virtual void OnClose(EventArgs e)
         {
-
+            if (this.Closing != null)
+                this.Closing(this, e);
         }
 
         [ContractInvariantMethod]
