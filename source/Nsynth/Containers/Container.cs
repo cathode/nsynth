@@ -86,25 +86,4 @@ namespace NSynth.Containers
 
         }
     }
-
-    public class ContainerOpeningEventArgs : EventArgs
-    {
-        public ContainerOpeningEventArgs(Stream bitstream, ContainerOpenMode mode)
-        {
-            this.Bitstream = bitstream;
-            this.Result = false;
-            this.Mode = mode;
-        }
-
-        public Stream Bitstream { get; set; }
-        public ContainerOpenMode Mode { get; set; }
-        public bool Result { get; set; }
-    }
-
-    public enum ContainerOpenMode
-    {
-        Read,
-        Write,
-        MetadataOnly,
-    }
 }

@@ -180,9 +180,6 @@ namespace NSynth
         {
             get
             {
-                if (this.clip == null)
-                    this.InitializeClip();
-
                 return this.clip;
             }
             set
@@ -227,8 +224,8 @@ namespace NSynth
 
             if (e.Succeeded)
                 this.isClipInitialized = true;
-            else
-                throw new NotImplementedException();
+            //else
+            //    throw new NotImplementedException();
 
             return this.IsClipInitialized;
         }
@@ -257,10 +254,11 @@ namespace NSynth
             if (this.Initializing != null)
                 this.Initializing(this, e);
 
-            if (this.inputs.Default != null && this.inputs.Default.Filter != null)
-                this.Clip = this.inputs.Default.Filter.Clip;
-            else
-                this.Clip = new Clip();
+            if (this.Clip == null)
+                if (this.inputs.Default != null && this.inputs.Default.Filter != null)
+                    this.Clip = this.inputs.Default.Filter.Clip;
+                else
+                    this.Clip = new Clip();
         }
 
         /// <summary>
