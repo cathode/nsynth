@@ -63,12 +63,12 @@ namespace NSynth.Imaging.GIF
             }
         }
 
-        public override MediaEncoder CreateEncoder(System.IO.Stream output)
+        public override MediaEncoder CreateEncoder()
         {
             throw new NotImplementedException();
         }
 
-        public override MediaDecoder CreateDecoder(System.IO.Stream input)
+        public override MediaDecoder CreateDecoder()
         {
             throw new NotImplementedException();
         }

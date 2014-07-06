@@ -12,11 +12,6 @@ namespace NSynth.Video.VC1
 {
     public sealed class VC1Decoder : VideoDecoder
     {
-        public override bool Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
         public override Codec Codec
         {
             get

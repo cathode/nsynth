@@ -13,9 +13,5 @@ namespace NSynth.Video
 {
     public abstract class VideoEncoder : MediaEncoder
     {
-        protected VideoEncoder(Stream bitstream)
-            : base(bitstream)
-        {
-        }
     }
 }

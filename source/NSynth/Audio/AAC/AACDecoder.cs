@@ -23,11 +23,6 @@ namespace NSynth.Audio.AAC
 
         }
 
-        public override bool Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
         public override Codec Codec
         {
             get

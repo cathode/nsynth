@@ -10,65 +10,21 @@ using System.Text;
 
 namespace NSynth.Containers.MKV
 {
-    public class MKVContainer : ContainerCodec
+    public class MKVContainer : Container
     {
-        public override bool CanDecode
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override bool CanEncode
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override Version Version
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override bool SupportsFrameAccurateSeeking
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-        public override bool SupportsNonLinearAccess
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-        }
-
-
-        public override MediaEncoder CreateEncoder(System.IO.Stream output)
+        public override bool CanContain(Clip clip)
         {
             throw new NotImplementedException();
         }
 
-        public override MediaDecoder CreateDecoder(System.IO.Stream input)
+        public override Clip GetLayout()
         {
             throw new NotImplementedException();
         }
 
-        public override int MaxThreads
+        public override ContainerStream GetStreamForTrack(int trackId)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
     }
 }

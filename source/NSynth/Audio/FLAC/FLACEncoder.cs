@@ -13,10 +13,6 @@ namespace NSynth.Audio.FLAC
 {
     public sealed class FLACEncoder : AudioEncoder
     {
-        public FLACEncoder(Stream bitstream)
-            : base(bitstream)
-        {
-        }
         public override bool CanSuspend
         {
             get
@@ -30,15 +26,6 @@ namespace NSynth.Audio.FLAC
             throw new NotImplementedException();
         }
 
-        public override bool Open()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Close()
-        {
-            throw new NotImplementedException();
-        }
 
         public override Codec Codec
         {

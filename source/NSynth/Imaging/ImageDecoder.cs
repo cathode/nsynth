@@ -26,14 +26,16 @@ namespace NSynth.Imaging
 
             using (ImageDecoder decoder = ImageDecoder.CreateByFileExtension(path))
             {
-                decoder.Bitstream = File.OpenRead(path);
-                decoder.Initialize();
+                using (var stream = File.OpenRead(path))
+                {
+                    decoder.Open(stream);
 
-                var frame = decoder.Decode();
-                if (frame != null)
-                    return frame.Video[0];
-                else
-                    return null;
+                    var frame = decoder.Decode();
+                    if (frame != null)
+                        return frame.Video[0];
+                    else
+                        return null;
+                }
             }
         }
 

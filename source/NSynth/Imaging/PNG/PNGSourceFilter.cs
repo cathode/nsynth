@@ -11,19 +11,19 @@ namespace NSynth.Imaging.PNG
         public PNGSourceFilter(string path)
             : base(path)
         {
+
         }
 
         protected override void OnClipInitializing(FilterInitializationEventArgs e)
         {
-            base.OnClipInitializing(e);
-
             using (var stream = this.OpenStreamForFrame(0))
             {
                 using (var decoder = new PNGDecoder())
                 {
-                    decoder.Bitstream = stream;
-                    decoder.Initialize();
+                    decoder.Open(stream);
+
                     var frame = decoder.Decode();
+
                     if (frame == null)
                         return;
                     else if (frame.Video != null)
@@ -38,11 +38,15 @@ namespace NSynth.Imaging.PNG
                             track.Format = bitmap.Format;
                             track.SamplesPerFrame = 1;
 
-                            //this.Clip = new Clip(track);
+                            this.Clip = new Clip(track);
                         }
                     }
                 }
             }
+
+            e.Succeeded = true;
+
+            base.OnClipInitializing(e);
         }
     }
 }

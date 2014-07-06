@@ -18,15 +18,11 @@ namespace NSynth.Audio.WAV
         //private WAVBitstreamHeader header;
         #endregion
         #region Constructors
-        public WAVDecoder()
-        {
-        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WAVDecoder"/> class.
         /// </summary>
-        /// <param name="bitstream">The <see cref="Stream"/> to decode from.</param>
-        public WAVDecoder(Stream bitstream)
-            : base(bitstream)
+        public WAVDecoder()
         {
         }
         #endregion
@@ -43,8 +39,10 @@ namespace NSynth.Audio.WAV
         }
         #endregion
         #region Methods
-        public override bool Initialize()
+        protected override void OnOpen(EventArgs e)
         {
+            base.OnOpen(e);
+
             if (this.Bitstream.Length < 44)
                 throw new NotImplementedException();
 
@@ -53,10 +51,6 @@ namespace NSynth.Audio.WAV
             throw new NotImplementedException();
         }
 
-        public override Frame Decode()
-        {
-            throw new NotImplementedException();
-        }
         #endregion
     }
 }

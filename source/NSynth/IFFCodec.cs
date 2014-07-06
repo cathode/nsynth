@@ -66,20 +66,14 @@ namespace NSynth
         }
         #endregion
         #region Methods
-        public override MediaEncoder CreateEncoder(System.IO.Stream output)
+        public override MediaEncoder CreateEncoder()
         {
-            return new IFFEncoder
-            {
-                Bitstream = output
-            };
+            return new IFFEncoder();
         }
 
-        public override MediaDecoder CreateDecoder(System.IO.Stream input)
+        public override MediaDecoder CreateDecoder()
         {
-            return new IFFDecoder
-            {
-                Bitstream = input
-            };
+            return new IFFDecoder();
         }
         #endregion
     }

@@ -14,10 +14,6 @@ namespace NSynth.Imaging.TIFF
 {
     public sealed class TIFFEncoder : ImageEncoder
     {
-        public TIFFEncoder(Stream bitstream)
-            : base(bitstream)
-        {
-        }
         public override void EncodeImage(Image image)
         {
             throw new NotImplementedException();
@@ -37,16 +33,6 @@ namespace NSynth.Imaging.TIFF
             {
                 throw new NotImplementedException();
             }
-        }
-
-        public override bool Open()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool Close()
-        {
-            throw new NotImplementedException();
         }
     }
 }

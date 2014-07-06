@@ -36,17 +36,11 @@ namespace NSynth
         /// Preps the underlying stream for encoding.
         /// </summary>
         /// <returns></returns>
-        public override bool Open()
+        protected override void OnOpening(EventArgs e)
         {
+            base.OnOpening(e);
             this.AllocateChunkHeader(0);
-            
 
-            return true;
-        }
-
-        public override bool Close()
-        {
-            throw new NotImplementedException();
         }
 
         private void AllocateChunkHeader(long baseOffset)

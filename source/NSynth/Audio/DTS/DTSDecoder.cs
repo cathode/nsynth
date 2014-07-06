@@ -17,9 +17,8 @@ namespace NSynth.Audio.DTS
     public sealed class DTSDecoder : AudioDecoder
     {
         #region Constructors
-        public DTSDecoder(Stream bitstream)
+        public DTSDecoder()
         {
-
         }
         #endregion
         #region Properties
@@ -32,12 +31,6 @@ namespace NSynth.Audio.DTS
         }
         #endregion
         #region Methods
-        public override bool Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
-
         /// <summary>
         /// Syncs the decoder to the bitstream.
         /// </summary>

@@ -12,11 +12,6 @@ namespace NSynth.Audio.FLAC
 {
     public sealed class FLACDecoder : AudioDecoder
     {
-        public override bool Initialize()
-        {
-            throw new NotImplementedException();
-        }
-
         public override Codec Codec
         {
             get

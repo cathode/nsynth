@@ -4,6 +4,7 @@
  * This software is released under the terms and conditions of the MIT/X11    *
  * license; see the included 'license.txt' file for the full text.            *
  *****************************************************************************/
+using System;
 
 namespace NSynth
 {
@@ -284,7 +285,7 @@ namespace NSynth
                 return Codecs.h262;
             }
         }
-        
+
         /// <summary>
         /// Gets the video codec for the H.264 (MPEG-4 Part 10, Advanced Video Coding) video standard.
         /// </summary>
@@ -319,5 +320,25 @@ namespace NSynth
         }
         #endregion
         #endregion
+
+        public static void DiscoverCodecs(System.Reflection.Assembly assembly)
+        {
+            var types = assembly.GetTypes();
+            var ct = typeof(Codec);
+
+            // Scan assembly for all types that derive from Codec
+            foreach (var t in types)
+            {
+                if (ct.IsAssignableFrom(t))
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
+
+        private static void ImportCodecType(Type type)
+        {
+
+        }
     }
 }

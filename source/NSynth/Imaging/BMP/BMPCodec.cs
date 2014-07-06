@@ -67,12 +67,12 @@ namespace NSynth.Imaging.BMP
             }
         }
 
-        public override MediaEncoder CreateEncoder(Stream output)
+        public override MediaEncoder CreateEncoder()
         {
             throw new NotImplementedException();
         }
 
-        public override MediaDecoder CreateDecoder(Stream input)
+        public override MediaDecoder CreateDecoder()
         {
             throw new NotImplementedException();
         }

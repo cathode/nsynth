@@ -86,14 +86,14 @@ namespace NSynth.Audio.DTS
             }
         }
 
-        public override MediaEncoder CreateEncoder(Stream output)
+        public override MediaEncoder CreateEncoder()
         {
-            return new DTSEncoder(output);
+            return new DTSEncoder();
         }
 
-        public override MediaDecoder CreateDecoder(Stream input)
+        public override MediaDecoder CreateDecoder()
         {
-            return new DTSDecoder(input);
+            return new DTSDecoder();
         }
 
         public override int MaxThreads

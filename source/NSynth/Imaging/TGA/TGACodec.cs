@@ -75,14 +75,14 @@ namespace NSynth.Imaging.TGA
         }
         #endregion
 
- 
 
-        public override MediaEncoder CreateEncoder(Stream output)
+
+        public override MediaEncoder CreateEncoder()
         {
-            return new TGAEncoder(output);
+            return new TGAEncoder();
         }
 
-        public override MediaDecoder CreateDecoder(Stream input)
+        public override MediaDecoder CreateDecoder()
         {
             return null;
         }

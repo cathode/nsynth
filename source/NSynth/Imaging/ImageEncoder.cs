@@ -14,10 +14,6 @@ namespace NSynth.Imaging
     public abstract class ImageEncoder : MediaEncoder
     {
         #region Constructors
-        protected ImageEncoder(Stream bitstream)
-            : base(bitstream)
-        {
-        }
         protected ImageEncoder()
         {
         }

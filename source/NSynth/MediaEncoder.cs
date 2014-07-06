@@ -33,14 +33,6 @@ namespace NSynth
         private bool isOpen;
         #endregion
         #region Constructors
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MediaEncoder"/> class.
-        /// </summary>
-        /// <param name="bitstream">The <see cref="Stream"/> which encoded frames will be written to.</param>
-        protected MediaEncoder(Stream bitstream)
-        {
-            this.bitstream = bitstream;
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaEncoder"/> class.
@@ -61,6 +53,9 @@ namespace NSynth
         #region Events
         public event AsyncCompletedEventHandler EncodeCompleted;
         public event ProgressChangedEventHandler ProgressChanged;
+        public event EventHandler Opening;
+        public event EventHandler Closing;
+        public event EventHandler Suspending;
         #endregion
         #region Properties
         /// <summary>
@@ -71,13 +66,6 @@ namespace NSynth
             get
             {
                 return this.bitstream;
-            }
-            set
-            {
-                if (this.IsOpen)
-                    this.Close();
-                this.bitstream = value;
-
             }
         }
 
@@ -167,10 +155,28 @@ namespace NSynth
         {
 
         }
+
         public abstract void EncodeFrame(Frame frame);
 
-        public abstract bool Open();
-        public abstract bool Close();
+        public void Open(Stream bitstream)
+        {
+            if (this.IsOpen)
+                return;
+
+            this.OnOpening(EventArgs.Empty);
+
+            this.isOpen = true;
+        }
+
+        /// <summary>
+        /// Closes the current <see cref="MediaEncoder"/>, and releases all resources held by it.
+        /// </summary>
+        public void Close()
+        {
+            this.OnClosing(EventArgs.Empty);
+
+            this.Dispose();
+        }
 
         /// <summary>
         /// Releases all resources held by the <see cref="MediaEncoder"/>.
@@ -184,12 +190,11 @@ namespace NSynth
             this.isDisposed = true;
         }
 
-        public virtual object Suspend()
+        public virtual void Suspend()
         {
-            if (this.CanSuspend)
-                throw EX.Create(EXCode.EncoderFeatureNotImplemented, "Suspend");
-            else
-                throw new NotSupportedException();
+            Contract.Requires<NotSupportedException>(this.CanSuspend);
+
+            this.OnSuspend(EventArgs.Empty);
         }
 
         /// <summary>
@@ -203,14 +208,34 @@ namespace NSynth
                     this.Bitstream.Dispose();
         }
 
+        /// <summary>
+        /// Raises the <see cref="MediaEncoder.Opening"/> event.
+        /// </summary>
+        /// <param name="e"></param>
         protected virtual void OnOpening(EventArgs e)
         {
-
+            if (this.Opening != null)
+                this.Opening(this, e);
         }
 
+        /// <summary>
+        /// Raises the <see cref="MediaEncoder.Closing"/> event.
+        /// </summary>
+        /// <param name="e"></param>
         protected virtual void OnClosing(EventArgs e)
         {
+            if (this.Closing != null)
+                this.Closing(this, e);
+        }
 
+        /// <summary>
+        /// Raises the <see cref="MediaEncoder.Suspend"/> event.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnSuspend(EventArgs e)
+        {
+            if (this.Suspending != null)
+                this.Suspending(this, e);
         }
         #endregion
     }

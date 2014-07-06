@@ -18,12 +18,7 @@ namespace NSynth
     {
         #region Fields
         /// <summary>
-        /// Backing field for the <see cref="MediaDecoder.BaseStream"/> property.
-        /// </summary>
-        private Stream bitstream;
-
-        /// <summary>
-        /// Backing field for the <see cref="MediaDecoder.IsInitialized"/> property.
+        /// Backing field for the <see cref="MediaDecoder.IsOpen"/> property.
         /// </summary>
         private bool isOpen;
 
@@ -46,15 +41,6 @@ namespace NSynth
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MediaDecoder"/> class.
-        /// </summary>
-        /// <param name="bitstream">The <see cref="Stream"/> to decode frames from.</param>
-        protected MediaDecoder(Stream bitstream)
-        {
-            this.bitstream = bitstream;
-        }
-
-        /// <summary>
         /// Finalizes.
         /// </summary>
         ~MediaDecoder()
@@ -62,26 +48,20 @@ namespace NSynth
             this.Dispose(false);
         }
         #endregion
+        #region Events
+        public event EventHandler Opening;
+        public event EventHandler Closing;
+        #endregion
         #region Properties
         /// <summary>
         /// Gets or sets the <see cref="Stream"/> that multimedia data is decoded from.
         /// </summary>
-        public Stream Bitstream
-        {
-            get
-            {
-                return this.bitstream;
-            }
-            set
-            {
-                this.bitstream = value;
-            }
-        }
+        public Stream Bitstream { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the current <see cref="MediaDecoder"/> is ready to decode frames.
         /// </summary>
-        public bool IsInitialized
+        public bool IsOpen
         {
             get
             {
@@ -137,10 +117,18 @@ namespace NSynth
         /// <summary>
         /// Performs any actions that are required before frames can be decoded, such as reading headers and footers, data or checksum verification, etc.
         /// </summary>
-        /// <returns>true if no problems were encountered; otherwise, false.</returns>
-        public virtual bool Initialize()
+        public void Open(Stream stream)
         {
-            return true;
+            this.Bitstream = stream;
+
+            this.OnOpen(EventArgs.Empty);
+        }
+
+        public void Close()
+        {
+            this.OnClose(EventArgs.Empty);
+
+            this.Dispose();
         }
 
         /// <summary>
@@ -156,9 +144,6 @@ namespace NSynth
 
         public virtual void Decode(Frame output)
         {
-            if (!this.IsInitialized)
-                if (!this.Initialize())
-                    throw new NotImplementedException();
 
             this.DoDecode(output);
         }
@@ -182,6 +167,27 @@ namespace NSynth
                 if (this.Bitstream != null)
                     this.Bitstream.Dispose();
         }
+
+        /// <summary>
+        /// Raises the <see cref="MediaDecoder.Opening"/> event.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnOpen(EventArgs e)
+        {
+            if (this.Opening != null)
+                this.Opening(this, e);
+        }
+
+        /// <summary>
+        /// Raises the <see cref="MediaDecoder.Closing"/> event.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnClose(EventArgs e)
+        {
+            if (this.Closing != null)
+                this.Closing(this, e);
+        }
+
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {

@@ -38,13 +38,12 @@ namespace NSynth.Imaging.TGA
         #region Methods
         protected override void OnClipInitializing(FilterInitializationEventArgs e)
         {
-            base.OnClipInitializing(e);
-
             using (var stream = this.OpenStreamForFrame(0))
             {
-                using (var decoder = new TGADecoder(stream))
+                using (var decoder = new TGADecoder())
                 {
-                    decoder.Initialize();
+                    decoder.Open(stream);
+
                     var context = decoder.DecodeHeader();
                     var header = context.Header;
                     var track = new VideoTrack()
@@ -77,6 +76,10 @@ namespace NSynth.Imaging.TGA
                     this.Clip = new Clip(track);
                 }
             }
+
+            e.Succeeded = true;
+
+            base.OnClipInitializing(e);
         }
 
         protected override void DoProcessing(FilterProcessingContext inputFrames, Frame outputFrame)
@@ -85,9 +88,9 @@ namespace NSynth.Imaging.TGA
 
             using (var stream = this.OpenStreamForFrame(0))
             {
-                using (var decoder = new TGADecoder(stream))
+                using (var decoder = new TGADecoder())
                 {
-                    decoder.Initialize();
+                    decoder.Open(stream);
                     decoder.Decode(outputFrame);
                 }
             }
