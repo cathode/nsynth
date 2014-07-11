@@ -125,8 +125,13 @@
     <Compile Include="BitDecoder.cs" />
     <Compile Include="BitBuffer.cs" />
     <Compile Include="BitstreamInputFilter.cs" />
-    <Compile Include="Containers\Container.cs" />
-    <Compile Include="Containers\ContainerOpenEventArgs.cs" />
+    <Compile Include="Containers\AVI\AVICodec.cs" />
+    <Compile Include="Containers\AVI\AVIDecoder.cs" />
+    <Compile Include="Containers\AVI\AVIEncoder.cs" />
+    <None Include="Containers\Container.cs" />
+    <Compile Include="Containers\ContainerDecoder.cs" />
+    <Compile Include="Containers\ContainerEncoder.cs" />
+    <Compile Include="DecoderOpeningEventArgs.cs" />
     <Compile Include="Containers\ContainerOpenMode.cs" />
     <Compile Include="Containers\AVI\AviChunk.cs" />
     <Compile Include="Containers\AVI\AviChunks.cs" />
@@ -161,6 +166,9 @@
     <Compile Include="Containers\ISOBaseMediaFormat\TrackHeaderBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\TrackReferenceBox.cs" />
     <Compile Include="Containers\ISOBaseMediaFormat\VideoMediaHeaderBox.cs" />
+    <Compile Include="Containers\MKV\MKVCodec.cs" />
+    <Compile Include="Containers\MKV\MKVDecoder.cs" />
+    <Compile Include="Containers\MKV\MKVEncoder.cs" />
     <Compile Include="FilterManager.cs" />
     <Compile Include="FilterProcessingContext.cs" />
     <Compile Include="FilterInputSlot.cs" />
@@ -363,10 +371,8 @@
     <Compile Include="Imaging\TGA\TGAPixelOrder.cs" />
     <Compile Include="SubsamplingMode.cs" />
     <Compile Include="Codecs.cs" />
-    <Compile Include="Containers\AVI\AVIContainer.cs" />
     <Compile Include="Containers\ContainerCodec.cs" />
     <Compile Include="Containers\MKV\MKVAttachment.cs" />
-    <Compile Include="Containers\MKV\MKVContainer.cs" />
     <Compile Include="Containers\MKV\MKVHeader.cs" />
     <Compile Include="Frame.cs" />
     <Compile Include="Imaging\Bitmap.cs" />

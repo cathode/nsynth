@@ -52,12 +52,12 @@ namespace NSynth
         /// <summary>
         /// Backing field for the <see cref="Codecs.AVI"/> property.
         /// </summary>
-        private static Containers.AVI.AVIContainer avi = new Containers.AVI.AVIContainer();
+        private static Containers.AVI.AVICodec avi = new Containers.AVI.AVICodec();
 
         /// <summary>
         /// Backing field for the <see cref="Codecs.MKV"/> property.
         /// </summary>
-        private static Containers.MKV.MKVContainer mkv = new Containers.MKV.MKVContainer();
+        private static Containers.MKV.MKVCodec mkv = new Containers.MKV.MKVCodec();
 
         /// <summary>
         /// Backing field for the <see cref="Codecs.BMP"/> property.
@@ -188,7 +188,7 @@ namespace NSynth
         /// <summary>
         /// Gets or sets the container codec for the Audio-Video-Interlaced multimedia standard.
         /// </summary>
-        public static Containers.AVI.AVIContainer AVI
+        public static NSynth.Containers.AVI.AVICodec AVI
         {
             get
             {
@@ -199,7 +199,7 @@ namespace NSynth
         /// <summary>
         /// Gets or sets the container codec for the Matroska multimedia standard.
         /// </summary>
-        public static Containers.MKV.MKVContainer MKV
+        public static Containers.MKV.MKVCodec MKV
         {
             get
             {
@@ -320,6 +320,20 @@ namespace NSynth
         }
         #endregion
         #endregion
+
+        public static Codec BestMatch(string path)
+        {
+            var ext = System.IO.Path.GetExtension(path);
+
+            switch (ext)
+            {
+                case ".avi":
+                    return Codecs.AVI;
+
+                default:
+                    return null;
+            }
+        }
 
         public static void DiscoverCodecs(System.Reflection.Assembly assembly)
         {

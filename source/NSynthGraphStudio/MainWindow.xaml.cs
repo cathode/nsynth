@@ -156,15 +156,32 @@ namespace NSynthGraphStudio
             sw.Stop();
             this.Title = string.Format("NSynth Graph Studio -- Sample displayed in {0}ms", sw.ElapsedMilliseconds);
         }
+
+        private void MenuItemOpenItem_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new Microsoft.Win32.OpenFileDialog();
+
+            dlg.Filter = "All media files | *.*";
+
+            var result = dlg.ShowDialog();
+
+            if (result.Value)
+            {
+                var codec = Codecs.BestMatch(dlg.FileName);
+
+                if (codec != null)
+                {
+                    
+                }
+            }
+        }
+
         private void MenuItemFileExit_Click(object sender, RoutedEventArgs e)
         {
             App.Current.Shutdown();
         }
         #endregion
 
-        private void MenuItemOpenItem_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
     }
 }

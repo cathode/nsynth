@@ -35,9 +35,9 @@ namespace NSynth
         /// <summary>
         /// Gets the maximum supported number of execution threads that can be used for encoding or decoding.
         /// </summary>
-        public abstract int MaxThreads
+        public virtual int MaxThreads
         {
-            get;
+            get { return 1; }
         }
 
         /// <summary>

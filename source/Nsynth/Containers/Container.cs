@@ -52,30 +52,30 @@ namespace NSynth.Containers
 
             //TODO: Add validation logic to ensure stream supports the operations we need.
 
-            var args = new ContainerOpeningEventArgs(stream, mode);
+            var args = new DecoderOpeningEventArgs(stream, mode);
 
             this.OnOpening(args);
 
             if (args.Result)
+            {
                 this.IsOpen = true;
+                this.Bitstream = args.Bitstream;
+                this.Mode = args.Mode;
+            }
         }
 
         public abstract bool CanContain(Clip clip);
 
-        public abstract Clip GetLayout();
+        
 
-        public abstract ContainerStream GetStreamForTrack(int trackId);
-
-        protected virtual void OnOpening(ContainerOpeningEventArgs e)
+        /// <summary>
+        /// Raises the <see cref="Container.Opening"/> event.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnOpening(DecoderOpeningEventArgs e)
         {
             if (this.Opening != null)
                 this.Opening(this, e);
-
-            if (e.Result)
-            {
-                this.Bitstream = e.Bitstream;
-                this.Mode = e.Mode;
-            }
         }
     }
 
