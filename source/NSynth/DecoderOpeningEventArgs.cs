@@ -5,19 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace NSynth.Containers
+namespace NSynth
 {
-    public class ContainerOpeningEventArgs : EventArgs
+    public class DecoderOpeningEventArgs : EventArgs
     {
-        public ContainerOpeningEventArgs(Stream bitstream, ContainerOpenMode mode)
+        public DecoderOpeningEventArgs(Stream bitstream)
         {
             this.Bitstream = bitstream;
             this.Result = false;
-            this.Mode = mode;
         }
 
         public Stream Bitstream { get; set; }
-        public ContainerOpenMode Mode { get; set; }
         public bool Result { get; set; }
     }
 }

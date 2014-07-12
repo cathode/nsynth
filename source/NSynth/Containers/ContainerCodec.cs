@@ -15,19 +15,14 @@ namespace NSynth.Containers
     /// </summary>
     public abstract class ContainerCodec : Codec
     {
-        /*
-        #region Methods
-        public virtual Track GetTrack(int index)
-        {
-            throw new NotImplementedException();
-        }
-        public abstract IEnumerable<Track> GetTracks();
         /// <summary>
-        /// When overriden in a derived class, returns a value indicating if the specified <see cref="NSynth.TrackType"/> is supported by the container.
+        /// When overriden in a derived class, returns a value indicating if the specified <see cref="NSynth.TrackKind"/> is supported by the container.
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="kind"></param>
         /// <returns></returns>
-        public abstract bool IsTrackTypeSupported(TrackType type);
-        #endregion*/
+        public virtual bool IsTrackTypeSupported(TrackKind kind)
+        {
+            return false;
+        }
     }
 }
