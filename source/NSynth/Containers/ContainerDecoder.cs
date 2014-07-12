@@ -8,5 +8,6 @@ namespace NSynth.Containers
 {
     public abstract class ContainerDecoder : MediaDecoder
     {
+        public abstract Clip GetContents();
     }
 }

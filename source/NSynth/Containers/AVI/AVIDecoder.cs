@@ -19,5 +19,10 @@ namespace NSynth.Containers.AVI
 
 
         }
+
+        public override Clip GetContents()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

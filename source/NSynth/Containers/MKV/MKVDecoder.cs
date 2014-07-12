@@ -12,5 +12,9 @@ namespace NSynth.Containers.MKV
         {
             get { throw new NotImplementedException(); }
         }
+        public override Clip GetContents()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
