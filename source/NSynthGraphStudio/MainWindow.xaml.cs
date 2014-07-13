@@ -171,7 +171,12 @@ namespace NSynthGraphStudio
 
                 if (codec != null)
                 {
-                    
+                    var decoder = codec.CreateDecoder();
+
+                    using (var stream = File.Open(dlg.FileName, FileMode.Open, FileAccess.Read))
+                    {
+                        decoder.Open(stream);
+                    }
                 }
             }
         }

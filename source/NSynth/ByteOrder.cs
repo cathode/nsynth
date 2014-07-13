@@ -36,5 +36,7 @@ namespace NSynth
         /// Indicates the data buffer will read/write values as host byte order (system endianness).
         /// </summary>
         HostByteOrder = System,
+
+        Undefined = 0xFF,
     }
 }

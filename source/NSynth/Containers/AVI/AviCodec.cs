@@ -25,12 +25,21 @@ namespace NSynth.Containers.AVI
 
         public override bool SupportsNonLinearAccess
         {
-            get { throw new NotImplementedException(); }
+            get { return true; }
         }
 
         public override Version Version
         {
-            get { throw new NotImplementedException(); }
+            get { return new Version(1, 0); }
+        }
+
+        public override MediaDecoder CreateDecoder()
+        {
+            return new AVIDecoder();
+        }
+        public override MediaEncoder CreateEncoder()
+        {
+            return new AVIEncoder();
         }
     }
 }
